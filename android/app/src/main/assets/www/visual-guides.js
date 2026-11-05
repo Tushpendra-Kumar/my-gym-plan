@@ -68,7 +68,7 @@ const EXERCISE_GUIDES = {
     svgType: "incline_press",
     primary: "Upper Pectorals (Clavicular Head)",
     secondary: "Front Deltoids, Triceps",
-    tempo: "2s Down (Eccentric) ➔ 1s Explode Up",
+    tempo: "2s Down (Eccentric) → 1s Explode Up",
     setup: "Bench ko 30-45 degree angle par set karein. Feet floor par firmly lock karein.",
     execution: "Dumbbells ko chest ke upper hisse tak control me layein, fir upar push karte waqt pecs ko squeeze karein.",
     mistakes: "Bench ko 45 degree se zyada steep na karein, varna chest ki jagah shoulders par load aayega."
@@ -78,7 +78,7 @@ const EXERCISE_GUIDES = {
     svgType: "bench_press",
     primary: "Mid & Overall Pectorals",
     secondary: "Triceps, Anterior Deltoids",
-    tempo: "2s Control Down ➔ 1s Explosive Drive",
+    tempo: "2s Control Down → 1s Explosive Drive",
     setup: "Shoulder blades ko peeche pinch karke bench par rakhein. Bar ko shoulder se thoda wide pakdein.",
     execution: "Barbell ko lower-mid chest tak touch karein, elbows ko 75-degree angle par rakhein (flared out na karein).",
     mistakes: "Bar ko chest par bounce na karein aur wrists ko peeche bend na hone dein."
@@ -88,7 +88,7 @@ const EXERCISE_GUIDES = {
     svgType: "dips",
     primary: "Lower Chest & Triceps",
     secondary: "Anterior Delts",
-    tempo: "2s Controlled Lower ➔ 1s Strong Press",
+    tempo: "2s Controlled Lower → 1s Strong Press",
     setup: "Parallel bars par pakad banayein. Torso ko 20-30 degree aage lean karein lower chest target karne ke liye.",
     execution: "Elbows 90 degree aane tak neeche jayein, fir chest aur triceps se upar push karein.",
     mistakes: "Seedha khade rehkar dips karne se sirf triceps par load aayega; aage jhukna zaroori hai."
@@ -98,7 +98,7 @@ const EXERCISE_GUIDES = {
     svgType: "cable_fly",
     primary: "Inner & Sternal Pectorals",
     secondary: "Anterior Delts",
-    tempo: "2s Stretch ➔ 1s Peak Contraction Hold",
+    tempo: "2s Stretch → 1s Peak Contraction Hold",
     setup: "Cables ko shoulder level ya thoda upar set karein. Ek kadam aage badhakar stable stance lein.",
     execution: "Dono haathon ko aage gale lagane wale motion me layein. Center me 1 second tak squeeze karein.",
     mistakes: "Arms ko bilkul straight na rakhein; elbows me slight bend hona zaroori hai joint safety ke liye."
@@ -108,7 +108,7 @@ const EXERCISE_GUIDES = {
     svgType: "leg_raise",
     primary: "Lower Abs & Hip Flexors",
     secondary: "Obliques, Grip Strength",
-    tempo: "1s Curl Up ➔ 2s Slow Descent",
+    tempo: "1s Curl Up → 2s Slow Descent",
     setup: "Pull-up bar par shoulder-width grip se hang karein. Shoulders active rakhein.",
     execution: "Bina jhulne (no swinging), knees ya straight legs ko chest ki taraf curl karein. Pelvis ko upar rotate karein.",
     mistakes: "Body ko jhulakar momentum se pair upar na uthayein; core ko strictly brace karein."
@@ -120,7 +120,7 @@ const EXERCISE_GUIDES = {
     svgType: "deadlift",
     primary: "Full Posterior Chain (Hamstrings, Glutes, Erector Spinae)",
     secondary: "Lats, Upper Traps, Forearm Grip",
-    tempo: "1s Powerful Pull ➔ 2s Controlled Descent",
+    tempo: "1s Powerful Pull → 2s Controlled Descent",
     setup: "Feet hip-width apart. Bar shins ke 1 inch paas ho. Spine completely neutral, chest high.",
     execution: "Heels se floor ko push karein. Bar shins ke sath-sath vertically upar aayegi. Top par glutes squeeze karein.",
     mistakes: "Kamar ko round (cat back) bilkul na karein. Weight lift karte waqt pehle hips upar na bhagne dein."
@@ -130,7 +130,7 @@ const EXERCISE_GUIDES = {
     svgType: "lat_pulldown",
     primary: "Latissimus Dorsi (Back Width)",
     secondary: "Biceps, Rear Delts, Rhomboids",
-    tempo: "1s Pull Down ➔ 2s Controlled Stretch",
+    tempo: "1s Pull Down → 2s Controlled Stretch",
     setup: "Thigh pads tight set karein. Bar ko shoulder se wide pakdein. Slight 10-degree lean back.",
     execution: "Bar ko collarbone tak pull karein. Elbows ko peeche pockets ki taraf drive karein.",
     mistakes: "Zyada peeche jhoolkar momentum se pull na karein; lats se pull karein, bicep se nahi."
@@ -140,7 +140,7 @@ const EXERCISE_GUIDES = {
     svgType: "barbell_row",
     primary: "Mid Back & Lat Thickness",
     secondary: "Biceps, Rear Delts",
-    tempo: "1s Powerful Row ➔ 2s Stretch",
+    tempo: "1s Powerful Row → 2s Stretch",
     setup: "Hips ko 45 degree par hinge karein, back flat rakhein, knees slightly bent.",
     execution: "Barbell ko belly button ki taraf pull karein. Top par shoulder blades ko aapas me squeeze karein.",
     mistakes: "Spine ko curve na karein aur torso ko har rep par upar-neeche na jhatkein."
@@ -150,7 +150,7 @@ const EXERCISE_GUIDES = {
     svgType: "single_arm_row",
     primary: "Unilateral Lat Isolation",
     secondary: "Rhomboids, Biceps",
-    tempo: "1s Smooth Pull ➔ 2s Deep Stretch",
+    tempo: "1s Smooth Pull → 2s Deep Stretch",
     setup: "Ek knee aur haath bench par rakhein. Spine neutral aur parallel to floor.",
     execution: "Dumbbell ko hip ki taraf arc me pull karein, elbow ko ceiling ki taraf lead karein.",
     mistakes: "Dumbbell ko chest ki taraf straight uthane se bicep zyada involve hota hai; hip ki taraf pull karein."
@@ -160,7 +160,7 @@ const EXERCISE_GUIDES = {
     svgType: "face_pull",
     primary: "Rear Delts, Rotator Cuff, Upper Traps",
     secondary: "Rhomboids (Posture Fixer)",
-    tempo: "1s Pull & External Rotate ➔ 2s Return",
+    tempo: "1s Pull & External Rotate → 2s Return",
     setup: "Cable machine par rope eye level par lagayein. Thumbs backward point karein.",
     execution: "Rope ko aankhon ki taraf pull karein aur elbows ko wide spread karein (Double bicep pose jaisa).",
     mistakes: "Zyada heavy weight lekar body ko jhatkein nahi; ye posture aur shoulder health exercise hai."
@@ -172,7 +172,7 @@ const EXERCISE_GUIDES = {
     svgType: "overhead_press",
     primary: "Anterior & Lateral Deltoids",
     secondary: "Triceps, Upper Chest, Core Stability",
-    tempo: "1s Explosive Press ➔ 2s Controlled Lower",
+    tempo: "1s Explosive Press → 2s Controlled Lower",
     setup: "Feet shoulder-width apart. Glutes aur core rock solid tight rakhein. Bar upper chest par rest karein.",
     execution: "Bar ko vertical line me press karein. Jaise hi bar forehead cross kare, head ko slightly aage layein.",
     mistakes: "Kamar ko zyada arch (bend) na karein; core ko punch khane ke liye brace rakhein."
@@ -182,7 +182,7 @@ const EXERCISE_GUIDES = {
     svgType: "lateral_raise",
     primary: "Lateral Deltoids (3D Shoulder Width)",
     secondary: "Traps",
-    tempo: "1s Smooth Raise ➔ 2s Slow Descent",
+    tempo: "1s Smooth Raise → 2s Slow Descent",
     setup: "Dumbbells sides me rakhein. Torso me 5-degree slight forward lean rakhein.",
     execution: "Elbows ko lead karte hue dumbbells ko shoulder height tak raise karein (like pouring water from pitcher).",
     mistakes: "Heavy weight lekar hips se jhatka na marein; strict form hi lateral head ko target karegi."
@@ -192,7 +192,7 @@ const EXERCISE_GUIDES = {
     svgType: "arnold_press",
     primary: "Full 3D Deltoid Heads",
     secondary: "Triceps",
-    tempo: "1s Rotate & Press ➔ 2s Return",
+    tempo: "1s Rotate & Press → 2s Return",
     setup: "Palms facing your face at chest level.",
     execution: "Press karte hue haathon ko 180 degree bahar ki taraf rotate karein aur top par lock karein.",
     mistakes: "Rotation ko jerky na karein; smooth circular flow me press karein."
@@ -202,7 +202,7 @@ const EXERCISE_GUIDES = {
     svgType: "shrugs",
     primary: "Upper Trapezius",
     secondary: "Forearms, Neck Strength",
-    tempo: "1s Squeeze to Ears ➔ 2s Hold & Lower",
+    tempo: "1s Squeeze to Ears → 2s Hold & Lower",
     setup: "Heavy dumbbells sides me pakdein, tall stand karein.",
     execution: "Shoulders ko seedha kaanon (ears) ki taraf upar uthayein. Top par 2 second pause karein.",
     mistakes: "Shoulders ko gol-gol (roll) na ghumayein; sirf vertically straight up and down karein."
@@ -212,7 +212,7 @@ const EXERCISE_GUIDES = {
     svgType: "ab_wheel",
     primary: "Rectus Abdominis & Deep Core Stabilizers",
     secondary: "Lats, Lower Back",
-    tempo: "2s Controlled Rollout ➔ 1s Power Pullback",
+    tempo: "2s Controlled Rollout → 1s Power Pullback",
     setup: "Knees floor par rakhein, wheel dono haathon me firmly pakdein.",
     execution: "Body ko aage roll karein jab tak nose floor ke paas na aa jaye, fir abs ko crunch karke wapas layein.",
     mistakes: "Lower back ko sag (jhukne) na dein; core hamesha hollow body shape me lock rahe."
@@ -224,7 +224,7 @@ const EXERCISE_GUIDES = {
     svgType: "bicep_curl",
     primary: "Biceps Brachii (Short & Long Head)",
     secondary: "Brachialis, Forearms",
-    tempo: "1s Power Curl ➔ 2s Slow Negative",
+    tempo: "1s Power Curl → 2s Slow Negative",
     setup: "Elbows ko ribs ke sath pin karke rakhein. Shoulder-width grip.",
     execution: "Barbell ko curl karein bina elbows ko aage bheje. Top par bicep ko peak squeeze karein.",
     mistakes: "Peeth ko peeche swing karke weight na uthayein."
@@ -234,7 +234,7 @@ const EXERCISE_GUIDES = {
     svgType: "skull_crusher",
     primary: "Triceps Long Head & Lateral Head",
     secondary: "Forearms",
-    tempo: "2s Lower Behind Head ➔ 1s Extension",
+    tempo: "2s Lower Behind Head → 1s Extension",
     setup: "Bench par lie down karein. Arms vertically upar locked hon.",
     execution: "Sirf elbows ko bend karke bar ko forehead/crown ke peeche layein, fir triceps se extend karein.",
     mistakes: "Elbows ko bahar ki taraf flare na karein; unhe shoulder-width par tuck rakhein."
@@ -244,7 +244,7 @@ const EXERCISE_GUIDES = {
     svgType: "hammer_curl",
     primary: "Brachialis & Brachioradialis (Arm Thickness)",
     secondary: "Bicep Peak",
-    tempo: "1s Strict Curl ➔ 2s Controlled Down",
+    tempo: "1s Strict Curl → 2s Controlled Down",
     setup: "Palms facing each other (neutral hammer grip).",
     execution: "Dumbbells ko thumbs up position me upar curl karein.",
     mistakes: "Wrists ko twist na karein; neutral grip maintain rakhein."
@@ -254,7 +254,7 @@ const EXERCISE_GUIDES = {
     svgType: "tricep_rope",
     primary: "Triceps Lateral & Medial Head",
     secondary: "Forearm extensors",
-    tempo: "1s Down & Spread ➔ 2s Return",
+    tempo: "1s Down & Spread → 2s Return",
     setup: "Elbows ribs par locked hon.",
     execution: "Rope ko neeche push karein aur bottom par dono ends ko wide spread karke triceps flex karein.",
     mistakes: "Elbows ko aage-peeche swing na hone dein."
@@ -286,7 +286,7 @@ const EXERCISE_GUIDES = {
     svgType: "box_jump",
     primary: "Fast-Twitch Leg Spring & Vertical Power",
     secondary: "Quads, Calves, Hip Explosion",
-    tempo: "Explosive Jump ➔ Soft Cat Landing",
+    tempo: "Explosive Jump → Soft Cat Landing",
     setup: "Box se 1 foot dur athletic stance me khade hon.",
     execution: "Arms swing karke quarter squat se explosively jump karein. Box par bilkul soft land karein.",
     mistakes: "Box se jump karke neeche na girein; safe step down karein joints ko protect karne ke liye."
@@ -316,7 +316,7 @@ const EXERCISE_GUIDES = {
     svgType: "sprint",
     primary: "Sprint Speed, VO2 Max, Sub-10% Fat Burning",
     secondary: "Full Body Nervous System Drive",
-    tempo: "30s Max Effort Sprint ➔ 45s Walk Recovery",
+    tempo: "30s Max Effort Sprint → 45s Walk Recovery",
     setup: "Treadmill incline ya track par start karein.",
     execution: "Knees high drive karein, arms 90 degree par pump karein, ball of foot par strike karein.",
     mistakes: "Heel strike na karein; midfoot/forefoot se spring banayein."
@@ -328,7 +328,7 @@ const EXERCISE_GUIDES = {
     svgType: "squat",
     primary: "Quadriceps, Glutes, Core Bracing",
     secondary: "Hamstrings, Calves, Adductors",
-    tempo: "2s Down to Parallel ➔ 1s Explosive Up",
+    tempo: "2s Down to Parallel → 1s Explosive Up",
     setup: "Bar upper traps par securely set karein. Feet shoulder-width apart, toes slightly turned out.",
     execution: "Hips ko peeche aur neeche bhejein, parallel depth hit karein, heels se floor push karke explode karein.",
     mistakes: "Knees ko andar cave in (valgus) na hone dein; knees toes ki direction me point karein."
@@ -338,7 +338,7 @@ const EXERCISE_GUIDES = {
     svgType: "rdl",
     primary: "Hamstrings & Glute-Ham Tie-In",
     secondary: "Lower Back, Grip",
-    tempo: "3s Deep Stretch ➔ 1s Hip Snap Up",
+    tempo: "3s Deep Stretch → 1s Hip Snap Up",
     setup: "Barbell ko thighs par pakdein, knees me soft slight bend.",
     execution: "Hips ko peeche wall ki taraf push karein jab tak deep hamstring stretch na feel ho. Back flat rahe.",
     mistakes: "Barbell ko pairon se dur na jane dein; bar ko thighs aur shins se close rakhein."
@@ -348,7 +348,7 @@ const EXERCISE_GUIDES = {
     svgType: "split_squat",
     primary: "Single-Leg Balance, Quad & Glute Power",
     secondary: "Adductors, Ankle Mobility",
-    tempo: "2s Descent ➔ 1s Drive Up",
+    tempo: "2s Descent → 1s Drive Up",
     setup: "Peeche wala foot bench par elevate karein. Front foot 2-3 feet aage.",
     execution: "Back knee floor ke paas aane tak neeche descend karein, front heel se push karein.",
     mistakes: "Front knee ko bohot aage toes ke bahar collapse na hone dein."
@@ -358,7 +358,7 @@ const EXERCISE_GUIDES = {
     svgType: "leg_press",
     primary: "Quad Hypertrophy & Sled Volume",
     secondary: "Glutes",
-    tempo: "2s Deep Knee Bend ➔ 1s Power Press",
+    tempo: "2s Deep Knee Bend → 1s Power Press",
     setup: "Back pad par lower back securely flat rakhein.",
     execution: "Weight ko 90 degree knee bend tak aane dein, fir foot platform ko press karein (knees lock na karein).",
     mistakes: "Top par knees ko snap/lockout bilkul na karein joint safety ke liye."
@@ -368,7 +368,7 @@ const EXERCISE_GUIDES = {
     svgType: "calf_raise",
     primary: "Gastrocnemius & Soleus (Calf Spring Power)",
     secondary: "Achilles Tendon Elasticity",
-    tempo: "2s Deep Stretch at Bottom ➔ 1s Peak Squeeze on Toes",
+    tempo: "2s Deep Stretch at Bottom → 1s Peak Squeeze on Toes",
     setup: "Balls of feet platform par rakhein, heels hanging off.",
     execution: "Heels ko deep stretch me neeche drop karein, fir big toe se push karke peak contraction layein.",
     mistakes: "Fast bouncing na karein; stretch aur squeeze par hold zaroori hai."
@@ -485,7 +485,7 @@ function generateExerciseSvgAnimation(svgType) {
           </g>
           <!-- Depth Indicator line -->
           <line x1="110" y1="140" x2="190" y2="140" stroke="rgba(16, 185, 129, 0.4)" stroke-width="1.5" stroke-dasharray="3,3" />
-          <text x="150" y="196" text-anchor="middle" fill="#475569" font-size="11" font-weight="700">PARALLEL DEPTH ➔ EXPLOSIVE DRIVE</text>
+          <text x="150" y="196" text-anchor="middle" fill="#475569" font-size="11" font-weight="700">PARALLEL DEPTH → EXPLOSIVE DRIVE</text>
         </svg>
       `;
 
@@ -510,7 +510,7 @@ function generateExerciseSvgAnimation(svgType) {
             <circle cx="170" cy="135" r="24" fill="#0f172a" stroke="#10b981" stroke-width="5" />
             <circle cx="170" cy="135" r="6" fill="#38bdf8" />
           </g>
-          <text x="150" y="196" text-anchor="middle" fill="#475569" font-size="11" font-weight="700">FLAT BACK ➔ HIP HINGE POWER</text>
+          <text x="150" y="196" text-anchor="middle" fill="#475569" font-size="11" font-weight="700">FLAT BACK → HIP HINGE POWER</text>
         </svg>
       `;
 
@@ -556,7 +556,7 @@ function generateExerciseSvgAnimation(svgType) {
             <line x1="140" y1="115" x2="185" y2="85" stroke="#cbd5e1" stroke-width="9" stroke-linecap="round" />
             <circle cx="188" cy="83" r="14" fill="#0f172a" stroke="#10b981" stroke-width="4" />
           </g>
-          <text x="150" y="185" text-anchor="middle" fill="#475569" font-size="11" font-weight="700">ISOLATE BICEPS ➔ ZERO ELBOW SWING</text>
+          <text x="150" y="185" text-anchor="middle" fill="#475569" font-size="11" font-weight="700">ISOLATE BICEPS → ZERO ELBOW SWING</text>
         </svg>
       `;
 
@@ -580,7 +580,7 @@ function generateExerciseSvgAnimation(svgType) {
             <line x1="135" y1="75" x2="120" y2="40" stroke="#cbd5e1" stroke-width="7" stroke-linecap="round" />
             <line x1="165" y1="75" x2="180" y2="40" stroke="#cbd5e1" stroke-width="7" stroke-linecap="round" />
           </g>
-          <text x="150" y="190" text-anchor="middle" fill="#475569" font-size="11" font-weight="700">LOCKOUT OVERHEAD ➔ CORE BRACED</text>
+          <text x="150" y="190" text-anchor="middle" fill="#475569" font-size="11" font-weight="700">LOCKOUT OVERHEAD → CORE BRACED</text>
         </svg>
       `;
 
@@ -629,7 +629,7 @@ async function openExerciseDemoModal(exId) {
   const guide = EXERCISE_GUIDES[exId] || {
     primary: ex ? ex.target : "Athletic Muscle",
     secondary: "Stabilizers",
-    tempo: "2s Control ➔ 1s Explode",
+    tempo: "2s Control → 1s Explode",
     setup: "Proper stance aur grip ensure karein.",
     execution: ex ? ex.notes : "Full range of motion ke sath perform karein.",
     mistakes: "Momentum ka use na karein."
@@ -650,7 +650,7 @@ async function openExerciseDemoModal(exId) {
   if (titleEl) titleEl.innerText = ex ? ex.name : 'Exercise Demo';
   if (primEl) primEl.innerText = guide.primary || (ex ? ex.target : '');
   if (secEl) secEl.innerText = guide.secondary || 'Core & Stabilizers';
-  if (tempoEl) tempoEl.innerText = guide.tempo || '2s Down ➔ 1s Up';
+  if (tempoEl) tempoEl.innerText = guide.tempo || '2s Down → 1s Up';
   if (setupEl) setupEl.innerText = guide.setup || 'Standard athletic setup.';
   if (execEl) execEl.innerText = guide.execution || (ex ? ex.notes : '');
   if (mistEl) mistEl.innerText = guide.mistakes || 'Momentum aur swinging se bachein.';
@@ -669,7 +669,9 @@ async function openExerciseDemoModal(exId) {
       mediaContainer.innerHTML = `
         <div class="custom-video-wrapper">
           <video src="${videoUrl}" autoplay loop muted playsinline class="demo-video-player" id="activeDemoVideo"></video>
-          <div class="media-badge">🎥 Custom Video (Offline)</div>
+          <div class="media-badge">
+            <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 4px;"><rect x="2" y="4" width="14" height="16" rx="2"/><polygon points="22 7 16 11 16 13 22 17 22 7"/></svg>Video Guide
+          </div>
         </div>
       `;
     } else {
@@ -677,7 +679,9 @@ async function openExerciseDemoModal(exId) {
       mediaContainer.innerHTML = `
         <div class="custom-video-wrapper">
           <img src="${videoUrl}" class="demo-video-player" alt="Exercise Demo">
-          <div class="media-badge">🖼️ Custom GIF (Offline)</div>
+          <div class="media-badge">
+            <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 4px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>Motion Guide
+          </div>
         </div>
       `;
     }
@@ -688,7 +692,9 @@ async function openExerciseDemoModal(exId) {
     mediaContainer.innerHTML = `
       <div class="svg-demo-wrapper">
         ${generateExerciseSvgAnimation(svgType)}
-        <div class="media-badge">⚡ 5-Sec Biomechanics Motion</div>
+        <div class="media-badge">
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 4px;"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>Form Dynamics
+        </div>
       </div>
     `;
     document.getElementById('btnRemoveCustomMedia').style.display = 'none';
@@ -709,11 +715,11 @@ async function handleMediaUpload(event) {
 
   try {
     await saveCustomMedia(activeDemoExId, file);
-    alert("✅ Video successfully save ho gayi! Ye offline APK me hamesha dikhegi.");
+    alert("Video successfully save ho gayi. Offline mode me bhi hamesha uplabdh rahegi.");
     // Refresh modal
     openExerciseDemoModal(activeDemoExId);
   } catch (e) {
-    alert("❌ Error saving media: " + e.message);
+    alert("Error saving media: " + e.message);
   }
 }
 

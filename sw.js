@@ -1,5 +1,5 @@
 // Service Worker for 100% Offline Gym Tracker
-const CACHE_NAME = 'athletic-gym-v2';
+const CACHE_NAME = 'tushu-gym-apple-v0.01';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

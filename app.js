@@ -437,12 +437,12 @@ const DEFAULT_PLAN = {
   }
 };
 
-// Default Athlete Nutrition & Diet Meals (Screen 6 in reference)
+// Default Athlete Nutrition & Diet Meals (Clean Apple Health Style)
 const DEFAULT_MEALS = [
-  { id: 'm_1', name: 'Oatmeal with Fruits & 4 Eggs', desc: '450 kcal • High Protein Fuel', type: 'Breakfast', emoji: '🍳', done: true, calories: 450 },
-  { id: 'm_2', name: 'Grilled Chicken / Paneer with Brown Rice', desc: '650 kcal • Lean Muscle Fuel', type: 'Lunch', emoji: '🥗', done: true, calories: 650 },
-  { id: 'm_3', name: 'Fish / Dal with Sweet Potato & Salad', desc: '550 kcal • Clean Dinner Fuel', type: 'Dinner', emoji: '🍲', done: false, calories: 550 },
-  { id: 'm_4', name: 'Whey Protein Shake & Almonds', desc: '350 kcal • Post-Workout Recovery', type: 'Snacks', emoji: '🥛', done: false, calories: 350 }
+  { id: 'm_1', name: 'Oatmeal with Berries & 4 Egg Whites', desc: '450 kcal • High Protein Breakfast', type: 'Breakfast', icon: 'breakfast', done: true, calories: 450 },
+  { id: 'm_2', name: 'Grilled Chicken Breast / Paneer & Brown Rice', desc: '650 kcal • Lean Athletic Lunch', type: 'Lunch', icon: 'lunch', done: true, calories: 650 },
+  { id: 'm_3', name: 'Fish Fillet / Yellow Dal with Sweet Potato', desc: '550 kcal • Clean Dinner Fuel', type: 'Dinner', icon: 'dinner', done: false, calories: 550 },
+  { id: 'm_4', name: 'Whey Isolate Shake & Raw Almonds', desc: '350 kcal • Post-Workout Recovery', type: 'Snacks', icon: 'snacks', done: false, calories: 350 }
 ];
 
 // Storage Keys
@@ -817,25 +817,29 @@ function renderWorkoutView() {
       <div class="glass-card exercise-card ${isAllDone ? 'card-completed' : ''}" data-ex-id="${ex.id}">
         <div class="ex-top-row">
           <div class="ex-name-wrap">
-            <div class="ex-avatar">⚡</div>
+            <div class="ex-avatar">
+              <span class="ex-index-num">${String(exIndex + 1).padStart(2, '0')}</span>
+            </div>
             <div>
               <h3 class="ex-title">${escapeHtml(ex.name)}</h3>
               <span class="ex-target">${escapeHtml(ex.target || 'Athletic Focus')}</span>
             </div>
           </div>
           <div style="display: flex; align-items: center; gap: 8px;">
-            <button class="btn-demo-view" onclick="openExerciseDemoModal('${ex.id}')" title="Form & Video Demo">
-              🎬 Demo
+            <button class="btn-demo-view" onclick="openExerciseDemoModal('${ex.id}')" title="Form Guide">
+              <svg viewBox="0 0 24 24" width="10" height="10" fill="currentColor"><polygon points="6 4 18 12 6 20 6 4"/></svg>
+              <span>Demo</span>
             </button>
-            <span style="font-size: 0.75rem; font-weight: 800; color: ${isAllDone ? 'var(--primary)' : 'var(--text-dim)'};">
+            <span class="ex-progress-badge ${isAllDone ? 'done' : ''}">
               ${completedSets}/${totalSets}
             </span>
           </div>
         </div>
 
         ${ex.notes ? `
-          <div style="background: rgba(254, 243, 199, 0.6); border-left: 3px solid var(--accent-gold); padding: 6px 10px; border-radius: 0 8px 8px 0; font-size: 0.78rem; color: #92400e; margin-bottom: 10px;">
-            💡 <strong>Tip:</strong> ${escapeHtml(ex.notes)}
+          <div class="coach-tip-callout">
+            <span class="coach-tip-tag">Form Cue</span>
+            <span class="coach-tip-text">${escapeHtml(ex.notes)}</span>
           </div>
         ` : ''}
 
@@ -853,42 +857,38 @@ function renderWorkoutView() {
             </thead>
             <tbody>
               ${ex.sets.map((set, sIdx) => {
-                let badgeColor = '#64748b';
-                let badgeBg = '#f1f5f9';
-                if (set.type && set.type.toLowerCase().includes('heavy')) {
-                  badgeColor = '#dc2626'; badgeBg = '#fef2f2';
-                } else if (set.type && set.type.toLowerCase().includes('moderate')) {
-                  badgeColor = '#d97706'; badgeBg = '#fffbeb';
-                } else if (set.type && (set.type.toLowerCase().includes('light') || set.type.toLowerCase().includes('burnout'))) {
-                  badgeColor = '#059669'; badgeBg = '#ecfdf5';
-                }
+                let badgeClass = 'scheme-normal';
+                const lower = (set.type || '').toLowerCase();
+                if (lower.includes('heavy')) badgeClass = 'scheme-heavy';
+                else if (lower.includes('moderate')) badgeClass = 'scheme-moderate';
+                else if (lower.includes('light') || lower.includes('burnout') || lower.includes('pump')) badgeClass = 'scheme-burnout';
 
                 return `
                   <tr class="set-row ${set.done ? 'row-completed' : ''}">
-                    <td style="font-weight: 800; color: var(--text-main);">${set.setNum || sIdx + 1}</td>
+                    <td class="set-col-num">${set.setNum || sIdx + 1}</td>
                     <td>
-                      <span style="font-size: 0.7rem; font-weight: 800; color: ${badgeColor}; background: ${badgeBg}; padding: 2px 7px; border-radius: 999px;">
+                      <span class="scheme-pill ${badgeClass}">
                         ${escapeHtml(set.type || 'Normal')}
                       </span>
                     </td>
-                    <td style="color: var(--text-muted); font-weight: 700;">${set.targetReps}</td>
+                    <td class="set-col-target">${set.targetReps}</td>
                     <td>
                       <div class="stepper-input">
-                        <button class="step-btn" onclick="adjustWeight('${ex.id}', ${sIdx}, -2.5)">-</button>
+                        <button class="step-btn" onclick="adjustWeight('${ex.id}', ${sIdx}, -2.5)" aria-label="Decrease weight">-</button>
                         <input type="number" step="0.5" class="weight-input" value="${set.weight}" onchange="updateWeight('${ex.id}', ${sIdx}, this.value)">
-                        <button class="step-btn" onclick="adjustWeight('${ex.id}', ${sIdx}, +2.5)">+</button>
+                        <button class="step-btn" onclick="adjustWeight('${ex.id}', ${sIdx}, +2.5)" aria-label="Increase weight">+</button>
                       </div>
                     </td>
                     <td>
                       <div class="stepper-input">
-                        <button class="step-btn" onclick="adjustReps('${ex.id}', ${sIdx}, -1)">-</button>
+                        <button class="step-btn" onclick="adjustReps('${ex.id}', ${sIdx}, -1)" aria-label="Decrease reps">-</button>
                         <input type="number" class="reps-input" value="${set.reps || set.targetReps}" onchange="updateReps('${ex.id}', ${sIdx}, this.value)">
-                        <button class="step-btn" onclick="adjustReps('${ex.id}', ${sIdx}, +1)">+</button>
+                        <button class="step-btn" onclick="adjustReps('${ex.id}', ${sIdx}, +1)" aria-label="Increase reps">+</button>
                       </div>
                     </td>
                     <td>
-                      <button class="check-btn ${set.done ? 'checked' : ''}" onclick="toggleSetDone('${ex.id}', ${sIdx})">
-                        ${set.done ? '✓' : '○'}
+                      <button class="check-btn ${set.done ? 'checked' : ''}" onclick="toggleSetDone('${ex.id}', ${sIdx})" aria-label="Toggle set done">
+                        ${set.done ? '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
                       </button>
                     </td>
                   </tr>
@@ -898,11 +898,11 @@ function renderWorkoutView() {
           </table>
         </div>
 
-        <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 6px;">
-          <button style="background: transparent; border: none; font-size: 0.78rem; font-weight: 700; color: var(--text-dim); cursor: pointer;" onclick="addSetToExercise('${ex.id}')">
-            + Set Add
+        <div class="ex-card-footer">
+          <button class="btn-text-action" onclick="addSetToExercise('${ex.id}')">
+            + Add Set
           </button>
-          <button style="background: transparent; border: none; font-size: 0.78rem; font-weight: 700; color: #ef4444; cursor: pointer;" onclick="deleteExerciseDirect('${ex.id}')">
+          <button class="btn-text-action btn-danger-action" onclick="deleteExerciseDirect('${ex.id}')">
             Delete
           </button>
         </div>
@@ -1075,12 +1075,12 @@ function renderActivityStats() {
   if (prListEl) {
     const prEntries = Object.entries(prs).sort((a, b) => b[1] - a[1]).slice(0, 5);
     if (prEntries.length === 0) {
-      prListEl.innerHTML = `<p style="font-size: 0.8rem; color: var(--text-dim); text-align: center; padding: 10px;">Sets complete karne par aapke records yahan aayenge.</p>`;
+      prListEl.innerHTML = `<p style="font-size: 0.8rem; color: var(--text-tertiary); text-align: center; padding: 10px;">Sets complete karne par aapke records yahan aayenge.</p>`;
     } else {
       prListEl.innerHTML = prEntries.map(([name, weight]) => `
-        <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(226, 232, 240, 0.7); font-size: 0.84rem;">
-          <span style="font-weight: 700; color: var(--text-muted);">${escapeHtml(name)}</span>
-          <span style="font-weight: 900; color: var(--primary);">${weight} kg</span>
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 0.5px solid rgba(0, 0, 0, 0.05); font-size: 0.84rem;">
+          <span style="font-weight: 500; color: var(--text-secondary);">${escapeHtml(name)}</span>
+          <span style="font-weight: 600; color: var(--apple-green-dark);">${weight} kg</span>
         </div>
       `).join('');
     }
@@ -1092,8 +1092,21 @@ function setTimePill(btn) {
   btn.classList.add('active');
 }
 
+// Minimalist Vector Icon for Meals (Zero Emojis)
+function getMealIconSvg(type) {
+  const t = (type || '').toLowerCase();
+  if (t === 'breakfast') {
+    return `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>`;
+  } else if (t === 'lunch') {
+    return `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>`;
+  } else if (t === 'dinner') {
+    return `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>`;
+  }
+  return `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/></svg>`;
+}
+
 // ----------------------------------------------------
-// NUTRITION & FOOD LOGIC (Screen 6 in Reference)
+// NUTRITION & FOOD LOGIC (Clean Apple Health Style)
 // ----------------------------------------------------
 function renderMeals() {
   const container = document.getElementById('mealsListContainer');
@@ -1120,14 +1133,16 @@ function renderMeals() {
   container.innerHTML = nutritionMeals.map((meal, idx) => `
     <div class="meal-item" onclick="toggleMealDone(${idx})">
       <div class="meal-left">
-        <div class="meal-emoji-avatar">${meal.emoji || '🥗'}</div>
+        <div class="meal-avatar-icon">
+          ${getMealIconSvg(meal.type)}
+        </div>
         <div class="meal-info">
           <span class="meal-name">${escapeHtml(meal.name)}</span>
           <span class="meal-desc">${escapeHtml(meal.desc || `${meal.calories || 400} kcal`)}</span>
         </div>
       </div>
-      <button class="check-btn ${meal.done ? 'checked' : ''}" style="width: 28px; height: 28px;">
-        ${meal.done ? '✓' : '○'}
+      <button class="check-btn ${meal.done ? 'checked' : ''}" style="width: 28px; height: 28px;" aria-label="Toggle meal">
+        ${meal.done ? '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
       </button>
     </div>
   `).join('');
@@ -1154,17 +1169,11 @@ function submitAddMeal(e) {
 
   if (!name) return;
 
-  let emoji = '🥗';
-  if (type === 'Breakfast') emoji = '🍳';
-  else if (type === 'Dinner') emoji = '🍲';
-  else if (type === 'Snacks') emoji = '🥛';
-
   nutritionMeals.push({
     id: 'm_' + Date.now(),
     name: name,
-    desc: `${calories} kcal • Custom Log`,
+    desc: `${calories} kcal • Custom Meal`,
     type: type,
-    emoji: emoji,
     done: true,
     calories: calories
   });
@@ -1345,12 +1354,12 @@ function importWorkoutData(event) {
         nutritionMeals = data.meals;
         saveMeals();
       }
-      alert("✅ Data successfully restore ho gaya!");
+      alert("Data successfully restore ho gaya.");
       renderHomeStats();
       renderWorkoutView();
       renderMeals();
     } catch (err) {
-      alert("❌ Invalid backup file!");
+      alert("Invalid backup file.");
     }
   };
   reader.readAsText(file);
@@ -1386,7 +1395,7 @@ if ('serviceWorker' in navigator && window.location.protocol.startsWith('http'))
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js')
       .then((reg) => {
-        console.log('✅ ServiceWorker registered offline-ready:', reg.scope);
+        console.log('ServiceWorker registered offline-ready:', reg.scope);
       })
       .catch((err) => {
         console.log('ServiceWorker registration error:', err);
