@@ -335,13 +335,24 @@
          ----------------------------------------------- -->
     <div id="viewNutrition" class="app-view">
 
-      <h2 class="view-main-title" style="margin-bottom: 12px;">Nutrition</h2>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <h2 class="view-main-title" style="margin-bottom: 0;">Nutrition & Diet</h2>
+        <button class="btn-sm-pill" onclick="openRoadmapModal()" style="display: inline-flex; align-items: center; gap: 5px; font-size: 0.76rem; padding: 6px 12px; background: rgba(52, 199, 89, 0.12); color: var(--apple-green-dark); border: 0.5px solid rgba(52, 199, 89, 0.25); border-radius: var(--radius-full); font-weight: 600; cursor: pointer;">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Roadmap Generator
+        </button>
+      </div>
+
+      <!-- ACTIVE ROADMAP HERO CARD -->
+      <section class="glass-card roadmap-hero-card" id="roadmapHeroCard">
+        <!-- Injected via renderRoadmapHero() -->
+      </section>
 
       <section class="glass-card nutrition-card">
         <div class="calorie-target-wrap">
           <div>
             <span style="font-size: 0.7rem; font-weight: 500; color: var(--text-tertiary); text-transform: uppercase;">Daily Energy Target</span>
-            <div class="calorie-num">2,400 <span style="font-size: 0.92rem; color: var(--text-tertiary); font-weight: 400;">kcal</span></div>
+            <div class="calorie-num" id="nutriTargetDisplay">2,400 <span style="font-size: 0.92rem; color: var(--text-tertiary); font-weight: 400;">kcal</span></div>
           </div>
           <span id="nutriConsumed" style="font-size: 0.82rem; font-weight: 600; color: var(--text-primary);">1,750 / 2,400</span>
         </div>
@@ -354,24 +365,24 @@
         <div class="macros-grid">
           <div class="macro-box">
             <span class="macro-label">Carbs</span>
-            <div class="macro-val">220g</div>
-            <span class="macro-pct pct-carbs">45%</span>
+            <div class="macro-val" id="macroCarbsVal">220g</div>
+            <span class="macro-pct pct-carbs" id="macroCarbsPct">45%</span>
           </div>
           <div class="macro-box">
             <span class="macro-label">Protein</span>
-            <div class="macro-val">160g</div>
-            <span class="macro-pct pct-protein">30%</span>
+            <div class="macro-val" id="macroProteinVal">160g</div>
+            <span class="macro-pct pct-protein" id="macroProteinPct">30%</span>
           </div>
           <div class="macro-box">
             <span class="macro-label">Fats</span>
-            <div class="macro-val">60g</div>
-            <span class="macro-pct pct-fats">25%</span>
+            <div class="macro-val" id="macroFatsVal">60g</div>
+            <span class="macro-pct pct-fats" id="macroFatsPct">25%</span>
           </div>
         </div>
 
         <div class="card-header-row" style="margin-bottom: 10px;">
           <h3 style="font-size: 0.94rem; font-weight: 600; color: var(--text-primary);">Today's Fuel</h3>
-          <span style="font-size: 0.72rem; color: var(--apple-green-dark); font-weight: 600;">HIGH PROTEIN</span>
+          <span id="nutriDietBadge" style="font-size: 0.72rem; color: var(--apple-green-dark); font-weight: 600; background: rgba(52, 199, 89, 0.1); padding: 2px 8px; border-radius: var(--radius-full);">HIGH PROTEIN</span>
         </div>
 
         <div class="meals-list" id="mealsListContainer">
@@ -391,49 +402,54 @@
        4. APPLE iOS MINIMALIST FLOATING TAB BAR
        =================================================== -->
   <nav class="bottom-nav-bar">
-    <button id="tabHome" class="bottom-nav-item active" onclick="switchView('home')">
+    <button id="tabHome" class="bottom-nav-item active" onclick="switchView('home')" aria-label="Home">
       <div class="bottom-nav-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-          <polyline points="9 22 9 12 15 12 15 22" />
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 10.5L12 3l9 7.5v9a2 2 0 0 1-2 2h-4a1 1 0 0 1-1-1v-4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v4a1 1 0 0 1-1 1H5a2 2 0 0 1-2-2z"/>
         </svg>
       </div>
       <span class="bottom-nav-label">Home</span>
     </button>
 
-    <button id="tabWorkouts" class="bottom-nav-item" onclick="switchView('workouts')">
+    <button id="tabWorkouts" class="bottom-nav-item" onclick="switchView('workouts')" aria-label="Workouts">
       <div class="bottom-nav-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <path d="M6 5v14M18 5v14M2 9v6M22 9v6M6 12h12" />
         </svg>
       </div>
       <span class="bottom-nav-label">Workouts</span>
     </button>
 
-    <button id="tabActivity" class="bottom-nav-item" onclick="switchView('activity')">
+    <button id="tabActivity" class="bottom-nav-item" onclick="switchView('activity')" aria-label="Activity">
       <div class="bottom-nav-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <path d="M18 20V10M12 20V4M6 20v-6" />
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="20" x2="18" y2="10" />
+          <line x1="12" y1="20" x2="12" y2="4" />
+          <line x1="6" y1="20" x2="6" y2="14" />
         </svg>
       </div>
       <span class="bottom-nav-label">Activity</span>
     </button>
 
-    <button id="tabNutrition" class="bottom-nav-item" onclick="switchView('nutrition')">
+    <button id="tabNutrition" class="bottom-nav-item" onclick="switchView('nutrition')" aria-label="Food">
       <div class="bottom-nav-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <circle cx="12" cy="12" r="9" />
-          <path d="M12 7v5l3 3" />
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 11h16a1 1 0 0 1 1 1 8.5 8.5 0 0 1-17 0 1 1 0 0 1 0-1z" />
+          <path d="M12 4v4" />
+          <path d="M8.5 5.5l2 2.5" />
+          <path d="M15.5 5.5l-2 2.5" />
         </svg>
       </div>
       <span class="bottom-nav-label">Food</span>
     </button>
 
-    <button id="tabTimer" class="bottom-nav-item" onclick="toggleRestTimerQuick()">
+    <button id="tabTimer" class="bottom-nav-item" onclick="toggleRestTimerQuick()" aria-label="Timer">
       <div class="bottom-nav-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="13" r="8" />
-          <path d="M12 9v4l2.5 2.5M10 2h4M12 2v3" />
+          <polyline points="12 9 12 13 14.5 15" />
+          <line x1="10" y1="2" x2="14" y2="2" />
+          <line x1="12" y1="2" x2="12" y2="5" />
         </svg>
       </div>
       <span class="bottom-nav-label">Timer</span>
@@ -729,6 +745,177 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-outline" onclick="closeModal('backupModal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       12. MODAL: ROADMAP GENERATOR
+       =================================================== -->
+  <div id="roadmapModal" class="modal-backdrop">
+    <div class="modal-box" style="max-width: 480px; max-height: 88vh; display: flex; flex-direction: column;">
+      <div class="modal-header" style="flex-shrink: 0;">
+        <div>
+          <h3>Build Custom Roadmap</h3>
+          <span style="font-size: 0.72rem; color: var(--text-tertiary); font-weight: 500;">DIET & GYM HOURS ENGINE • OFFLINE</span>
+        </div>
+        <button class="icon-btn" onclick="closeModal('roadmapModal')" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <form id="roadmapForm" onsubmit="submitRoadmapGenerator(event)" style="display: flex; flex-direction: column; overflow-y: auto; flex: 1;">
+        <div class="modal-body" style="display: flex; flex-direction: column; gap: 16px; padding: 14px 16px;">
+          
+          <!-- Athlete Profile -->
+          <div>
+            <label class="roadmap-field-label">Who is this Roadmap for?</label>
+            <div class="options-pill-grid cols-2" id="profileSelectorGrid">
+              <button type="button" class="option-pill active" data-profile="tushu" onclick="selectRoadmapProfile('tushu')">
+                <span class="pill-title">Tushu (Athlete Admin)</span>
+                <span class="pill-desc">Personal Routine</span>
+              </button>
+              <button type="button" class="option-pill" data-profile="guest" onclick="selectRoadmapProfile('guest')">
+                <span class="pill-title">Guest / Friend</span>
+                <span class="pill-desc">Give Access to Friend</span>
+              </button>
+            </div>
+            <div id="guestNameInputWrap" style="display: none; margin-top: 8px;">
+              <input type="text" id="roadmapGuestName" placeholder="Enter friend's name (e.g. Aman, Rahul)" style="width: 100%; padding: 8px 12px; border-radius: var(--radius-xs); border: 0.5px solid rgba(0, 0, 0, 0.15); font-size: 0.86rem; outline: none; background: #ffffff;">
+            </div>
+          </div>
+
+          <!-- Duration -->
+          <div>
+            <label class="roadmap-field-label">Plan Duration (Kitne din ki diet & gym)</label>
+            <div class="options-pill-grid cols-2" id="durationSelectorGrid">
+              <button type="button" class="option-pill" data-days="7" onclick="selectRoadmapDuration(7)">
+                <span class="pill-title">7 Days</span>
+                <span class="pill-desc">1-Week Quick Shred</span>
+              </button>
+              <button type="button" class="option-pill" data-days="14" onclick="selectRoadmapDuration(14)">
+                <span class="pill-title">14 Days</span>
+                <span class="pill-desc">2-Weeks Reset</span>
+              </button>
+              <button type="button" class="option-pill active" data-days="30" onclick="selectRoadmapDuration(30)">
+                <span class="pill-title">30 Days (1 Month)</span>
+                <span class="pill-desc">Recommended Transformation</span>
+              </button>
+              <button type="button" class="option-pill" data-days="60" onclick="selectRoadmapDuration(60)">
+                <span class="pill-title">60 Days</span>
+                <span class="pill-desc">Elite Athlete Peak</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Diet Preference -->
+          <div>
+            <label class="roadmap-field-label">Dietary Preference (Kya khana hai)</label>
+            <div class="options-pill-grid cols-3" id="dietSelectorGrid">
+              <button type="button" class="option-pill active" data-diet="veg" onclick="selectRoadmapDiet('veg')">
+                <span class="pill-title">Vegetarian</span>
+                <span class="pill-desc">Paneer, Soya, Dal</span>
+              </button>
+              <button type="button" class="option-pill" data-diet="non-veg" onclick="selectRoadmapDiet('non-veg')">
+                <span class="pill-title">Non-Veg</span>
+                <span class="pill-desc">Eggs, Chicken, Fish</span>
+              </button>
+              <button type="button" class="option-pill" data-diet="eggetarian" onclick="selectRoadmapDiet('eggetarian')">
+                <span class="pill-title">Eggetarian</span>
+                <span class="pill-desc">Eggs + Dairy Veg</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Daily Gym Time & Hours Commitment -->
+          <div>
+            <label class="roadmap-field-label">Daily Gym Hours & Split (Kitne ghante gym)</label>
+            <div class="options-pill-grid cols-1" id="hoursSelectorGrid">
+              <button type="button" class="option-pill active" data-hours="1.5-2" onclick="selectRoadmapHours('1.5-2')">
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                  <span class="pill-title">1.5 - 2 Hours / Day</span>
+                  <span class="pill-badge" style="background: rgba(52, 199, 89, 0.12); color: var(--apple-green-dark); font-weight: 700; font-size: 0.65rem; padding: 2px 7px; border-radius: 99px;">ELITE ATHLETE</span>
+                </div>
+                <span class="pill-desc">15m Warmup + 65m 7-12-15 Lifts + 15m Core/Grip + 10m Mobility</span>
+              </button>
+              <button type="button" class="option-pill" data-hours="1" onclick="selectRoadmapHours('1')">
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                  <span class="pill-title">60 - 75 Min / Day</span>
+                  <span class="pill-badge" style="background: rgba(0,0,0,0.06); color: var(--text-secondary); font-size: 0.65rem; padding: 2px 7px; border-radius: 99px;">SPORTSMAN</span>
+                </div>
+                <span class="pill-desc">10m Warmup + 45m 7-12-15 Hypertrophy + 10m Core & Stretch</span>
+              </button>
+              <button type="button" class="option-pill" data-hours="0.75" onclick="selectRoadmapHours('0.75')">
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                  <span class="pill-title">45 Min / Day</span>
+                  <span class="pill-badge" style="background: rgba(0,0,0,0.06); color: var(--text-secondary); font-size: 0.65rem; padding: 2px 7px; border-radius: 99px;">EXPRESS</span>
+                </div>
+                <span class="pill-desc">5m Warmup + 35m High-Torque Compound Sets + 5m Stretch</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Goal -->
+          <div>
+            <label class="roadmap-field-label">Primary Goal</label>
+            <div class="options-pill-grid cols-2" id="goalSelectorGrid">
+              <button type="button" class="option-pill active" data-goal="shred" onclick="selectRoadmapGoal('shred')">
+                <span class="pill-title">Athletic Lean Shred</span>
+                <span class="pill-desc">Virat Kohli Protocol</span>
+              </button>
+              <button type="button" class="option-pill" data-goal="bulk" onclick="selectRoadmapGoal('bulk')">
+                <span class="pill-title">Clean Muscle Bulk</span>
+                <span class="pill-desc">V-Taper & Raw Power</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="modal-footer" style="flex-shrink: 0;">
+          <button type="button" class="btn btn-outline" onclick="closeModal('roadmapModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="background: var(--apple-green-dark); color: #ffffff;">Generate Roadmap ⚡</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       13. MODAL: FULL ROADMAP DETAILS (Diet Chart & Gym Schedule)
+       =================================================== -->
+  <div id="roadmapDetailsModal" class="modal-backdrop">
+    <div class="modal-box" style="max-width: 520px; max-height: 88vh; display: flex; flex-direction: column;">
+      <div class="modal-header" style="flex-shrink: 0;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <h3 id="detailsModalTitle" style="font-size: 1.05rem; font-weight: 600;">Personalized Roadmap</h3>
+            <span id="detailsModalBadge" class="pill-badge" style="background: rgba(52, 199, 89, 0.12); color: var(--apple-green-dark); font-weight: 700; font-size: 0.68rem; padding: 2px 8px; border-radius: 99px;">30-DAY VEG</span>
+          </div>
+          <span id="detailsModalSub" style="font-size: 0.72rem; color: var(--text-tertiary); font-weight: 500;">TUSHU • 1.5 - 2 HOURS / DAY • ATHLETIC SHRED</span>
+        </div>
+        <button class="icon-btn" onclick="closeModal('roadmapDetailsModal')" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <!-- Segmented Navigation Inside Modal -->
+      <div class="roadmap-segmented-wrap" style="flex-shrink: 0; padding: 4px 16px 10px;">
+        <div class="segmented-control">
+          <button type="button" id="btnDetailsTabDiet" class="segmented-btn active" onclick="switchRoadmapDetailsTab('diet')">Daily Diet Chart</button>
+          <button type="button" id="btnDetailsTabGym" class="segmented-btn" onclick="switchRoadmapDetailsTab('gym')">Gym Workout Schedule</button>
+        </div>
+      </div>
+
+      <div class="modal-body" id="roadmapDetailsBody" style="overflow-y: auto; flex: 1; padding: 4px 16px 16px;">
+        <!-- Injected via renderRoadmapDetailsContent() -->
+      </div>
+
+      <div class="modal-footer" style="flex-shrink: 0; display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.95); border-top: 0.5px solid rgba(0, 0, 0, 0.08);">
+        <button type="button" class="btn btn-outline" onclick="openRoadmapModal()" style="font-size: 0.8rem;">Change / Switch</button>
+        <button type="button" class="btn btn-primary" onclick="applyRoadmapToToday()" style="background: var(--apple-green-dark); color: #ffffff; display: inline-flex; align-items: center; gap: 5px;">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Apply to Today's Tracker
+        </button>
       </div>
     </div>
   </div>
