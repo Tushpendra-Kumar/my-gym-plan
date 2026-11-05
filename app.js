@@ -450,6 +450,45 @@ const STORAGE_PLAN = 'tushu_gym_plan_v2';
 const STORAGE_HISTORY = 'tushu_gym_history_v2';
 const STORAGE_MEALS = 'tushu_gym_meals_v1';
 const STORAGE_ONBOARDED = 'tushu_onboarded_v1';
+const STORAGE_REMINDERS = 'tushu_gym_reminders_v1';
+
+function getTodayDateStr() {
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+// 3 Core Reminders for Virat-Kohli Athletic Aim
+const DEFAULT_REMINDERS = {
+  workout: {
+    id: 'workout',
+    title: 'Daily Training Call',
+    time: '17:30',
+    enabled: true,
+    done: false,
+    lastDoneDate: ''
+  },
+  hydrate: {
+    id: 'hydrate',
+    title: 'Hydration Protocol',
+    time: '14:00',
+    enabled: true,
+    done: false,
+    lastDoneDate: '',
+    waterMl: 0,
+    targetMl: 3500
+  },
+  fuel: {
+    id: 'fuel',
+    title: 'Post-Workout Fuel',
+    time: '19:30',
+    enabled: true,
+    done: false,
+    lastDoneDate: ''
+  }
+};
 
 // Global State
 let currentDay = getTodayDayKey();
@@ -563,6 +602,8 @@ function initApp() {
   renderWorkoutView();
   renderMeals();
   renderActivityStats();
+  renderRemindersHub();
+  updateNotificationBadge();
   setupEventListeners();
   checkPwaInstall();
 }
@@ -961,6 +1002,9 @@ function toggleSetDone(exId, setIdx) {
   savePlan();
   renderWorkoutView();
   renderHomeStats();
+  if (typeof checkAndSyncTodayWorkoutReminder === 'function') {
+    checkAndSyncTodayWorkoutReminder();
+  }
 }
 
 function getRecommendedRestTime(setType) {
@@ -1263,7 +1307,448 @@ function selectDayFromDrawer(dayKey) {
   switchView('workouts');
 }
 
+// ----------------------------------------------------
+// REDUX-PATTERN OFFLINE REMINDER & NOTIFICATION ENGINE
+// ----------------------------------------------------
+function loadRemindersState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_REMINDERS);
+    let parsed = raw ? JSON.parse(raw) : null;
+    if (!parsed) parsed = JSON.parse(JSON.stringify(DEFAULT_REMINDERS));
+    
+    const todayStr = getTodayDateStr();
+
+    Object.keys(DEFAULT_REMINDERS).forEach(k => {
+      if (!parsed[k]) {
+        parsed[k] = JSON.parse(JSON.stringify(DEFAULT_REMINDERS[k]));
+      }
+      // Daily reset: if last marked done on a previous date, auto-reset for today
+      if (parsed[k].lastDoneDate && parsed[k].lastDoneDate !== todayStr) {
+        parsed[k].done = false;
+        if (k === 'hydrate') parsed[k].waterMl = 0;
+      }
+      // Check if Android Native SharedPreferences marked it done
+      if (window.Android && typeof window.Android.isReminderDoneToday === 'function') {
+        if (window.Android.isReminderDoneToday(k)) {
+          parsed[k].done = true;
+          parsed[k].lastDoneDate = todayStr;
+        }
+      }
+    });
+
+    return parsed;
+  } catch (e) {
+    console.error('Error loading reminders:', e);
+    return JSON.parse(JSON.stringify(DEFAULT_REMINDERS));
+  }
+}
+
+function saveRemindersState(reminders) {
+  try {
+    localStorage.setItem(STORAGE_REMINDERS, JSON.stringify(reminders));
+  } catch (e) {
+    console.error('Error saving reminders:', e);
+  }
+}
+
+// Redux-Pattern Predictable State Store (Zero-Bug Tracking)
+const ReduxStore = (function() {
+  let state = {
+    reminders: loadRemindersState(),
+    actionHistory: []
+  };
+
+  const listeners = [];
+
+  function reducer(currentState, action) {
+    const todayStr = getTodayDateStr();
+
+    // Log action for deterministic bug-free traceability
+    currentState.actionHistory.push({
+      action: action.type,
+      payload: action.payload,
+      timestamp: new Date().toLocaleTimeString()
+    });
+    if (currentState.actionHistory.length > 30) currentState.actionHistory.shift();
+
+    switch (action.type) {
+      case 'TOGGLE_REMINDER_DONE': {
+        const { id } = action.payload;
+        const current = currentState.reminders[id];
+        if (!current) return currentState;
+
+        const newDone = !current.done;
+        const updatedReminders = {
+          ...currentState.reminders,
+          [id]: {
+            ...current,
+            done: newDone,
+            lastDoneDate: newDone ? todayStr : ''
+          }
+        };
+
+        if (id === 'hydrate' && newDone) {
+          updatedReminders.hydrate.waterMl = updatedReminders.hydrate.targetMl || 3500;
+        }
+
+        saveRemindersState(updatedReminders);
+        syncReminderWithAndroid(id, updatedReminders[id]);
+        return { ...currentState, reminders: updatedReminders };
+      }
+
+      case 'SET_REMINDER_DONE_EXPLICIT': {
+        const { id, done } = action.payload;
+        const current = currentState.reminders[id];
+        if (!current) return currentState;
+
+        const updatedReminders = {
+          ...currentState.reminders,
+          [id]: {
+            ...current,
+            done: done,
+            lastDoneDate: done ? todayStr : ''
+          }
+        };
+
+        saveRemindersState(updatedReminders);
+        syncReminderWithAndroid(id, updatedReminders[id]);
+        return { ...currentState, reminders: updatedReminders };
+      }
+
+      case 'UPDATE_REMINDER_TIME': {
+        const { id, time } = action.payload;
+        const current = currentState.reminders[id];
+        if (!current) return currentState;
+
+        const updatedReminders = {
+          ...currentState.reminders,
+          [id]: {
+            ...current,
+            time: time
+          }
+        };
+
+        saveRemindersState(updatedReminders);
+        syncReminderWithAndroid(id, updatedReminders[id]);
+        return { ...currentState, reminders: updatedReminders };
+      }
+
+      case 'TOGGLE_REMINDER_ENABLED': {
+        const { id, enabled } = action.payload;
+        const current = currentState.reminders[id];
+        if (!current) return currentState;
+
+        const updatedReminders = {
+          ...currentState.reminders,
+          [id]: {
+            ...current,
+            enabled: enabled
+          }
+        };
+
+        saveRemindersState(updatedReminders);
+        syncReminderWithAndroid(id, updatedReminders[id]);
+        return { ...currentState, reminders: updatedReminders };
+      }
+
+      case 'LOG_WATER': {
+        const { amount } = action.payload;
+        const current = currentState.reminders.hydrate;
+        const target = current.targetMl || 3500;
+        const newWater = Math.max(0, (current.waterMl || 0) + amount);
+        const isDone = newWater >= target;
+
+        const updatedReminders = {
+          ...currentState.reminders,
+          hydrate: {
+            ...current,
+            waterMl: newWater,
+            done: isDone,
+            lastDoneDate: isDone ? todayStr : current.lastDoneDate
+          }
+        };
+
+        saveRemindersState(updatedReminders);
+        syncReminderWithAndroid('hydrate', updatedReminders.hydrate);
+        return { ...currentState, reminders: updatedReminders };
+      }
+
+      default:
+        return currentState;
+    }
+  }
+
+  function dispatch(action) {
+    state = reducer(state, action);
+    listeners.forEach(fn => fn(state, action));
+  }
+
+  function getState() {
+    return state;
+  }
+
+  function subscribe(fn) {
+    listeners.push(fn);
+    return () => {
+      const idx = listeners.indexOf(fn);
+      if (idx !== -1) listeners.splice(idx, 1);
+    };
+  }
+
+  return { dispatch, getState, subscribe };
+})();
+
+// Native Android AlarmManager & Storage Synchronization
+function syncReminderWithAndroid(id, rem) {
+  if (window.Android) {
+    if (rem.done) {
+      if (typeof window.Android.markReminderDone === 'function') {
+        window.Android.markReminderDone(id);
+      }
+      if (typeof window.Android.cancelReminder === 'function') {
+        window.Android.cancelReminder(id);
+      }
+      if (typeof window.Android.vibratePhone === 'function') {
+        window.Android.vibratePhone(40);
+      }
+    } else if (rem.enabled) {
+      if (typeof window.Android.scheduleReminder === 'function') {
+        const [hStr, mStr] = (rem.time || '17:30').split(':');
+        const hour = parseInt(hStr, 10) || 17;
+        const min = parseInt(mStr, 10) || 30;
+        let title = 'Tushu Gym Plan';
+        let msg = 'Target pending hai. Tap to complete!';
+        if (id === 'workout') {
+          const dayData = workoutPlan[getTodayDayKey()] || {};
+          title = 'Training Call: ' + (dayData.title || 'Workout');
+          msg = 'Aaj ka session pending hai. 7-12-15 protocol shuru karein!';
+        } else if (id === 'hydrate') {
+          title = 'Hydration Alert';
+          msg = 'Hydration pending! 500ml water intake lo muscle pumps ke liye.';
+        } else if (id === 'fuel') {
+          title = 'Post-Workout Fuel Alert';
+          msg = 'Fuel pending! 30g protein consume karke micro-tears repair karein.';
+        }
+        window.Android.scheduleReminder(id, hour, min, title, msg);
+      }
+    } else {
+      if (typeof window.Android.cancelReminder === 'function') {
+        window.Android.cancelReminder(id);
+      }
+    }
+  }
+}
+
+// Render the 3 Athletic Reminders into the Hub
+function renderRemindersHub() {
+  const container = document.getElementById('remindersListContainer');
+  if (!container) return;
+
+  const state = ReduxStore.getState();
+  const reminders = state.reminders;
+  const todayKey = getTodayDayKey();
+  const todayWorkout = workoutPlan[todayKey] || {};
+
+  let completedCount = 0;
+  const totalCount = 3;
+
+  const remList = [
+    {
+      id: 'workout',
+      key: 'workout',
+      title: 'Daily Training Call',
+      sub: `${todayWorkout.name || 'Today'}: ${todayWorkout.title || 'Workout Session'}`,
+      iconSvg: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 5v14M18 5v14M2 9v6M22 9v6M6 12h12"/></svg>`,
+      pendingMsg: `Aapne aaj ka ${todayWorkout.title || 'workout'} abhi tak complete nahi kiya hai. Pehla set heavy 7 reps se start karein!`,
+      doneMsg: `Done! Aaj ka training session (${todayWorkout.title || 'Workout'}) complete ho chuka hai.`,
+      actionBtnText: 'Open Workout →',
+      onAction: "jumpToReminderView('workouts')"
+    },
+    {
+      id: 'hydrate',
+      key: 'hydrate',
+      title: 'Hydration Protocol',
+      sub: '3.5L Daily Goal • Fluid Balance',
+      iconSvg: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>`,
+      pendingMsg: 'Hydration pending! Muscle pumps aur athletic power ke liye 500ml water intake lo.',
+      doneMsg: 'Target Reached! Aaj ka 3.5L water target achieve ho chuka hai.',
+      isWater: true
+    },
+    {
+      id: 'fuel',
+      key: 'fuel',
+      title: 'Post-Workout Fuel',
+      sub: '30g High Protein • Recovery Window',
+      iconSvg: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>`,
+      pendingMsg: 'Fuel pending! Anabolic recovery window active hai. High protein fuel log karein.',
+      doneMsg: 'Done! Post-workout recovery fuel log ho chuka hai.',
+      actionBtnText: 'Open Nutrition →',
+      onAction: "jumpToReminderView('nutrition')"
+    }
+  ];
+
+  container.innerHTML = remList.map(item => {
+    const rem = reminders[item.key] || DEFAULT_REMINDERS[item.key];
+    if (rem.done) completedCount++;
+
+    return `
+      <div class="reminder-card ${rem.done ? 'card-done' : ''}" id="remCard_${item.id}">
+        <div class="reminder-top-row">
+          <div class="reminder-title-wrap">
+            <div class="reminder-icon-box">
+              ${item.iconSvg}
+            </div>
+            <div>
+              <div class="reminder-title">${item.title}</div>
+              <div class="reminder-sub">${item.sub}</div>
+            </div>
+          </div>
+          <div>
+            ${rem.done 
+              ? '<span class="status-pill status-done"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align: -1px; margin-right: 3px;"><polyline points="20 6 9 17 4 12"/></svg>Done</span>' 
+              : '<span class="status-pill status-pending">Incomplete</span>'}
+          </div>
+        </div>
+
+        <div class="reminder-msg-callout">
+          ${rem.done ? item.doneMsg : item.pendingMsg}
+        </div>
+
+        ${item.isWater ? `
+          <div class="reminder-water-log-row">
+            <div style="font-size: 0.74rem; font-weight: 600; color: var(--apple-blue);">
+              Water: ${rem.waterMl || 0} / 3,500 ml
+            </div>
+            <div style="display: flex; gap: 6px;">
+              <button class="water-quick-btn" onclick="logWaterIntake(250)">+250ml</button>
+              <button class="water-quick-btn" onclick="logWaterIntake(500)">+500ml</button>
+            </div>
+          </div>
+        ` : ''}
+
+        <div class="reminder-actions-row">
+          <div class="reminder-controls-left">
+            <input type="time" class="time-picker" value="${rem.time || '17:30'}" onchange="updateReminderTime('${item.id}', this.value)" title="Reminder Time">
+            <label class="ios-switch" title="Toggle Reminder ON/OFF">
+              <input type="checkbox" ${rem.enabled ? 'checked' : ''} onchange="toggleReminderEnabled('${item.id}', this.checked)">
+              <span class="ios-slider"></span>
+            </label>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 6px;">
+            ${item.actionBtnText ? `
+              <button class="btn btn-outline" style="font-size: 0.72rem; padding: 5px 10px;" onclick="${item.onAction}">
+                ${item.actionBtnText}
+              </button>
+            ` : ''}
+            <button class="btn-status-action ${rem.done ? 'is-done' : ''}" onclick="toggleReminderDone('${item.id}')">
+              ${rem.done ? '<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align: -1px; margin-right: 3px;"><polyline points="20 6 9 17 4 12"/></svg>Done' : 'Mark Done'}
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Update Summary Bar
+  const summaryEl = document.getElementById('remindersSummaryCount');
+  const barEl = document.getElementById('remindersProgressBar');
+  if (summaryEl) summaryEl.innerText = `${completedCount} / ${totalCount} Complete`;
+  if (barEl) {
+    const pct = Math.round((completedCount / totalCount) * 100);
+    barEl.style.width = `${pct}%`;
+  }
+
+  // Update Bell Notification Dot
+  updateNotificationBadge();
+}
+
+function updateNotificationBadge() {
+  const dot = document.querySelector('.notification-dot');
+  if (!dot) return;
+
+  const state = ReduxStore.getState();
+  const reminders = state.reminders;
+  // If ANY enabled reminder is still NOT done, show the dot
+  const hasPending = Object.values(reminders).some(r => r.enabled && !r.done);
+  dot.style.display = hasPending ? 'block' : 'none';
+}
+
+function toggleReminderDone(id) {
+  ReduxStore.dispatch({
+    type: 'TOGGLE_REMINDER_DONE',
+    payload: { id }
+  });
+  renderRemindersHub();
+}
+
+function updateReminderTime(id, time) {
+  ReduxStore.dispatch({
+    type: 'UPDATE_REMINDER_TIME',
+    payload: { id, time }
+  });
+  renderRemindersHub();
+}
+
+function toggleReminderEnabled(id, enabled) {
+  ReduxStore.dispatch({
+    type: 'TOGGLE_REMINDER_ENABLED',
+    payload: { id, enabled }
+  });
+  renderRemindersHub();
+}
+
+function logWaterIntake(amount) {
+  ReduxStore.dispatch({
+    type: 'LOG_WATER',
+    payload: { amount }
+  });
+  renderRemindersHub();
+}
+
+function jumpToReminderView(viewName) {
+  closeModal('notificationsModal');
+  switchView(viewName);
+}
+
+// Deep Link handler from Android System Notification Click
+window.handleNotificationDeepLink = function(targetType) {
+  openNotificationsModal();
+  if (targetType === 'workout') {
+    switchView('workouts');
+  } else if (targetType === 'fuel') {
+    switchView('nutrition');
+  }
+};
+
+// Auto check and sync workout reminder when user completes sets
+function checkAndSyncTodayWorkoutReminder() {
+  const todayKey = getTodayDayKey();
+  const dayData = workoutPlan[todayKey];
+  if (!dayData || !dayData.exercises) return;
+
+  let totalSets = 0;
+  let doneSets = 0;
+  dayData.exercises.forEach(ex => {
+    ex.sets.forEach(s => {
+      totalSets++;
+      if (s.done) doneSets++;
+    });
+  });
+
+  const state = ReduxStore.getState();
+  const workoutRem = state.reminders.workout;
+  if (totalSets > 0 && doneSets === totalSets && !workoutRem.done) {
+    ReduxStore.dispatch({
+      type: 'SET_REMINDER_DONE_EXPLICIT',
+      payload: { id: 'workout', done: true }
+    });
+    renderRemindersHub();
+  }
+}
+
 function openNotificationsModal() {
+  renderRemindersHub();
   openModal('notificationsModal');
 }
 
