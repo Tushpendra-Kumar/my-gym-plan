@@ -19,37 +19,115 @@
 </head>
 <body>
 
-  <!-- PWA Install Banner -->
+  <!-- PWA Install Banner (Dismissible) -->
   <div id="pwaInstallBanner" class="pwa-banner">
-    <span>📲 Is app ko phone me bina internet chalane ke liye install karein</span>
-    <button id="btnInstallPwa" class="pwa-btn">Install App</button>
+    <span>📲 Phone me offline chalane ke liye install karein</span>
+    <div style="display: flex; gap: 8px; align-items: center;">
+      <button id="btnInstallPwa" class="pwa-btn">Install App</button>
+      <button class="icon-btn" style="color: #ffffff; font-size: 1.1rem; padding: 2px 6px;" onclick="dismissPwaBanner()">✕</button>
+    </div>
   </div>
 
   <!-- App Header -->
   <header class="app-header">
     <div class="header-container">
-      <div class="brand-wrapper">
+      
+      <!-- Left: Three-Line (Hamburger) Menu Button -->
+      <button class="nav-icon-btn" onclick="toggleSideDrawer()" aria-label="Open Menu" title="Menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+
+      <!-- Center: Brand with Version 0.01 -->
+      <div class="brand-wrapper" onclick="goToTodayWorkout()" style="cursor: pointer;">
         <div class="brand-icon">⚡</div>
         <div>
-          <div class="brand-title">TUSHU <span>GYM PLAN</span></div>
+          <div class="brand-title">
+            TUSHU <span>GYM PLAN</span>
+            <span class="version-badge">v0.01</span>
+          </div>
           <span class="brand-subtitle">Sportsman 7-12-15 Protocol</span>
         </div>
       </div>
 
+      <!-- Right: User & Admin Dashboard Access Button -->
       <div class="header-actions">
-        <div class="offline-status-badge" title="App bina internet ke 100% offline kaam karti hai">
-          <span class="pulse-dot"></span>
-          <span>Offline Ready</span>
-        </div>
-        <button class="btn-header" onclick="openModal('athleteGuideModal')" title="Athletic Rules">
-          🏆 Tips
-        </button>
-        <button class="btn-header" onclick="openModal('backupModal')" title="Data Backup / Restore">
-          💾 Backup
+        <button class="btn-dashboard-pill" onclick="openSportsmanDashboard()" title="Tushu Sportsman Dashboard (Admin & User)">
+          <span class="avatar-circle">T</span>
+          <span class="dashboard-text">Dashboard</span>
         </button>
       </div>
+
     </div>
   </header>
+
+  <!-- Left Side Drawer (Navigation & Settings) -->
+  <div id="drawerBackdrop" class="drawer-backdrop" onclick="closeSideDrawer()">
+    <nav class="side-drawer" onclick="event.stopPropagation()">
+      <div class="drawer-header">
+        <div class="drawer-user-info">
+          <div class="drawer-avatar">T</div>
+          <div>
+            <div class="drawer-name">Tushu <span class="version-badge">v0.01</span></div>
+            <span class="drawer-role">👑 Sole Admin & Athlete</span>
+          </div>
+        </div>
+        <button class="icon-btn" onclick="closeSideDrawer()">✕</button>
+      </div>
+
+      <div class="drawer-body">
+        <div class="drawer-section-title">DAILY WORKOUTS</div>
+        <a class="drawer-item" onclick="selectDayFromDrawer('monday')">
+          <span class="drawer-item-icon">⚡</span> Mon: Chest & Core
+        </a>
+        <a class="drawer-item" onclick="selectDayFromDrawer('tuesday')">
+          <span class="drawer-item-icon">🎯</span> Tue: Back & Posterior
+        </a>
+        <a class="drawer-item" onclick="selectDayFromDrawer('wednesday')">
+          <span class="drawer-item-icon">🛡️</span> Wed: Shoulders & Abs
+        </a>
+        <a class="drawer-item" onclick="selectDayFromDrawer('thursday')">
+          <span class="drawer-item-icon">💪</span> Thu: Arms & Grip Power
+        </a>
+        <a class="drawer-item" onclick="selectDayFromDrawer('friday')">
+          <span class="drawer-item-icon">🔥</span> Fri: Athletic HIIT
+        </a>
+        <a class="drawer-item" onclick="selectDayFromDrawer('saturday')">
+          <span class="drawer-item-icon">🦵</span> Sat: Legs & Lower Power
+        </a>
+        <a class="drawer-item" onclick="selectDayFromDrawer('sunday')">
+          <span class="drawer-item-icon">🧘</span> Sun: Active Recovery
+        </a>
+
+        <div class="drawer-section-title">SPORTSMAN HUB</div>
+        <a class="drawer-item" onclick="closeSideDrawer(); openSportsmanDashboard();">
+          <span class="drawer-item-icon">📊</span> Personal Dashboard
+          <span class="drawer-item-badge">Active</span>
+        </a>
+        <a class="drawer-item" onclick="closeSideDrawer(); openModal('athleteGuideModal');">
+          <span class="drawer-item-icon">🏆</span> Virat Kohli Rules
+        </a>
+        <a class="drawer-item" onclick="closeSideDrawer(); openModal('backupModal');">
+          <span class="drawer-item-icon">💾</span> Backup / Restore Data
+        </a>
+        <a class="drawer-item" onclick="closeSideDrawer(); resetTodayWorkout();">
+          <span class="drawer-item-icon">🔄</span> Reset Today's Sets
+        </a>
+
+        <div class="drawer-section-title">MULTI-USER ACCESS</div>
+        <div class="partner-box" style="margin: 6px 4px 10px;">
+          👥 <strong>Dost Ko Add Karna:</strong><br>
+          Filhaal ye app sirf aapke (Tushu) single-user mode ke liye locked hai. Jab aap bolenge, hum multi-user feature on kar denge!
+        </div>
+      </div>
+
+      <div class="drawer-footer">
+        <span>Tushu Gym Plan</span>
+        <span>Version 0.01</span>
+      </div>
+    </nav>
+  </div>
 
   <!-- Main Container -->
   <main class="main-wrapper">
@@ -364,6 +442,98 @@
       </div>
     </div>
   </div>
+
+  <!-- Modal: Sportsman Dashboard (User & Admin Portal) -->
+  <div id="sportsmanDashboardModal" class="modal-backdrop">
+    <div class="modal-box" style="max-width: 540px;">
+      <div class="modal-header">
+        <div>
+          <h3>👑 Sportsman Dashboard</h3>
+          <span style="font-size: 0.74rem; color: var(--primary); font-weight: 800;">ADMIN & ATHLETE PORTAL • v0.01</span>
+        </div>
+        <button class="icon-btn" onclick="closeModal('sportsmanDashboardModal')">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- User Profile Card -->
+        <div class="user-profile-banner">
+          <div class="user-profile-avatar">T</div>
+          <div>
+            <h3 style="font-size: 1.25rem; font-weight: 900; color: var(--text-main); margin-bottom: 2px;">Tushu</h3>
+            <span style="font-size: 0.76rem; color: var(--primary); font-weight: 800; text-transform: uppercase;">Owner • Sole Admin & Athlete</span>
+            <div style="font-size: 0.78rem; color: var(--text-dim); margin-top: 2px;">Single-User Mode (Version 0.01)</div>
+          </div>
+        </div>
+
+        <!-- Metrics Grid -->
+        <div class="dashboard-metrics-grid">
+          <div class="metric-card highlight">
+            <span class="m-label">TOTAL VOLUME LIFTED</span>
+            <div id="dashTotalVolume" class="m-value">0 kg</div>
+          </div>
+          <div class="metric-card">
+            <span class="m-label">SETS COMPLETED</span>
+            <div id="dashTotalSets" class="m-value">0</div>
+          </div>
+          <div class="metric-card">
+            <span class="m-label">WORKOUT SESSIONS</span>
+            <div id="dashTotalSessions" class="m-value">0</div>
+          </div>
+          <div class="metric-card">
+            <span class="m-label">SCHEME PROTOCOL</span>
+            <div class="m-value" style="font-size: 1.05rem; color: var(--text-main);">7 - 12 - 15</div>
+          </div>
+        </div>
+
+        <!-- Personal Records (PRs) Section -->
+        <div class="pr-section">
+          <h4>🏆 Heaviest Weights (Personal Records)</h4>
+          <div id="dashPrList">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- Friends / Gym Partner Note -->
+        <div class="partner-box">
+          👥 <strong>Dost Ko Add Karna (Gym Partner):</strong><br>
+          Admin aur User dono abhi aap hi hain (Tushu). Jab aap kisi dost ko add karenge, hum yahan 'Switch User / Add Partner' profile feature on kar denge!
+        </div>
+
+        <div style="margin-top: 14px; display: flex; gap: 8px;">
+          <button class="btn btn-outline" style="flex: 1;" onclick="closeModal('sportsmanDashboardModal'); openModal('backupModal');">
+            💾 Backup / Restore
+          </button>
+          <button class="btn btn-primary" style="flex: 1;" onclick="closeModal('sportsmanDashboardModal');">
+            Close Dashboard
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation Bar (Fixed at bottom like native app) -->
+  <nav class="bottom-nav-bar">
+    <button id="navItemToday" class="bottom-nav-item active" onclick="goToTodayWorkout()">
+      <span class="bottom-nav-icon">🏠</span>
+      <span class="bottom-nav-label">Today</span>
+    </button>
+    <button id="navItemPlan" class="bottom-nav-item" onclick="scrollToDayPicker()">
+      <span class="bottom-nav-icon">📋</span>
+      <span class="bottom-nav-label">Plan</span>
+    </button>
+    <button id="navItemTimer" class="bottom-nav-item" onclick="toggleRestTimerQuick()">
+      <span class="bottom-nav-icon">⏱️</span>
+      <span class="bottom-nav-label">Timer</span>
+    </button>
+    <button id="navItemStats" class="bottom-nav-item" onclick="openSportsmanDashboard()">
+      <span class="bottom-nav-icon">📊</span>
+      <span class="bottom-nav-label">Stats</span>
+    </button>
+    <button id="navItemTips" class="bottom-nav-item" onclick="openModal('athleteGuideModal')">
+      <span class="bottom-nav-icon">🏆</span>
+      <span class="bottom-nav-label">Tips</span>
+    </button>
+  </nav>
 
   <script>
     function openModal(id) {

@@ -1094,6 +1094,143 @@ function checkPwaInstall() {
   }
 }
 
+// Side Drawer Handlers
+function toggleSideDrawer() {
+  const backdrop = document.getElementById('drawerBackdrop');
+  if (backdrop) backdrop.classList.toggle('open');
+}
+
+function closeSideDrawer() {
+  const backdrop = document.getElementById('drawerBackdrop');
+  if (backdrop) backdrop.classList.remove('open');
+}
+
+function selectDayFromDrawer(dayKey) {
+  currentDay = dayKey;
+  renderDayTabs();
+  renderWorkoutView();
+  closeSideDrawer();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  updateBottomNavActive('navItemPlan');
+}
+
+// Sportsman Dashboard Logic (User & Admin Portal)
+function openSportsmanDashboard() {
+  closeSideDrawer();
+  updateBottomNavActive('navItemStats');
+  
+  let totalVolume = 0;
+  let totalSets = 0;
+  const prs = {};
+
+  // From current plan
+  Object.keys(workoutPlan).forEach(dayKey => {
+    const day = workoutPlan[dayKey];
+    if (day.exercises) {
+      day.exercises.forEach(ex => {
+        let maxWeight = 0;
+        ex.sets.forEach(s => {
+          const w = parseFloat(s.weight) || 0;
+          const r = parseInt(s.reps) || s.targetReps || 0;
+          if (s.done) {
+            totalSets++;
+            totalVolume += w * r;
+          }
+          if (w > maxWeight) maxWeight = w;
+        });
+        if (maxWeight > 0) {
+          prs[ex.name] = Math.max(prs[ex.name] || 0, maxWeight);
+        }
+      });
+    }
+  });
+
+  // From historical sessions
+  const sessionDates = Object.keys(workoutHistory);
+  sessionDates.forEach(date => {
+    const logs = workoutHistory[date];
+    if (Array.isArray(logs)) {
+      logs.forEach(log => {
+        const w = parseFloat(log.weight) || 0;
+        const r = parseInt(log.reps) || 0;
+        totalVolume += w * r;
+        totalSets++;
+        if (w > 0 && log.exercise) {
+          prs[log.exercise] = Math.max(prs[log.exercise] || 0, w);
+        }
+      });
+    }
+  });
+
+  // Populate Dashboard UI
+  const volEl = document.getElementById('dashTotalVolume');
+  const setsEl = document.getElementById('dashTotalSets');
+  const sessEl = document.getElementById('dashTotalSessions');
+
+  if (volEl) volEl.innerText = `${Math.round(totalVolume).toLocaleString()} kg`;
+  if (setsEl) setsEl.innerText = totalSets;
+  if (sessEl) sessEl.innerText = Math.max(1, sessionDates.length);
+
+  // Top PRs
+  const prListEl = document.getElementById('dashPrList');
+  if (prListEl) {
+    const prEntries = Object.entries(prs).sort((a, b) => b[1] - a[1]).slice(0, 5);
+    if (prEntries.length === 0) {
+      prListEl.innerHTML = `<p style="font-size: 0.8rem; color: var(--text-dim); text-align: center; padding: 6px;">Sets complete karne par aapke record yahan dikhenge.</p>`;
+    } else {
+      prListEl.innerHTML = prEntries.map(([name, weight]) => `
+        <div class="pr-item">
+          <span class="pr-name">${escapeHtml(name)}</span>
+          <span class="pr-weight">${weight} kg</span>
+        </div>
+      `).join('');
+    }
+  }
+
+  openModal('sportsmanDashboardModal');
+}
+
+// Bottom Navigation Actions
+function goToTodayWorkout() {
+  currentDay = getTodayDayKey();
+  renderDayTabs();
+  renderWorkoutView();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  updateBottomNavActive('navItemToday');
+}
+
+function scrollToDayPicker() {
+  const tabs = document.querySelector('.day-tabs-container');
+  if (tabs) {
+    tabs.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  updateBottomNavActive('navItemPlan');
+}
+
+function toggleRestTimerQuick() {
+  const timerWidget = document.getElementById('restTimerWidget');
+  if (timerWidget && timerWidget.classList.contains('visible')) {
+    stopRestTimer();
+  } else {
+    startRestTimer(60);
+  }
+  updateBottomNavActive('navItemTimer');
+}
+
+function updateBottomNavActive(activeId) {
+  document.querySelectorAll('.bottom-nav-item').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  const el = document.getElementById(activeId);
+  if (el) el.classList.add('active');
+}
+
+function dismissPwaBanner() {
+  const banner = document.getElementById('pwaInstallBanner');
+  if (banner) banner.style.display = 'none';
+  sessionStorage.setItem('tushu_pwa_dismissed', 'true');
+}
+
 // Utility: HTML Escaper
 function escapeHtml(str) {
   if (!str) return '';
