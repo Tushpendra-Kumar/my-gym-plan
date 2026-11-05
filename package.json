@@ -1,7 +1,7 @@
 {
-  "name": "my-gym-plan",
+  "name": "tushu-gym-plan",
   "version": "1.0.0",
-  "description": "A high-performance progressive web app (PWA) designed for an athletic, lean, and explosive physique (inspired by Virat Kohli's training regimen). Features the **7 - 12 - 15 Reverse Pyramid Scheme**, automatic set tracking, progressive overload weight memory, rest timer with sound, and 100% offline functionality.",
+  "description": "Tushu Gym Plan - Personal Athletic Workout Planner & Tracker with 7-12-15 Scheme (100% Offline PWA & Android App)",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

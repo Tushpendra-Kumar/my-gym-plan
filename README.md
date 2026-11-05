@@ -1,6 +1,6 @@
-# ⚡ Athletic Gym Tracker - Kohli Protocol (100% Offline PWA)
+# ⚡ Tushu Gym Plan - Athletic Protocol (100% Offline PWA & Android App)
 
-A high-performance progressive web app (PWA) designed for an athletic, lean, and explosive physique (inspired by Virat Kohli's training regimen). Features the **7 - 12 - 15 Reverse Pyramid Scheme**, automatic set tracking, progressive overload weight memory, rest timer with sound, and 100% offline functionality.
+A high-performance workout app designed for **Tushu** as a personal sportsman training companion. Features the **7 - 12 - 15 Reverse Pyramid Scheme**, automatic set tracking, progressive overload weight memory, rest timer with sound, animated biomechanics motion guides, and 100% offline functionality.
 
 ---
 

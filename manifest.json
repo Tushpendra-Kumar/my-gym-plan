@@ -1,7 +1,7 @@
 {
-  "name": "Virat Athletic Gym Tracker",
-  "short_name": "GymTracker",
-  "description": "Athletic Workout Planner & Tracker with 7-12-15 Rep Scheme - 100% Offline PWA",
+  "name": "Tushu Gym Plan",
+  "short_name": "TushuGym",
+  "description": "Tushu Gym Plan - Personal Athletic Workout Planner & Tracker - 100% Offline PWA",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#FAF7F0",

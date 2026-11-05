@@ -1,6 +1,6 @@
 @echo off
 echo ========================================================
-echo   Athletic Gym Tracker - Launching Android Studio
+echo   Tushu Gym Plan - Launching Android Studio
 echo ========================================================
 echo.
 echo Syncing latest web assets...
