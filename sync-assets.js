@@ -34,6 +34,19 @@ if (fs.existsSync(iconsSrcDir)) {
   });
 }
 
+// Copy images directory to assets/www/images/
+const imgSrcDir = path.join(rootDir, 'images');
+const imgDestDir = path.join(assetsTarget, 'images');
+if (!fs.existsSync(imgDestDir)) {
+  fs.mkdirSync(imgDestDir, { recursive: true });
+}
+if (fs.existsSync(imgSrcDir)) {
+  fs.readdirSync(imgSrcDir).forEach(f => {
+    fs.copyFileSync(path.join(imgSrcDir, f), path.join(imgDestDir, f));
+    console.log(`Copied image: ${f}`);
+  });
+}
+
 // Also copy icon as Android launcher icon
 const mipmapDirs = [
   'mipmap-mdpi',

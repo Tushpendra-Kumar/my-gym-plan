@@ -23,37 +23,39 @@
        1. WELCOME ONBOARDING SCREEN (Apple Fitness Style)
        =================================================== -->
   <div id="viewOnboarding" class="onboarding-screen">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 4px;">
       <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-primary); letter-spacing: -0.01em;">Tushu Gym Plan</span>
       <button class="btn-outline" style="padding: 6px 14px; font-size: 0.8rem;" onclick="completeOnboarding()">Skip</button>
     </div>
 
-    <!-- Apple Vector Silhouette Frame -->
-    <div class="onboarding-hero">
-      <svg viewBox="0 0 240 260" style="width: 70%; height: 70%;" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="120" cy="55" r="22" fill="#1c1c1e" />
-        <path d="M95,95 Q120,85 145,95 L135,170 L105,170 Z" fill="#34c759" />
-        <line x1="95" y1="100" x2="65" y2="135" stroke="#1c1c1e" stroke-width="12" stroke-linecap="round" />
-        <line x1="145" y1="100" x2="175" y2="135" stroke="#1c1c1e" stroke-width="12" stroke-linecap="round" />
-        <line x1="110" y1="170" x2="85" y2="240" stroke="#1c1c1e" stroke-width="14" stroke-linecap="round" />
-        <line x1="130" y1="170" x2="155" y2="240" stroke="#1c1c1e" stroke-width="14" stroke-linecap="round" />
-      </svg>
+    <!-- Cinematic Phone-Mode Athlete Animation Frame -->
+    <div class="onboarding-hero-wrapper">
+      <div class="onboarding-hero-aura"></div>
+      <div class="onboarding-hero">
+        <img src="./images/hero-athlete.jpg" alt="Athletic Mindset" class="onboarding-hero-img">
+        <div class="onboarding-hero-overlay"></div>
+        <div class="onboarding-hero-badge">
+          <span class="hero-badge-dot"></span>
+          <span>Sportsman Mindset • v0.01</span>
+        </div>
+      </div>
     </div>
 
-    <div style="max-width: 360px; margin: 0 auto; width: 100%;">
-      <h1 style="font-size: 1.85rem; font-weight: 700; line-height: 1.2; color: var(--text-primary); letter-spacing: -0.025em; margin-bottom: 8px;">
+    <div style="max-width: 360px; margin: 0 auto; width: 100%; text-align: center;">
+      <h1 style="font-size: 1.65rem; font-weight: 600; line-height: 1.22; color: var(--text-primary); letter-spacing: -0.02em; margin-bottom: 8px;">
         Athletic Performance Starts Here
       </h1>
-      <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.45; margin-bottom: 22px;">
+      <p style="font-size: 0.86rem; color: var(--text-secondary); line-height: 1.45; margin-bottom: 22px; font-weight: 400;">
         Precision tracking for the 7-12-15 reverse pyramid scheme, athlete nutrition, and progressive overload.
       </p>
       
       <button class="btn-get-started" onclick="completeOnboarding()">
-        Get Started
+        <span>Get Started</span>
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </button>
 
-      <div style="text-align: center; margin-top: 16px;">
-        <span style="font-size: 0.72rem; color: var(--text-tertiary); font-weight: 500;">Designed for Tushu • Version 0.01</span>
+      <div style="text-align: center; margin-top: 14px;">
+        <span style="font-size: 0.72rem; color: var(--text-tertiary); font-weight: 500;">Designed for Tushu • 100% Offline</span>
       </div>
     </div>
   </div>

@@ -1433,30 +1433,134 @@ body {
   pointer-events: none;
 }
 
-.onboarding-hero {
+/* Cinematic Phone-Mode Athlete Animation Hero */
+.onboarding-hero-wrapper {
   position: relative;
   width: 100%;
   max-width: 320px;
-  height: 340px;
   margin: 10px auto;
-  border-radius: var(--radius-xl);
-  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #ffffff;
-  border: 0.5px solid rgba(0, 0, 0, 0.06);
-  box-shadow: var(--glass-shadow);
+}
+
+/* Ambient Backlight Aura (Light Mint & Warm Radiance) */
+.onboarding-hero-aura {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 270px;
+  height: 310px;
+  background: radial-gradient(circle, rgba(52, 199, 89, 0.22) 0%, rgba(255, 149, 0, 0.12) 45%, transparent 70%);
+  filter: blur(35px);
+  border-radius: 50%;
+  z-index: 1;
+  animation: heroAuraPulse 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes heroAuraPulse {
+  0%, 100% {
+    opacity: 0.65;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+  50% {
+    opacity: 0.95;
+    transform: translate(-50%, -50%) scale(1.04);
+  }
+}
+
+.onboarding-hero {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 350px;
+  border-radius: 28px;
+  overflow: hidden;
+  background: #050505;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.16), 0 1px 3px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Athlete Image Scaled & Centered for Phone Mode */
+.onboarding-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%; /* Perfectly centers the athlete's face and upper torso */
+  transform: scale(1.02);
+  animation: heroBreathe 7s ease-in-out infinite;
+  transition: transform 0.4s ease;
+}
+
+@keyframes heroBreathe {
+  0%, 100% {
+    transform: scale(1.02);
+  }
+  50% {
+    transform: scale(1.07);
+  }
+}
+
+/* Light Theme Transition Overlay (Fades bottom softly into the light background) */
+.onboarding-hero-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 85px;
+  background: linear-gradient(to top, rgba(247, 247, 249, 0.95) 0%, rgba(247, 247, 249, 0.55) 40%, transparent 100%);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Floating Athlete Mode Pill Badge */
+.onboarding-hero-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 4;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 0.5px solid rgba(255, 255, 255, 0.95);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.hero-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--apple-green);
+  box-shadow: 0 0 6px var(--apple-green);
+  animation: badgeBlink 2s infinite ease-in-out;
+}
+
+@keyframes badgeBlink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
 }
 
 .btn-get-started {
   width: 100%;
-  padding: 15px 24px;
+  padding: 14px 24px;
   background: var(--text-primary);
   color: #ffffff;
   border: none;
   border-radius: var(--radius-full);
-  font-size: 0.98rem;
+  font-size: 0.94rem;
   font-weight: 600;
   cursor: pointer;
   display: flex;
@@ -1464,10 +1568,13 @@ body {
   justify-content: center;
   gap: 8px;
   transition: var(--transition);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
 .btn-get-started:hover {
   background: #000000;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
 }
 
 /* ===================================================
