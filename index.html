@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Athletic Gym Tracker - Kohli Protocol (100% Offline)</title>
+  
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#10b981">
+  <meta name="description" content="Virat Kohli Style Athletic Workout Planner & Tracker. 7-12-15 Reverse Pyramid Scheme. Completely Offline PWA.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="GymTracker">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="icon" type="image/png" href="./icons/icon-192.png">
+
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <!-- PWA Install Banner -->
+  <div id="pwaInstallBanner" class="pwa-banner">
+    <span>📲 Is app ko phone me bina internet chalane ke liye install karein</span>
+    <button id="btnInstallPwa" class="pwa-btn">Install App</button>
+  </div>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-wrapper">
+        <div class="brand-icon">⚡</div>
+        <div>
+          <div class="brand-title">ATHLETIC <span>TRACKER</span></div>
+          <span class="brand-subtitle">Kohli 7-12-15 Protocol</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div class="offline-status-badge" title="App bina internet ke 100% offline kaam karti hai">
+          <span class="pulse-dot"></span>
+          <span>Offline Ready</span>
+        </div>
+        <button class="btn-header" onclick="openModal('athleteGuideModal')" title="Athletic Rules">
+          🏆 Tips
+        </button>
+        <button class="btn-header" onclick="openModal('backupModal')" title="Data Backup / Restore">
+          💾 Backup
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-wrapper">
+
+    <!-- Day Navigation Scroll Bar -->
+    <div class="day-tabs-container">
+      <div id="dayTabs" class="day-tabs-bar">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+
+    <!-- Active Day Hero & Summary -->
+    <section class="workout-hero-card">
+      <div class="hero-header">
+        <div class="hero-day-title-wrap">
+          <h1 id="dayTitle" class="hero-day-title">Monday Workout</h1>
+          <span id="dayTodayBadge" class="hero-today-tag">TODAY</span>
+        </div>
+        <span id="dayFocus" class="hero-focus-pill">Push Strength & Core</span>
+      </div>
+
+      <p id="dayDescription" class="hero-description">
+        Build a broad athletic chest and solid core with 7-12-15 reverse pyramid scheme.
+      </p>
+
+      <!-- Reps Scheme Explanation Pill -->
+      <div style="background: rgba(16, 185, 129, 0.08); border: 1px dashed rgba(16, 185, 129, 0.3); border-radius: var(--radius-sm); padding: 8px 12px; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #a7f3d0;">
+        <span>🎯 <strong>Scheme:</strong> Set 1 (Heavy 7 Reps) ➔ Set 2 (Moderate 12 Reps) ➔ Set 3 (Light 15 Reps)</span>
+      </div>
+
+      <!-- Stats Strip -->
+      <div class="stats-strip">
+        <div class="stat-item">
+          <span class="stat-label">SETS COMPLETED</span>
+          <span id="statSetsCounter" class="stat-val highlight">0 / 0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">TOTAL VOLUME LIFTED</span>
+          <span id="statVolume" class="stat-val">0 kg</span>
+        </div>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="progress-track">
+        <div id="workoutProgressBar" class="progress-fill"></div>
+      </div>
+    </section>
+
+    <!-- Congrats Banner -->
+    <div id="congratsBanner" class="congrats-banner">
+      <h4>🔥 Zabardast! Aaj ka workout poora ho gaya!</h4>
+      <p>Virat Kohli mindset: Consistency is the key. Proper nutrition aur 8 ghante rest lena mat bhulna.</p>
+    </div>
+
+    <!-- Actions Bar -->
+    <div class="actions-bar">
+      <button class="btn btn-primary" onclick="openAddExerciseModal()">
+        + Exercise Add Karein
+      </button>
+
+      <div style="display: flex; gap: 8px;">
+        <button class="btn btn-outline" onclick="startRestTimer(60)">
+          ⏱️ Rest Timer (60s)
+        </button>
+        <button class="btn btn-danger-subtle" onclick="resetTodayWorkout()" title="Naye hafte ke liye uncheck karein">
+          🔄 Reset Today
+        </button>
+      </div>
+    </div>
+
+    <!-- Exercises List -->
+    <div id="exerciseList" class="exercise-list">
+      <!-- Injected via JavaScript -->
+    </div>
+
+  </main>
+
+  <!-- Floating Rest Timer Widget -->
+  <div id="restTimerWidget" class="rest-timer-widget">
+    <div class="timer-circle-wrapper">
+      <svg class="timer-svg" viewBox="0 0 100 100">
+        <circle class="timer-bg-circle" cx="50" cy="50" r="45"></circle>
+        <circle id="timerProgressCircle" class="timer-progress-circle" cx="50" cy="50" r="45"></circle>
+      </svg>
+      <div id="timerCountdown" class="timer-countdown">01:00</div>
+    </div>
+
+    <div class="timer-info">
+      <span class="timer-title">Rest Timer</span>
+      <div class="timer-quick-presets">
+        <button class="preset-pill" onclick="startRestTimer(45)">45s</button>
+        <button class="preset-pill" onclick="startRestTimer(60)">60s</button>
+        <button class="preset-pill" onclick="startRestTimer(90)">90s</button>
+        <button class="preset-pill" onclick="addTimerSeconds(30)">+30s</button>
+      </div>
+    </div>
+
+    <button class="timer-close-btn" onclick="stopRestTimer()" title="Timer Band Karein">✕</button>
+  </div>
+
+  <!-- Modal: Add Exercise -->
+  <div id="addExerciseModal" class="modal-backdrop">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>+ Nayi Exercise Add Karein</h3>
+        <button class="icon-btn" onclick="closeModal('addExerciseModal')">✕</button>
+      </div>
+      <form onsubmit="submitAddExercise(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="addExName">Exercise Ka Naam *</label>
+            <input type="text" id="addExName" class="form-input" placeholder="e.g. Incline Dumbbell Press" required>
+          </div>
+          <div class="form-group">
+            <label for="addExTarget">Muscle Target / Focus</label>
+            <input type="text" id="addExTarget" class="form-input" placeholder="e.g. Upper Chest / Shoulders">
+          </div>
+          <div class="form-group">
+            <label for="addExNotes">Coach Note / Form Tip</label>
+            <input type="text" id="addExNotes" class="form-input" placeholder="e.g. Squeeze 1 sec at top">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('addExerciseModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Exercise</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Edit Exercise -->
+  <div id="editExerciseModal" class="modal-backdrop">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Exercise Edit / Delete</h3>
+        <button class="icon-btn" onclick="closeModal('editExerciseModal')">✕</button>
+      </div>
+      <form onsubmit="submitEditExercise(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="editExName">Exercise Ka Naam</label>
+            <input type="text" id="editExName" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label for="editExTarget">Muscle Focus</label>
+            <input type="text" id="editExTarget" class="form-input">
+          </div>
+          <div class="form-group">
+            <label for="editExNotes">Coach Notes</label>
+            <input type="text" id="editExNotes" class="form-input">
+          </div>
+        </div>
+        <div class="modal-footer" style="justify-content: space-between;">
+          <button type="button" class="btn btn-danger-subtle" onclick="deleteCurrentExercise()">🗑️ Delete</button>
+          <div style="display: flex; gap: 8px;">
+            <button type="button" class="btn btn-outline" onclick="closeModal('editExerciseModal')">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Athlete Guide (Kohli Protocol) -->
+  <div id="athleteGuideModal" class="modal-backdrop">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>🏆 Virat Kohli Athletic Guide</h3>
+        <button class="icon-btn" onclick="closeModal('athleteGuideModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        
+        <div class="guide-card">
+          <h4>🔥 7 - 12 - 15 Reps Science (Reverse Pyramid)</h4>
+          <p>Aapka 7, 12, 15 ka plan scientifically bohot zabardast hai:</p>
+          <ul>
+            <li><strong>Set 1 (Heavy 7 Reps @ 80%):</strong> Raw strength aur fast-twitch muscle fibers trigger karta hai jisse athletic power aati hai.</li>
+            <li><strong>Set 2 (Moderate 12 Reps @ 70%):</strong> Muscle hypertrophy (shape aur size) build karta hai.</li>
+            <li><strong>Set 3 (Burnout 15 Reps @ 60%):</strong> Muscle endurance, vascularity aur deep burn deta hai bina joint pain ke.</li>
+            <li><strong>Note:</strong> Set 1 se pehle hamesha 2 light warm-up sets karein taaki injury ka koi chance na rahe.</li>
+          </ul>
+        </div>
+
+        <div class="guide-card">
+          <h4>⚡ 6-Day Athletic Schedule Ka Logic</h4>
+          <ul>
+            <li><strong>Mon (Chest):</strong> Push power & core stability.</li>
+            <li><strong>Tue (Back):</strong> V-Taper posture & pulling strength (deadlifts).</li>
+            <li><strong>Wed (Shoulders + Core):</strong> 3D delts & rotational bat/throw power.</li>
+            <li><strong>Thu (Arms & Grip):</strong> Biceps, triceps & crushing forearm grip.</li>
+            <li><strong>Fri (Functional HIIT):</strong> Kettlebells, box jumps, sprints & fat burning.</li>
+            <li><strong>Sat (Legs):</strong> Squats & single-leg balance for speed & jumping.</li>
+            <li><strong>Sun (Recovery):</strong> Foam rolling & mobility flow.</li>
+          </ul>
+        </div>
+
+        <div class="guide-card">
+          <h4>🥗 Virat Kohli Nutrition & Recovery Rules</h4>
+          <ul>
+            <li><strong>Protein:</strong> 1.6g to 2g per kg bodyweight (Eggs, Paneer/Tofu, Soya, Chicken/Fish, Whey).</li>
+            <li><strong>Hydration:</strong> Workout ke dauran 1-1.5L paani aur din bhar me 3.5-4L paani zaroori hai.</li>
+            <li><strong>Rest:</strong> 7-8 ghante ki uninterrupted neend. Muscles gym me nahi, sote waqt recover aur grow hote hain.</li>
+          </ul>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="closeModal('athleteGuideModal')">Samajh Gaya!</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Backup & Restore -->
+  <div id="backupModal" class="modal-backdrop">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>💾 Workout Data Backup & Restore</h3>
+        <button class="icon-btn" onclick="closeModal('backupModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px;">
+          Aapka saara data aapke browser / phone memory me 100% offline save rehta hai. Phone change karne ya browser history clear karne par data safe rakhne ke liye backup file download kar sakte hain.
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div style="background: var(--bg-card); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+            <h4 style="color: #ffffff; margin-bottom: 6px;">📥 Backup Download Karein</h4>
+            <p style="color: var(--text-dim); font-size: 0.8rem; margin-bottom: 12px;">Apne saare custom exercises aur logged weights ka JSON file save karein.</p>
+            <button class="btn btn-primary" onclick="exportWorkoutData()">Download Backup File</button>
+          </div>
+
+          <div style="background: var(--bg-card); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+            <h4 style="color: #ffffff; margin-bottom: 6px;">📤 Backup Restore Karein</h4>
+            <p style="color: var(--text-dim); font-size: 0.8rem; margin-bottom: 12px;">Pehle se save ki hui backup file upload karein.</p>
+            <input type="file" id="importFileInput" accept=".json" onchange="importWorkoutData(event)" style="color: var(--text-muted); font-size: 0.85rem;">
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="closeModal('backupModal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('open');
+    }
+  </script>
+  <script src="./app.js"></script>
+</body>
+</html>
