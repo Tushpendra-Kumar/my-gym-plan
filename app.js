@@ -614,6 +614,9 @@ function renderWorkoutView() {
             <span class="ex-target">${escapeHtml(ex.target || '')}</span>
           </div>
           <div class="ex-actions">
+            <button class="btn-demo-view" onclick="openExerciseDemoModal('${ex.id}')" title="Form & Video Demo">
+              🎬 Demo
+            </button>
             <span class="sets-progress ${isAllDone ? 'done-badge' : ''}">${completedSets}/${totalSets} Sets</span>
             <button class="icon-btn" onclick="openEditExerciseModal('${ex.id}')" title="Edit / Delete" aria-label="Edit">
               ✏️

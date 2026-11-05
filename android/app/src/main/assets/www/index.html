@@ -295,12 +295,83 @@
     </div>
   </div>
 
+  <!-- Modal: Exercise Form & Video Demo -->
+  <div id="exerciseDemoModal" class="modal-backdrop">
+    <div class="modal-box" style="max-width: 580px;">
+      <div class="modal-header">
+        <div>
+          <h3 id="demoExTitle">Exercise Demo</h3>
+          <span style="font-size: 0.76rem; color: var(--primary); font-weight: 700;">FORM & BIOMECHANICS GUIDE</span>
+        </div>
+        <button class="icon-btn" onclick="closeModal('exerciseDemoModal')">✕</button>
+      </div>
+
+      <div class="modal-body" style="padding-top: 14px;">
+        <!-- Visual Container (SVG Animation or Custom Video) -->
+        <div id="demoMediaContainer">
+          <!-- Dynamically Injected -->
+        </div>
+
+        <!-- Muscle & Tempo Grid -->
+        <div class="demo-info-grid">
+          <div class="demo-info-box">
+            <span class="demo-info-label">PRIMARY TARGET</span>
+            <span id="demoExPrimary" class="demo-info-val" style="color: var(--primary);">-</span>
+          </div>
+          <div class="demo-info-box">
+            <span class="demo-info-label">TEMPO PROTOCOL</span>
+            <span id="demoExTempo" class="demo-info-val">-</span>
+          </div>
+          <div class="demo-info-box" style="grid-column: span 2;">
+            <span class="demo-info-label">SECONDARY MUSCLES</span>
+            <span id="demoExSecondary" class="demo-info-val" style="color: #94a3b8;">-</span>
+          </div>
+        </div>
+
+        <!-- Step-by-Step Instructions -->
+        <div class="demo-step-box">
+          <strong>1. Stance & Setup:</strong>
+          <div id="demoExSetup">-</div>
+        </div>
+
+        <div class="demo-step-box">
+          <strong>2. Proper Movement Execution:</strong>
+          <div id="demoExExecution">-</div>
+        </div>
+
+        <div class="demo-mistake-box">
+          <strong>⚠️ Common Mistake:</strong>
+          <div id="demoExMistakes">-</div>
+        </div>
+
+        <!-- Custom Video/GIF Uploader -->
+        <div class="upload-video-wrapper">
+          <p>Apne phone se is exercise ki koi bhi 5-10 second clip ya GIF save karna chahte hain?</p>
+          <input type="file" id="mediaUploadInput" class="hidden-file-input" accept="video/*,image/gif" onchange="handleMediaUpload(event)">
+          <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+            <button class="btn btn-outline" style="font-size: 0.8rem; padding: 6px 14px;" onclick="document.getElementById('mediaUploadInput').click()">
+              🎥 Apni Video / GIF Dalein
+            </button>
+            <button id="btnRemoveCustomMedia" class="btn btn-danger-subtle" style="display: none;" onclick="removeActiveCustomMedia()">
+              🗑️ Remove Custom Video
+            </button>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="closeModal('exerciseDemoModal')">Samajh Gaya (Done)</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     function openModal(id) {
       const el = document.getElementById(id);
       if (el) el.classList.add('open');
     }
   </script>
+  <script src="./visual-guides.js"></script>
   <script src="./app.js"></script>
 </body>
 </html>
