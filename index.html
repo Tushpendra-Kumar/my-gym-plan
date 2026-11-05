@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Tushu Gym Plan - Athletic Protocol (100% Offline)</title>
+  <title>Tushu Gym Plan - Glass Athletic Edition (v0.01)</title>
   
   <!-- PWA Meta Tags -->
-  <meta name="theme-color" content="#faf7f0">
-  <meta name="description" content="Tushu Gym Plan - Personal Athletic Workout Planner & Tracker. 7-12-15 Reverse Pyramid Scheme. Completely Offline PWA.">
+  <meta name="theme-color" content="#fbf8f3">
+  <meta name="description" content="Tushu Gym Plan - Ultra-Premium Glassmorphic Fitness & Workout App. 7-12-15 Protocol. 100% Offline.">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Tushu Gym Plan">
@@ -19,57 +19,483 @@
 </head>
 <body>
 
-  <!-- PWA Install Banner (Dismissible) -->
-  <div id="pwaInstallBanner" class="pwa-banner">
-    <span>📲 Phone me offline chalane ke liye install karein</span>
-    <div style="display: flex; gap: 8px; align-items: center;">
-      <button id="btnInstallPwa" class="pwa-btn">Install App</button>
-      <button class="icon-btn" style="color: #ffffff; font-size: 1.1rem; padding: 2px 6px;" onclick="dismissPwaBanner()">✕</button>
+  <!-- ===================================================
+       1. ONBOARDING WELCOME SCREEN (Reference Screen 1)
+       Get Started -> Direct Login into App!
+       =================================================== -->
+  <div id="viewOnboarding" class="onboarding-screen">
+    <div class="onboarding-top-bar">
+      <div class="onboarding-circle-deco">⚡</div>
+      <button class="btn-skip" onclick="completeOnboarding()">Skip</button>
+    </div>
+
+    <!-- Hero Athletic Visual -->
+    <div class="onboarding-hero">
+      <svg class="onboarding-athlete-svg" viewBox="0 0 300 320" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="heroEmeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#10b981" />
+            <stop offset="100%" stop-color="#059669" />
+          </linearGradient>
+        </defs>
+        <!-- Backdrop Glow -->
+        <circle cx="150" cy="150" r="110" fill="rgba(16, 185, 129, 0.12)" />
+        <circle cx="150" cy="150" r="85" fill="rgba(255, 255, 255, 0.7)" />
+        <!-- Athletic Lifter Icon / Pose -->
+        <circle cx="150" cy="85" r="24" fill="#1e293b" />
+        <!-- Torso & Arms -->
+        <path d="M125,120 Q150,110 175,120 L165,190 L135,190 Z" fill="url(#heroEmeraldGrad)" />
+        <!-- Arms in flex / stretch -->
+        <line x1="125" y1="125" x2="95" y2="155" stroke="#1e293b" stroke-width="12" stroke-linecap="round" />
+        <line x1="175" y1="125" x2="205" y2="155" stroke="#1e293b" stroke-width="12" stroke-linecap="round" />
+        <!-- Dumbbells in hand -->
+        <rect x="85" y="145" width="20" height="20" rx="4" fill="#0f172a" />
+        <rect x="195" y="145" width="20" height="20" rx="4" fill="#0f172a" />
+        <!-- Legs in athletic stance -->
+        <line x1="140" y1="190" x2="115" y2="260" stroke="#1e293b" stroke-width="14" stroke-linecap="round" />
+        <line x1="160" y1="190" x2="185" y2="260" stroke="#1e293b" stroke-width="14" stroke-linecap="round" />
+      </svg>
+    </div>
+
+    <!-- Onboarding Text & Action -->
+    <div class="onboarding-content">
+      <h1 class="onboarding-title">Your Fitness<br>Journey Starts Here</h1>
+      <p class="onboarding-desc">Track workouts, 7-12-15 rep scheme, athlete meals & become your best self.</p>
+      
+      <button class="btn-get-started" onclick="completeOnboarding()">
+        Get Started <span>➔</span>
+      </button>
+
+      <div class="onboarding-footer-badge">
+        <div class="avatar-stack">
+          <div class="avatar-stack-img" style="background: #10b981;">T</div>
+          <div class="avatar-stack-img" style="background: #3b82f6;">★</div>
+          <div class="avatar-stack-img" style="background: #f59e0b;">⚡</div>
+        </div>
+        <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted);">Tushu Sportsman Edition • v0.01</span>
+      </div>
     </div>
   </div>
 
-  <!-- App Header -->
+  <!-- ===================================================
+       2. TOP APP HEADER (Reference Screen 2 Top)
+       Left: ☰  |  Center: Hi, Tushu 👋  |  Right: 🔔
+       =================================================== -->
   <header class="app-header">
     <div class="header-container">
       
-      <!-- Left: Three-Line (Hamburger) Menu Button -->
-      <button class="nav-icon-btn" onclick="toggleSideDrawer()" aria-label="Open Menu" title="Menu">
+      <!-- Left: 3-Line Hamburger Menu -->
+      <button class="nav-icon-btn" onclick="toggleSideDrawer()" aria-label="Open Navigation Drawer" title="Menu">
         <span class="hamburger-line"></span>
         <span class="hamburger-line"></span>
         <span class="hamburger-line"></span>
       </button>
 
-      <!-- Center: Brand with Version 0.01 -->
-      <div class="brand-wrapper" onclick="goToTodayWorkout()" style="cursor: pointer;">
-        <div class="brand-icon">⚡</div>
-        <div>
-          <div class="brand-title">
-            TUSHU <span>GYM PLAN</span>
-            <span class="version-badge">v0.01</span>
-          </div>
-          <span class="brand-subtitle">Sportsman 7-12-15 Protocol</span>
+      <!-- Center Greeting: Hi, Tushu 👋 -->
+      <div class="header-greeting-wrap" onclick="switchView('home')">
+        <div class="header-greeting">
+          Hi, Tushu <span>👋</span>
         </div>
+        <span class="header-subgreeting">Ready to crush your goals? • v0.01</span>
       </div>
 
-      <!-- Right: User & Admin Dashboard Access Button -->
-      <div class="header-actions">
-        <button class="btn-dashboard-pill" onclick="openSportsmanDashboard()" title="Tushu Sportsman Dashboard (Admin & User)">
-          <span class="avatar-circle">T</span>
-          <span class="dashboard-text">Dashboard</span>
-        </button>
-      </div>
+      <!-- Right: Notification Bell -->
+      <button class="btn-notification" onclick="openNotificationsModal()" aria-label="Notifications" title="Notifications">
+        <span>🔔</span>
+        <span class="notification-dot"></span>
+      </button>
 
     </div>
   </header>
 
-  <!-- Left Side Drawer (Navigation & Settings) -->
+  <!-- ===================================================
+       3. MAIN WRAPPER (Dynamic Tab Views)
+       =================================================== -->
+  <main class="main-wrapper">
+
+    <!-- -----------------------------------------------
+         VIEW 1: HOME DASHBOARD (Screen 2 in Reference)
+         ----------------------------------------------- -->
+    <div id="viewHome" class="app-view active">
+
+      <!-- Today's Progress Glass Card (Circle Ring + Metrics) -->
+      <section class="glass-card progress-card">
+        <div class="card-header-row">
+          <h2 class="card-title">Today's Progress</h2>
+          <span id="homeTodayName" style="font-size: 0.82rem; font-weight: 800; color: var(--primary);">Monday</span>
+        </div>
+
+        <div class="progress-hero-content">
+          <!-- Circular Ring SVG -->
+          <div class="circle-progress-wrapper">
+            <svg class="circle-svg" viewBox="0 0 100 100">
+              <defs>
+                <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#10b981" />
+                  <stop offset="100%" stop-color="#059669" />
+                </linearGradient>
+              </defs>
+              <circle class="circle-bg" cx="50" cy="50" r="45"></circle>
+              <circle id="homeProgressCircle" class="circle-bar" cx="50" cy="50" r="45"></circle>
+            </svg>
+            <div id="homeProgressPct" class="circle-text">0%</div>
+          </div>
+
+          <!-- Progress Metrics List -->
+          <div class="progress-metrics-list">
+            <div class="metric-row">
+              <div class="metric-row-left">
+                <span class="metric-dot" style="background: #10b981;"></span>
+                <span>Workout</span>
+              </div>
+              <span id="homeStatFocus" class="metric-row-val">Chest</span>
+            </div>
+
+            <div class="metric-row">
+              <div class="metric-row-left">
+                <span class="metric-dot" style="background: #fb923c;"></span>
+                <span>Volume</span>
+              </div>
+              <span id="homeStatVolume" class="metric-row-val">0 kg</span>
+            </div>
+
+            <div class="metric-row">
+              <div class="metric-row-left">
+                <span class="metric-dot" style="background: #38bdf8;"></span>
+                <span>Sets Done</span>
+              </div>
+              <span id="homeStatSets" class="metric-row-val">0 / 15</span>
+            </div>
+
+            <div class="metric-row">
+              <div class="metric-row-left">
+                <span class="metric-dot" style="background: #a855f7;"></span>
+                <span>Active Time</span>
+              </div>
+              <span id="homeStatTime" class="metric-row-val">~45 min</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Weekly Activity Glass Card (Bar Chart) -->
+      <section class="glass-card weekly-activity-card">
+        <div class="card-header-row">
+          <h2 class="card-title">Weekly Activity</h2>
+          <span style="font-size: 0.74rem; font-weight: 700; color: var(--text-dim);">7-DAY SPLIT</span>
+        </div>
+
+        <div class="bar-chart-container" id="weeklyBarsContainer">
+          <!-- Dynamically populated via JS -->
+        </div>
+      </section>
+
+      <!-- Quick Actions 2x2 Glass Grid (Screen 2 Bottom) -->
+      <div class="card-header-row" style="margin: 6px 4px 10px;">
+        <span style="font-size: 0.85rem; font-weight: 800; color: var(--text-main);">Quick Actions</span>
+      </div>
+
+      <div class="quick-actions-grid">
+        <div class="action-tile" onclick="switchView('workouts')">
+          <div class="action-tile-icon" style="background: #ecfdf5; color: #10b981;">🏃</div>
+          <div class="action-tile-text">
+            <span class="action-tile-title">Start Workout</span>
+            <span class="action-tile-sub">Today's 7-12-15</span>
+          </div>
+        </div>
+
+        <div class="action-tile" onclick="switchView('nutrition')">
+          <div class="action-tile-icon" style="background: #fff7ed; color: #ea580c;">🥗</div>
+          <div class="action-tile-text">
+            <span class="action-tile-title">Log Food</span>
+            <span class="action-tile-sub">Diet & Meals</span>
+          </div>
+        </div>
+
+        <div class="action-tile" onclick="switchView('activity')">
+          <div class="action-tile-icon" style="background: #eff6ff; color: #2563eb;">📊</div>
+          <div class="action-tile-text">
+            <span class="action-tile-title">Body Stats</span>
+            <span class="action-tile-sub">PRs & Volume</span>
+          </div>
+        </div>
+
+        <div class="action-tile" onclick="toggleRestTimerQuick()">
+          <div class="action-tile-icon" style="background: #faf5ff; color: #9333ea;">⏱️</div>
+          <div class="action-tile-text">
+            <span class="action-tile-title">Rest Timer</span>
+            <span class="action-tile-sub">Stopwatch (60s)</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- -----------------------------------------------
+         VIEW 2: WORKOUTS PLANNER (Screen 3 & 4 Reference)
+         7-12-15 Reverse Pyramid Protocol
+         ----------------------------------------------- -->
+    <div id="viewWorkouts" class="app-view">
+
+      <!-- Header & Day Pills -->
+      <div class="card-header-row" style="margin-bottom: 10px;">
+        <h2 class="card-title" style="font-size: 1.35rem;">Workouts</h2>
+        <button class="btn btn-primary" style="padding: 6px 14px; font-size: 0.78rem;" onclick="openAddExerciseModal()">
+          + Exercise
+        </button>
+      </div>
+
+      <!-- Filter / Day Pills Row (Screen 3 Top) -->
+      <div class="filter-pills-row" id="workoutDayPills">
+        <!-- Injected via JavaScript -->
+      </div>
+
+      <!-- Today's Workout Glass Hero Banner -->
+      <section class="glass-card workout-today-banner">
+        <span id="workoutTodayBadge" class="today-badge-pill">TODAY'S TARGET</span>
+        <h1 id="workoutDayTitle" class="banner-day-title">Chest & Athletic Core</h1>
+        <p id="workoutDayFocus" class="banner-day-focus">Push Strength & Core Stability</p>
+        
+        <div class="scheme-pill-box">
+          <span>🎯 <strong>Scheme:</strong> Set 1 (Heavy 7) ➔ Set 2 (Moderate 12) ➔ Set 3 (Light 15)</span>
+        </div>
+      </section>
+
+      <!-- Exercise Cards List -->
+      <div id="exerciseList" class="exercise-list">
+        <!-- Injected via JavaScript -->
+      </div>
+
+      <div style="display: flex; gap: 10px; margin-top: 16px;">
+        <button class="btn btn-outline" style="flex: 1;" onclick="toggleRestTimerQuick()">
+          ⏱️ Rest Timer
+        </button>
+        <button class="btn btn-danger-subtle" style="flex: 1;" onclick="resetTodayWorkout()">
+          🔄 Reset Sets
+        </button>
+      </div>
+
+    </div>
+
+
+    <!-- -----------------------------------------------
+         VIEW 3: ACTIVITY & STATS (Screen 5 in Reference)
+         Smooth Wave Chart & Activity Rings
+         ----------------------------------------------- -->
+    <div id="viewActivity" class="app-view">
+
+      <h2 class="card-title" style="font-size: 1.35rem; margin-bottom: 12px;">Activity & Stats</h2>
+
+      <!-- Day / Week / Month / Year Pills -->
+      <div class="time-pills-row">
+        <button class="time-pill" onclick="setTimePill(this)">Day</button>
+        <button class="time-pill active" onclick="setTimePill(this)">Week</button>
+        <button class="time-pill" onclick="setTimePill(this)">Month</button>
+        <button class="time-pill" onclick="setTimePill(this)">Year</button>
+      </div>
+
+      <!-- Volume & Intensity Curve Wave Chart Glass Card -->
+      <section class="glass-card activity-card">
+        <div class="card-header-row">
+          <div>
+            <span style="font-size: 0.72rem; font-weight: 800; color: var(--text-dim); text-transform: uppercase;">Total Volume Lifted</span>
+            <div id="actVolumeNum" style="font-size: 1.6rem; font-weight: 900; color: var(--text-main); margin-top: 2px;">
+              0 kg
+            </div>
+          </div>
+          <span style="font-size: 0.76rem; font-weight: 800; color: #10b981; background: #ecfdf5; padding: 4px 10px; border-radius: var(--radius-full);">
+            ▲ 14% vs last week
+          </span>
+        </div>
+
+        <!-- SVG Wave Chart Curve -->
+        <div class="chart-container">
+          <svg class="chart-svg" viewBox="0 0 300 120" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="waveGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="rgba(16, 185, 129, 0.35)" />
+                <stop offset="100%" stop-color="rgba(16, 185, 129, 0.0)" />
+              </linearGradient>
+            </defs>
+            <!-- Smooth Area Fill -->
+            <path d="M0,100 Q40,65 80,75 T160,40 T240,60 T300,30 L300,120 L0,120 Z" fill="url(#waveGrad)" />
+            <!-- Line Path -->
+            <path d="M0,100 Q40,65 80,75 T160,40 T240,60 T300,30" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" />
+            <!-- Active Data Point -->
+            <circle cx="240" cy="60" r="5" fill="#ffffff" stroke="#10b981" stroke-width="3" />
+          </svg>
+          <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-dim); font-weight: 700; padding: 4px 6px 0;">
+            <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Activity Rings Glass Card (Screen 5 Middle) -->
+      <section class="glass-card activity-rings-card">
+        <div class="rings-svg-wrapper">
+          <svg viewBox="0 0 100 100" style="width: 100px; height: 100px; transform: rotate(-90deg);">
+            <!-- Outer Ring (Move/Volume) -->
+            <circle cx="50" cy="50" r="42" fill="none" stroke="#fee2e2" stroke-width="7"></circle>
+            <circle id="ringMove" cx="50" cy="50" r="42" fill="none" stroke="#ef4444" stroke-width="7" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="66"></circle>
+            <!-- Middle Ring (Exercise/Sets) -->
+            <circle cx="50" cy="50" r="32" fill="none" stroke="#dcfce7" stroke-width="7"></circle>
+            <circle id="ringExercise" cx="50" cy="50" r="32" fill="none" stroke="#10b981" stroke-width="7" stroke-linecap="round" stroke-dasharray="201" stroke-dashoffset="50"></circle>
+            <!-- Inner Ring (Stand/Discipline) -->
+            <circle cx="50" cy="50" r="22" fill="none" stroke="#e0f2fe" stroke-width="7"></circle>
+            <circle id="ringStand" cx="50" cy="50" r="22" fill="none" stroke="#0ea5e9" stroke-width="7" stroke-linecap="round" stroke-dasharray="138" stroke-dashoffset="20"></circle>
+          </svg>
+        </div>
+
+        <div class="rings-legend">
+          <div class="ring-legend-item">
+            <span style="color: #ef4444; font-weight: 800;">● Volume Lifted</span>
+            <span id="legendMove" style="font-weight: 900; color: var(--text-main);">0 / 5,000 kg</span>
+          </div>
+          <div class="ring-legend-item">
+            <span style="color: #10b981; font-weight: 800;">● Target Sets</span>
+            <span id="legendSets" style="font-weight: 900; color: var(--text-main);">0 / 15 sets</span>
+          </div>
+          <div class="ring-legend-item">
+            <span style="color: #0ea5e9; font-weight: 800;">● Sportsman Discipline</span>
+            <span id="legendRest" style="font-weight: 900; color: var(--text-main);">100% Focused</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Personal Records Glass Card -->
+      <section class="glass-card" style="padding: 18px;">
+        <h3 style="font-size: 0.95rem; font-weight: 900; color: var(--text-main); margin-bottom: 12px;">🏆 Heaviest Lifts (PRs)</h3>
+        <div id="activityPrList">
+          <!-- Dynamically populated via JS -->
+        </div>
+      </section>
+
+    </div>
+
+
+    <!-- -----------------------------------------------
+         VIEW 4: NUTRITION & FOOD (Screen 6 in Reference)
+         Calorie Bar, Macros & Daily Meals
+         ----------------------------------------------- -->
+    <div id="viewNutrition" class="app-view">
+
+      <h2 class="card-title" style="font-size: 1.35rem; margin-bottom: 12px;">Nutrition & Diet</h2>
+
+      <!-- Calorie Target Glass Card -->
+      <section class="glass-card nutrition-card">
+        <div class="calorie-target-wrap">
+          <div>
+            <span style="font-size: 0.72rem; font-weight: 800; color: var(--text-dim); text-transform: uppercase;">Calorie Target</span>
+            <div class="calorie-num">2,400 <span style="font-size: 1rem; color: var(--text-muted); font-weight: 700;">kcal</span></div>
+          </div>
+          <span id="nutriConsumed" style="font-size: 0.84rem; font-weight: 800; color: var(--text-main);">1,750 / 2,400</span>
+        </div>
+
+        <div class="calorie-bar-track">
+          <div class="calorie-bar-fill" id="nutriBarFill"></div>
+        </div>
+
+        <!-- Macro 3-Pills Grid -->
+        <div class="macros-grid">
+          <div class="macro-box">
+            <span class="macro-label">Carbs</span>
+            <div class="macro-val">220g</div>
+            <span class="macro-pct pct-carbs">45%</span>
+          </div>
+          <div class="macro-box">
+            <span class="macro-label">Protein</span>
+            <div class="macro-val">160g</div>
+            <span class="macro-pct pct-protein">30%</span>
+          </div>
+          <div class="macro-box">
+            <span class="macro-label">Fats</span>
+            <div class="macro-val">60g</div>
+            <span class="macro-pct pct-fats">25%</span>
+          </div>
+        </div>
+
+        <!-- Today's Meals Section -->
+        <div class="card-header-row" style="margin-bottom: 10px;">
+          <h3 style="font-size: 0.95rem; font-weight: 900; color: var(--text-main);">Today's Meals</h3>
+          <span style="font-size: 0.72rem; color: var(--primary); font-weight: 800;">KOHLI CLEAN FUEL</span>
+        </div>
+
+        <div class="meals-list" id="mealsListContainer">
+          <!-- Injected via JavaScript -->
+        </div>
+
+        <button class="btn-log-food" onclick="openAddMealModal()">
+          <span>+</span> Log Food / Add Meal
+        </button>
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- ===================================================
+       4. FLOATING FROSTED GLASS BOTTOM NAVIGATION BAR
+       (Screen 2-6 bottom bar in reference image)
+       =================================================== -->
+  <nav class="bottom-nav-bar">
+    <button id="tabHome" class="bottom-nav-item active" onclick="switchView('home')">
+      <span class="bottom-nav-icon">🏠</span>
+      <span class="bottom-nav-label">Home</span>
+    </button>
+    <button id="tabWorkouts" class="bottom-nav-item" onclick="switchView('workouts')">
+      <span class="bottom-nav-icon">🏋️</span>
+      <span class="bottom-nav-label">Workouts</span>
+    </button>
+    <button id="tabActivity" class="bottom-nav-item" onclick="switchView('activity')">
+      <span class="bottom-nav-icon">📊</span>
+      <span class="bottom-nav-label">Activity</span>
+    </button>
+    <button id="tabNutrition" class="bottom-nav-item" onclick="switchView('nutrition')">
+      <span class="bottom-nav-icon">🥗</span>
+      <span class="bottom-nav-label">Food</span>
+    </button>
+    <button id="tabTimer" class="bottom-nav-item" onclick="toggleRestTimerQuick()">
+      <span class="bottom-nav-icon">⏱️</span>
+      <span class="bottom-nav-label">Timer</span>
+    </button>
+  </nav>
+
+  <!-- ===================================================
+       5. FLOATING REST STOPWATCH WIDGET
+       =================================================== -->
+  <div id="restTimerWidget" class="rest-timer-widget">
+    <div class="timer-circle-wrapper">
+      <svg class="timer-svg" viewBox="0 0 100 100">
+        <circle class="timer-bg-circle" cx="50" cy="50" r="45"></circle>
+        <circle id="timerProgressCircle" class="timer-progress-circle" cx="50" cy="50" r="45"></circle>
+      </svg>
+      <div id="timerCountdown" class="timer-countdown">01:00</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 4px;">
+      <span style="font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); font-weight: 800;">Rest Timer</span>
+      <div class="timer-quick-presets">
+        <button class="preset-pill" onclick="startRestTimer(45)">45s</button>
+        <button class="preset-pill" onclick="startRestTimer(60)">60s</button>
+        <button class="preset-pill" onclick="startRestTimer(90)">90s</button>
+        <button class="preset-pill" onclick="addTimerSeconds(30)">+30s</button>
+      </div>
+    </div>
+
+    <button class="icon-btn" onclick="stopRestTimer()" title="Close Timer">✕</button>
+  </div>
+
+  <!-- ===================================================
+       6. SLIDE-OVER LEFT SIDE DRAWER (☰)
+       =================================================== -->
   <div id="drawerBackdrop" class="drawer-backdrop" onclick="closeSideDrawer()">
     <nav class="side-drawer" onclick="event.stopPropagation()">
       <div class="drawer-header">
         <div class="drawer-user-info">
           <div class="drawer-avatar">T</div>
           <div>
-            <div class="drawer-name">Tushu <span class="version-badge">v0.01</span></div>
+            <div class="drawer-name">Tushu <span style="font-size: 0.65rem; background: #ecfdf5; color: #059669; padding: 2px 6px; border-radius: 999px;">v0.01</span></div>
             <span class="drawer-role">👑 Sole Admin & Athlete</span>
           </div>
         </div>
@@ -77,7 +503,21 @@
       </div>
 
       <div class="drawer-body">
-        <div class="drawer-section-title">DAILY WORKOUTS</div>
+        <div class="drawer-section-title">NAVIGATION</div>
+        <a class="drawer-item" onclick="closeSideDrawer(); switchView('home');">
+          <span class="drawer-item-icon">🏠</span> Home Dashboard
+        </a>
+        <a class="drawer-item" onclick="closeSideDrawer(); switchView('workouts');">
+          <span class="drawer-item-icon">🏋️</span> 7-Day Workout Plan
+        </a>
+        <a class="drawer-item" onclick="closeSideDrawer(); switchView('activity');">
+          <span class="drawer-item-icon">📊</span> Activity & PR Stats
+        </a>
+        <a class="drawer-item" onclick="closeSideDrawer(); switchView('nutrition');">
+          <span class="drawer-item-icon">🥗</span> Athlete Nutrition & Diet
+        </a>
+
+        <div class="drawer-section-title">DAILY SCHEDULE JUMP</div>
         <a class="drawer-item" onclick="selectDayFromDrawer('monday')">
           <span class="drawer-item-icon">⚡</span> Mon: Chest & Core
         </a>
@@ -100,135 +540,176 @@
           <span class="drawer-item-icon">🧘</span> Sun: Active Recovery
         </a>
 
-        <div class="drawer-section-title">SPORTSMAN HUB</div>
-        <a class="drawer-item" onclick="closeSideDrawer(); openSportsmanDashboard();">
-          <span class="drawer-item-icon">📊</span> Personal Dashboard
-          <span class="drawer-item-badge">Active</span>
-        </a>
-        <a class="drawer-item" onclick="closeSideDrawer(); openModal('athleteGuideModal');">
-          <span class="drawer-item-icon">🏆</span> Virat Kohli Rules
-        </a>
+        <div class="drawer-section-title">SPORTSMAN SETTINGS</div>
         <a class="drawer-item" onclick="closeSideDrawer(); openModal('backupModal');">
           <span class="drawer-item-icon">💾</span> Backup / Restore Data
         </a>
         <a class="drawer-item" onclick="closeSideDrawer(); resetTodayWorkout();">
           <span class="drawer-item-icon">🔄</span> Reset Today's Sets
         </a>
+        <a class="drawer-item" onclick="closeSideDrawer(); showOnboardingScreen();">
+          <span class="drawer-item-icon">✨</span> View Welcome Screen
+        </a>
 
-        <div class="drawer-section-title">MULTI-USER ACCESS</div>
-        <div class="partner-box" style="margin: 6px 4px 10px;">
+        <div style="background: rgba(16, 185, 129, 0.08); border: 1px dashed rgba(16, 185, 129, 0.4); border-radius: var(--radius-sm); padding: 10px 12px; margin: 12px 4px 6px; font-size: 0.78rem; color: #065f46; line-height: 1.4;">
           👥 <strong>Dost Ko Add Karna:</strong><br>
-          Filhaal ye app sirf aapke (Tushu) single-user mode ke liye locked hai. Jab aap bolenge, hum multi-user feature on kar denge!
+          Admin & User dono abhi aap (Tushu) hi hain. Jab aap kisi dost ko add karenge, hum yahan unka profile switch option bana denge.
         </div>
       </div>
 
       <div class="drawer-footer">
         <span>Tushu Gym Plan</span>
-        <span>Version 0.01</span>
+        <span>Glass Edition v0.01</span>
       </div>
     </nav>
   </div>
 
-  <!-- Main Container -->
-  <main class="main-wrapper">
-
-    <!-- Day Navigation Scroll Bar -->
-    <div class="day-tabs-container">
-      <div id="dayTabs" class="day-tabs-bar">
-        <!-- Injected via JavaScript -->
+  <!-- ===================================================
+       7. NOTIFICATIONS MODAL (Right 🔔 Icon)
+       =================================================== -->
+  <div id="notificationsModal" class="modal-backdrop">
+    <div class="modal-box" style="max-width: 440px;">
+      <div class="modal-header">
+        <h3 style="font-size: 1.15rem;">🔔 Athlete Notifications</h3>
+        <button class="icon-btn" onclick="closeModal('notificationsModal')">✕</button>
       </div>
-    </div>
-
-    <!-- Active Day Hero & Summary -->
-    <section class="workout-hero-card">
-      <div class="hero-header">
-        <div class="hero-day-title-wrap">
-          <h1 id="dayTitle" class="hero-day-title">Monday Workout</h1>
-          <span id="dayTodayBadge" class="hero-today-tag">TODAY</span>
+      <div class="modal-body">
+        <div class="notification-item">
+          <div class="notif-icon" style="background: #e0f2fe; color: #0284c7;">💧</div>
+          <div class="notif-content">
+            <span class="notif-title">Hydration Reminder</span>
+            <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px;">Workout me 1.5L aur din bhar me 3.5L paani peena mat bhulna.</p>
+            <span class="notif-time">Daily Protocol</span>
+          </div>
         </div>
-        <span id="dayFocus" class="hero-focus-pill">Push Strength & Core</span>
-      </div>
 
-      <p id="dayDescription" class="hero-description">
-        Build a broad athletic chest and solid core with 7-12-15 reverse pyramid scheme.
-      </p>
-
-      <!-- Reps Scheme Explanation Pill -->
-      <div style="background: #ecfdf5; border: 1px dashed #a7f3d0; border-radius: var(--radius-sm); padding: 8px 12px; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: #065f46;">
-        <span>🎯 <strong>Scheme:</strong> Set 1 (Heavy 7 Reps) ➔ Set 2 (Moderate 12 Reps) ➔ Set 3 (Light 15 Reps)</span>
-      </div>
-
-      <!-- Stats Strip -->
-      <div class="stats-strip">
-        <div class="stat-item">
-          <span class="stat-label">SETS COMPLETED</span>
-          <span id="statSetsCounter" class="stat-val highlight">0 / 0</span>
+        <div class="notification-item">
+          <div class="notif-icon" style="background: #ecfdf5; color: #059669;">🥩</div>
+          <div class="notif-content">
+            <span class="notif-title">Post-Workout Protein Window</span>
+            <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px;">Workout ke 45 minutes ke andar 30g whey / eggs lene se muscle synthesis maximize hota hai.</p>
+            <span class="notif-time">Muscle Repair</span>
+          </div>
         </div>
-        <div class="stat-item">
-          <span class="stat-label">TOTAL VOLUME LIFTED</span>
-          <span id="statVolume" class="stat-val">0 kg</span>
+
+        <div class="notification-item">
+          <div class="notif-icon" style="background: #fef3c7; color: #d97706;">⚡</div>
+          <div class="notif-content">
+            <span class="notif-title">7-12-15 Scheme Active</span>
+            <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px;">Set 1 me heavy 7 reps se pehle 1-2 light warmup sets zaroori hain.</p>
+            <span class="notif-time">Injury Prevention</span>
+          </div>
         </div>
       </div>
-
-      <!-- Progress Bar -->
-      <div class="progress-track">
-        <div id="workoutProgressBar" class="progress-fill"></div>
-      </div>
-    </section>
-
-    <!-- Congrats Banner -->
-    <div id="congratsBanner" class="congrats-banner">
-      <h4>🔥 Zabardast! Aaj ka workout poora ho gaya!</h4>
-      <p>Virat Kohli mindset: Consistency is the key. Proper nutrition aur 8 ghante rest lena mat bhulna.</p>
-    </div>
-
-    <!-- Actions Bar -->
-    <div class="actions-bar">
-      <button class="btn btn-primary" onclick="openAddExerciseModal()">
-        + Exercise Add Karein
-      </button>
-
-      <div style="display: flex; gap: 8px;">
-        <button class="btn btn-outline" onclick="startRestTimer(60)">
-          ⏱️ Rest Timer (60s)
-        </button>
-        <button class="btn btn-danger-subtle" onclick="resetTodayWorkout()" title="Naye hafte ke liye uncheck karein">
-          🔄 Reset Today
-        </button>
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="closeModal('notificationsModal')">Samajh Gaya</button>
       </div>
     </div>
-
-    <!-- Exercises List -->
-    <div id="exerciseList" class="exercise-list">
-      <!-- Injected via JavaScript -->
-    </div>
-
-  </main>
-
-  <!-- Floating Rest Timer Widget -->
-  <div id="restTimerWidget" class="rest-timer-widget">
-    <div class="timer-circle-wrapper">
-      <svg class="timer-svg" viewBox="0 0 100 100">
-        <circle class="timer-bg-circle" cx="50" cy="50" r="45"></circle>
-        <circle id="timerProgressCircle" class="timer-progress-circle" cx="50" cy="50" r="45"></circle>
-      </svg>
-      <div id="timerCountdown" class="timer-countdown">01:00</div>
-    </div>
-
-    <div class="timer-info">
-      <span class="timer-title">Rest Timer</span>
-      <div class="timer-quick-presets">
-        <button class="preset-pill" onclick="startRestTimer(45)">45s</button>
-        <button class="preset-pill" onclick="startRestTimer(60)">60s</button>
-        <button class="preset-pill" onclick="startRestTimer(90)">90s</button>
-        <button class="preset-pill" onclick="addTimerSeconds(30)">+30s</button>
-      </div>
-    </div>
-
-    <button class="timer-close-btn" onclick="stopRestTimer()" title="Timer Band Karein">✕</button>
   </div>
 
-  <!-- Modal: Add Exercise -->
+  <!-- ===================================================
+       8. EXERCISE VIDEO / BIOMECHANICS DEMO MODAL
+       =================================================== -->
+  <div id="exerciseDemoModal" class="modal-backdrop">
+    <div class="modal-box" style="max-width: 560px;">
+      <div class="modal-header">
+        <div>
+          <h3 id="demoExTitle">Exercise Demo</h3>
+          <span style="font-size: 0.74rem; color: var(--primary); font-weight: 800;">5-SEC BIOMECHANICS & FORM GUIDE</span>
+        </div>
+        <button class="icon-btn" onclick="closeModal('exerciseDemoModal')">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div id="demoMediaContainer">
+          <!-- Dynamically Injected SVG or Video -->
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 16px 0;">
+          <div style="background: #faf8f4; border: 1px solid var(--glass-border); padding: 10px 12px; border-radius: var(--radius-sm);">
+            <span style="font-size: 0.68rem; font-weight: 800; color: var(--text-dim); text-transform: uppercase;">PRIMARY TARGET</span>
+            <div id="demoExPrimary" style="font-size: 0.86rem; font-weight: 900; color: var(--primary); margin-top: 2px;">-</div>
+          </div>
+          <div style="background: #faf8f4; border: 1px solid var(--glass-border); padding: 10px 12px; border-radius: var(--radius-sm);">
+            <span style="font-size: 0.68rem; font-weight: 800; color: var(--text-dim); text-transform: uppercase;">TEMPO PROTOCOL</span>
+            <div id="demoExTempo" style="font-size: 0.86rem; font-weight: 800; color: var(--text-main); margin-top: 2px;">-</div>
+          </div>
+        </div>
+
+        <div style="background: #f7f5ed; border-left: 3px solid var(--primary); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 10px 14px; margin-bottom: 10px; font-size: 0.84rem; line-height: 1.45;">
+          <strong>1. Stance & Setup:</strong>
+          <div id="demoExSetup">-</div>
+        </div>
+
+        <div style="background: #f7f5ed; border-left: 3px solid var(--primary); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 10px 14px; margin-bottom: 10px; font-size: 0.84rem; line-height: 1.45;">
+          <strong>2. Proper Movement Execution:</strong>
+          <div id="demoExExecution">-</div>
+        </div>
+
+        <div style="background: #fef2f2; border-left: 3px solid #ef4444; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 10px 14px; margin-bottom: 14px; font-size: 0.84rem; color: #991b1b; line-height: 1.45;">
+          <strong>⚠️ Common Mistake:</strong>
+          <div id="demoExMistakes">-</div>
+        </div>
+
+        <div style="background: #faf8f4; border: 1px dashed var(--glass-border); border-radius: var(--radius-md); padding: 14px; text-align: center;">
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">Apne phone se is exercise ki koi bhi 5-10 second clip ya GIF save karna chahte hain?</p>
+          <input type="file" id="mediaUploadInput" style="display: none;" accept="video/*,image/gif" onchange="handleMediaUpload(event)">
+          <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+            <button class="btn btn-outline" style="font-size: 0.8rem; padding: 6px 14px;" onclick="document.getElementById('mediaUploadInput').click()">
+              🎥 Apni Video / GIF Dalein
+            </button>
+            <button id="btnRemoveCustomMedia" class="btn btn-danger-subtle" style="display: none;" onclick="removeActiveCustomMedia()">
+              🗑️ Remove Video
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="closeModal('exerciseDemoModal')">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       9. MODAL: ADD CUSTOM MEAL (Nutrition Screen)
+       =================================================== -->
+  <div id="addMealModal" class="modal-backdrop">
+    <div class="modal-box" style="max-width: 440px;">
+      <div class="modal-header">
+        <h3>+ Log Food / Meal</h3>
+        <button class="icon-btn" onclick="closeModal('addMealModal')">✕</button>
+      </div>
+      <form onsubmit="submitAddMeal(event)">
+        <div class="modal-body">
+          <div style="margin-bottom: 14px;">
+            <label style="display: block; font-size: 0.78rem; font-weight: 800; color: var(--text-muted); margin-bottom: 6px;">MEAL NAME *</label>
+            <input type="text" id="mealInputName" class="form-input" placeholder="e.g. Boiled Eggs with Toast" required style="width: 100%; padding: 10px; border-radius: var(--radius-sm); border: 1px solid #cbd5e1; outline: none;">
+          </div>
+          <div style="margin-bottom: 14px;">
+            <label style="display: block; font-size: 0.78rem; font-weight: 800; color: var(--text-muted); margin-bottom: 6px;">ESTIMATED CALORIES (KCAL)</label>
+            <input type="number" id="mealInputCalories" class="form-input" placeholder="e.g. 450" style="width: 100%; padding: 10px; border-radius: var(--radius-sm); border: 1px solid #cbd5e1; outline: none;">
+          </div>
+          <div style="margin-bottom: 14px;">
+            <label style="display: block; font-size: 0.78rem; font-weight: 800; color: var(--text-muted); margin-bottom: 6px;">MEAL TYPE</label>
+            <select id="mealInputType" style="width: 100%; padding: 10px; border-radius: var(--radius-sm); border: 1px solid #cbd5e1; outline: none; background: #ffffff;">
+              <option value="Breakfast">🍳 Breakfast</option>
+              <option value="Lunch">🥗 Lunch</option>
+              <option value="Dinner">🍲 Dinner</option>
+              <option value="Snacks">🥛 Snacks / Shake</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('addMealModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Meal</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       10. MODAL: ADD CUSTOM EXERCISE
+       =================================================== -->
   <div id="addExerciseModal" class="modal-backdrop">
     <div class="modal-box">
       <div class="modal-header">
@@ -237,17 +718,17 @@
       </div>
       <form onsubmit="submitAddExercise(event)">
         <div class="modal-body">
-          <div class="form-group">
-            <label for="addExName">Exercise Ka Naam *</label>
-            <input type="text" id="addExName" class="form-input" placeholder="e.g. Incline Dumbbell Press" required>
+          <div style="margin-bottom: 14px;">
+            <label style="display: block; font-size: 0.78rem; font-weight: 800; color: var(--text-muted); margin-bottom: 6px;">EXERCISE KA NAAM *</label>
+            <input type="text" id="addExName" placeholder="e.g. Incline Dumbbell Press" required style="width: 100%; padding: 10px; border-radius: var(--radius-sm); border: 1px solid #cbd5e1; outline: none;">
           </div>
-          <div class="form-group">
-            <label for="addExTarget">Muscle Target / Focus</label>
-            <input type="text" id="addExTarget" class="form-input" placeholder="e.g. Upper Chest / Shoulders">
+          <div style="margin-bottom: 14px;">
+            <label style="display: block; font-size: 0.78rem; font-weight: 800; color: var(--text-muted); margin-bottom: 6px;">TARGET MUSCLE</label>
+            <input type="text" id="addExTarget" placeholder="e.g. Upper Chest / Delts" style="width: 100%; padding: 10px; border-radius: var(--radius-sm); border: 1px solid #cbd5e1; outline: none;">
           </div>
-          <div class="form-group">
-            <label for="addExNotes">Coach Note / Form Tip</label>
-            <input type="text" id="addExNotes" class="form-input" placeholder="e.g. Squeeze 1 sec at top">
+          <div style="margin-bottom: 14px;">
+            <label style="display: block; font-size: 0.78rem; font-weight: 800; color: var(--text-muted); margin-bottom: 6px;">COACH TIPS</label>
+            <input type="text" id="addExNotes" placeholder="e.g. Squeeze 1 sec at top" style="width: 100%; padding: 10px; border-radius: var(--radius-sm); border: 1px solid #cbd5e1; outline: none;">
           </div>
         </div>
         <div class="modal-footer">
@@ -258,89 +739,9 @@
     </div>
   </div>
 
-  <!-- Modal: Edit Exercise -->
-  <div id="editExerciseModal" class="modal-backdrop">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h3>Exercise Edit / Delete</h3>
-        <button class="icon-btn" onclick="closeModal('editExerciseModal')">✕</button>
-      </div>
-      <form onsubmit="submitEditExercise(event)">
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="editExName">Exercise Ka Naam</label>
-            <input type="text" id="editExName" class="form-input" required>
-          </div>
-          <div class="form-group">
-            <label for="editExTarget">Muscle Focus</label>
-            <input type="text" id="editExTarget" class="form-input">
-          </div>
-          <div class="form-group">
-            <label for="editExNotes">Coach Notes</label>
-            <input type="text" id="editExNotes" class="form-input">
-          </div>
-        </div>
-        <div class="modal-footer" style="justify-content: space-between;">
-          <button type="button" class="btn btn-danger-subtle" onclick="deleteCurrentExercise()">🗑️ Delete</button>
-          <div style="display: flex; gap: 8px;">
-            <button type="button" class="btn btn-outline" onclick="closeModal('editExerciseModal')">Cancel</button>
-            <button type="submit" class="btn btn-primary">Save Changes</button>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Modal: Athlete Guide (Kohli Protocol) -->
-  <div id="athleteGuideModal" class="modal-backdrop">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h3>🏆 Virat Kohli Athletic Guide</h3>
-        <button class="icon-btn" onclick="closeModal('athleteGuideModal')">✕</button>
-      </div>
-      <div class="modal-body">
-        
-        <div class="guide-card">
-          <h4>🔥 7 - 12 - 15 Reps Science (Reverse Pyramid)</h4>
-          <p>Aapka 7, 12, 15 ka plan scientifically bohot zabardast hai:</p>
-          <ul>
-            <li><strong>Set 1 (Heavy 7 Reps @ 80%):</strong> Raw strength aur fast-twitch muscle fibers trigger karta hai jisse athletic power aati hai.</li>
-            <li><strong>Set 2 (Moderate 12 Reps @ 70%):</strong> Muscle hypertrophy (shape aur size) build karta hai.</li>
-            <li><strong>Set 3 (Burnout 15 Reps @ 60%):</strong> Muscle endurance, vascularity aur deep burn deta hai bina joint pain ke.</li>
-            <li><strong>Note:</strong> Set 1 se pehle hamesha 2 light warm-up sets karein taaki injury ka koi chance na rahe.</li>
-          </ul>
-        </div>
-
-        <div class="guide-card">
-          <h4>⚡ 6-Day Athletic Schedule Ka Logic</h4>
-          <ul>
-            <li><strong>Mon (Chest):</strong> Push power & core stability.</li>
-            <li><strong>Tue (Back):</strong> V-Taper posture & pulling strength (deadlifts).</li>
-            <li><strong>Wed (Shoulders + Core):</strong> 3D delts & rotational bat/throw power.</li>
-            <li><strong>Thu (Arms & Grip):</strong> Biceps, triceps & crushing forearm grip.</li>
-            <li><strong>Fri (Functional HIIT):</strong> Kettlebells, box jumps, sprints & fat burning.</li>
-            <li><strong>Sat (Legs):</strong> Squats & single-leg balance for speed & jumping.</li>
-            <li><strong>Sun (Recovery):</strong> Foam rolling & mobility flow.</li>
-          </ul>
-        </div>
-
-        <div class="guide-card">
-          <h4>🥗 Virat Kohli Nutrition & Recovery Rules</h4>
-          <ul>
-            <li><strong>Protein:</strong> 1.6g to 2g per kg bodyweight (Eggs, Paneer/Tofu, Soya, Chicken/Fish, Whey).</li>
-            <li><strong>Hydration:</strong> Workout ke dauran 1-1.5L paani aur din bhar me 3.5-4L paani zaroori hai.</li>
-            <li><strong>Rest:</strong> 7-8 ghante ki uninterrupted neend. Muscles gym me nahi, sote waqt recover aur grow hote hain.</li>
-          </ul>
-        </div>
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="closeModal('athleteGuideModal')">Samajh Gaya!</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal: Backup & Restore -->
+  <!-- ===================================================
+       11. MODAL: BACKUP & RESTORE DATA
+       =================================================== -->
   <div id="backupModal" class="modal-backdrop">
     <div class="modal-box">
       <div class="modal-header">
@@ -348,197 +749,39 @@
         <button class="icon-btn" onclick="closeModal('backupModal')">✕</button>
       </div>
       <div class="modal-body">
-        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px;">
-          Aapka saara data aapke browser / phone memory me 100% offline save rehta hai. Phone change karne ya browser history clear karne par data safe rakhne ke liye backup file download kar sakte hain.
+        <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 16px;">
+          Aapka saara data aapke phone memory me 100% offline save rehta hai. Phone badalne ya history clear hone par data safe rakhne ke liye backup save kar sakte hain.
         </p>
 
-        <div style="display: flex; flex-direction: column; gap: 14px;">
-          <div style="background: var(--bg-card); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
-            <h4 style="color: var(--text-main); font-weight: 800; margin-bottom: 6px;">📥 Backup Download Karein</h4>
-            <p style="color: var(--text-dim); font-size: 0.8rem; margin-bottom: 12px;">Apne saare custom exercises aur logged weights ka JSON file save karein.</p>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="background: #faf8f4; padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--glass-border);">
+            <h4 style="font-weight: 900; color: var(--text-main); margin-bottom: 4px;">📥 Backup Download Karein</h4>
+            <p style="font-size: 0.78rem; color: var(--text-dim); margin-bottom: 10px;">Apne saare custom exercises aur logged weights ka JSON file save karein.</p>
             <button class="btn btn-primary" onclick="exportWorkoutData()">Download Backup File</button>
           </div>
 
-          <div style="background: var(--bg-card); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
-            <h4 style="color: var(--text-main); font-weight: 800; margin-bottom: 6px;">📤 Backup Restore Karein</h4>
-            <p style="color: var(--text-dim); font-size: 0.8rem; margin-bottom: 12px;">Pehle se save ki hui backup file upload karein.</p>
-            <input type="file" id="importFileInput" accept=".json" onchange="importWorkoutData(event)" style="color: var(--text-muted); font-size: 0.85rem;">
+          <div style="background: #faf8f4; padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--glass-border);">
+            <h4 style="font-weight: 900; color: var(--text-main); margin-bottom: 4px;">📤 Backup Restore Karein</h4>
+            <p style="font-size: 0.78rem; color: var(--text-dim); margin-bottom: 10px;">Pehle se save ki hui backup file upload karein.</p>
+            <input type="file" id="importFileInput" accept=".json" onchange="importWorkoutData(event)" style="font-size: 0.82rem; color: var(--text-muted);">
           </div>
         </div>
-
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline" onclick="closeModal('backupModal')">Close</button>
+        <button class="btn btn-outline" onclick="closeModal('backupModal')">Close</button>
       </div>
     </div>
   </div>
 
-  <!-- Modal: Exercise Form & Video Demo -->
-  <div id="exerciseDemoModal" class="modal-backdrop">
-    <div class="modal-box" style="max-width: 580px;">
-      <div class="modal-header">
-        <div>
-          <h3 id="demoExTitle">Exercise Demo</h3>
-          <span style="font-size: 0.76rem; color: var(--primary); font-weight: 700;">FORM & BIOMECHANICS GUIDE</span>
-        </div>
-        <button class="icon-btn" onclick="closeModal('exerciseDemoModal')">✕</button>
-      </div>
-
-      <div class="modal-body" style="padding-top: 14px;">
-        <!-- Visual Container (SVG Animation or Custom Video) -->
-        <div id="demoMediaContainer">
-          <!-- Dynamically Injected -->
-        </div>
-
-        <!-- Muscle & Tempo Grid -->
-        <div class="demo-info-grid">
-          <div class="demo-info-box">
-            <span class="demo-info-label">PRIMARY TARGET</span>
-            <span id="demoExPrimary" class="demo-info-val" style="color: var(--primary);">-</span>
-          </div>
-          <div class="demo-info-box">
-            <span class="demo-info-label">TEMPO PROTOCOL</span>
-            <span id="demoExTempo" class="demo-info-val">-</span>
-          </div>
-          <div class="demo-info-box" style="grid-column: span 2;">
-            <span class="demo-info-label">SECONDARY MUSCLES</span>
-            <span id="demoExSecondary" class="demo-info-val" style="color: #94a3b8;">-</span>
-          </div>
-        </div>
-
-        <!-- Step-by-Step Instructions -->
-        <div class="demo-step-box">
-          <strong>1. Stance & Setup:</strong>
-          <div id="demoExSetup">-</div>
-        </div>
-
-        <div class="demo-step-box">
-          <strong>2. Proper Movement Execution:</strong>
-          <div id="demoExExecution">-</div>
-        </div>
-
-        <div class="demo-mistake-box">
-          <strong>⚠️ Common Mistake:</strong>
-          <div id="demoExMistakes">-</div>
-        </div>
-
-        <!-- Custom Video/GIF Uploader -->
-        <div class="upload-video-wrapper">
-          <p>Apne phone se is exercise ki koi bhi 5-10 second clip ya GIF save karna chahte hain?</p>
-          <input type="file" id="mediaUploadInput" class="hidden-file-input" accept="video/*,image/gif" onchange="handleMediaUpload(event)">
-          <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
-            <button class="btn btn-outline" style="font-size: 0.8rem; padding: 6px 14px;" onclick="document.getElementById('mediaUploadInput').click()">
-              🎥 Apni Video / GIF Dalein
-            </button>
-            <button id="btnRemoveCustomMedia" class="btn btn-danger-subtle" style="display: none;" onclick="removeActiveCustomMedia()">
-              🗑️ Remove Custom Video
-            </button>
-          </div>
-        </div>
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="closeModal('exerciseDemoModal')">Samajh Gaya (Done)</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal: Sportsman Dashboard (User & Admin Portal) -->
-  <div id="sportsmanDashboardModal" class="modal-backdrop">
-    <div class="modal-box" style="max-width: 540px;">
-      <div class="modal-header">
-        <div>
-          <h3>👑 Sportsman Dashboard</h3>
-          <span style="font-size: 0.74rem; color: var(--primary); font-weight: 800;">ADMIN & ATHLETE PORTAL • v0.01</span>
-        </div>
-        <button class="icon-btn" onclick="closeModal('sportsmanDashboardModal')">✕</button>
-      </div>
-
-      <div class="modal-body">
-        <!-- User Profile Card -->
-        <div class="user-profile-banner">
-          <div class="user-profile-avatar">T</div>
-          <div>
-            <h3 style="font-size: 1.25rem; font-weight: 900; color: var(--text-main); margin-bottom: 2px;">Tushu</h3>
-            <span style="font-size: 0.76rem; color: var(--primary); font-weight: 800; text-transform: uppercase;">Owner • Sole Admin & Athlete</span>
-            <div style="font-size: 0.78rem; color: var(--text-dim); margin-top: 2px;">Single-User Mode (Version 0.01)</div>
-          </div>
-        </div>
-
-        <!-- Metrics Grid -->
-        <div class="dashboard-metrics-grid">
-          <div class="metric-card highlight">
-            <span class="m-label">TOTAL VOLUME LIFTED</span>
-            <div id="dashTotalVolume" class="m-value">0 kg</div>
-          </div>
-          <div class="metric-card">
-            <span class="m-label">SETS COMPLETED</span>
-            <div id="dashTotalSets" class="m-value">0</div>
-          </div>
-          <div class="metric-card">
-            <span class="m-label">WORKOUT SESSIONS</span>
-            <div id="dashTotalSessions" class="m-value">0</div>
-          </div>
-          <div class="metric-card">
-            <span class="m-label">SCHEME PROTOCOL</span>
-            <div class="m-value" style="font-size: 1.05rem; color: var(--text-main);">7 - 12 - 15</div>
-          </div>
-        </div>
-
-        <!-- Personal Records (PRs) Section -->
-        <div class="pr-section">
-          <h4>🏆 Heaviest Weights (Personal Records)</h4>
-          <div id="dashPrList">
-            <!-- Dynamically populated -->
-          </div>
-        </div>
-
-        <!-- Friends / Gym Partner Note -->
-        <div class="partner-box">
-          👥 <strong>Dost Ko Add Karna (Gym Partner):</strong><br>
-          Admin aur User dono abhi aap hi hain (Tushu). Jab aap kisi dost ko add karenge, hum yahan 'Switch User / Add Partner' profile feature on kar denge!
-        </div>
-
-        <div style="margin-top: 14px; display: flex; gap: 8px;">
-          <button class="btn btn-outline" style="flex: 1;" onclick="closeModal('sportsmanDashboardModal'); openModal('backupModal');">
-            💾 Backup / Restore
-          </button>
-          <button class="btn btn-primary" style="flex: 1;" onclick="closeModal('sportsmanDashboardModal');">
-            Close Dashboard
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bottom Navigation Bar (Fixed at bottom like native app) -->
-  <nav class="bottom-nav-bar">
-    <button id="navItemToday" class="bottom-nav-item active" onclick="goToTodayWorkout()">
-      <span class="bottom-nav-icon">🏠</span>
-      <span class="bottom-nav-label">Today</span>
-    </button>
-    <button id="navItemPlan" class="bottom-nav-item" onclick="scrollToDayPicker()">
-      <span class="bottom-nav-icon">📋</span>
-      <span class="bottom-nav-label">Plan</span>
-    </button>
-    <button id="navItemTimer" class="bottom-nav-item" onclick="toggleRestTimerQuick()">
-      <span class="bottom-nav-icon">⏱️</span>
-      <span class="bottom-nav-label">Timer</span>
-    </button>
-    <button id="navItemStats" class="bottom-nav-item" onclick="openSportsmanDashboard()">
-      <span class="bottom-nav-icon">📊</span>
-      <span class="bottom-nav-label">Stats</span>
-    </button>
-    <button id="navItemTips" class="bottom-nav-item" onclick="openModal('athleteGuideModal')">
-      <span class="bottom-nav-icon">🏆</span>
-      <span class="bottom-nav-label">Tips</span>
-    </button>
-  </nav>
-
+  <!-- Scripts -->
   <script>
     function openModal(id) {
       const el = document.getElementById(id);
       if (el) el.classList.add('open');
+    }
+    function closeModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('open');
     }
   </script>
   <script src="./visual-guides.js"></script>

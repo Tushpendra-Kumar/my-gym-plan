@@ -639,13 +639,21 @@ async function openExerciseDemoModal(exId) {
   if (!modal) return;
 
   // Title and labels
-  document.getElementById('demoExTitle').innerText = ex ? ex.name : 'Exercise Demo';
-  document.getElementById('demoExPrimary').innerText = guide.primary || (ex ? ex.target : '');
-  document.getElementById('demoExSecondary').innerText = guide.secondary || 'Core & Stabilizers';
-  document.getElementById('demoExTempo').innerText = guide.tempo || '2s Down ➔ 1s Up';
-  document.getElementById('demoExSetup').innerText = guide.setup || 'Standard athletic setup.';
-  document.getElementById('demoExExecution').innerText = guide.execution || (ex ? ex.notes : '');
-  document.getElementById('demoExMistakes').innerText = guide.mistakes || 'Momentum aur swinging se bachein.';
+  const titleEl = document.getElementById('demoExTitle');
+  const primEl = document.getElementById('demoExPrimary');
+  const secEl = document.getElementById('demoExSecondary');
+  const tempoEl = document.getElementById('demoExTempo');
+  const setupEl = document.getElementById('demoExSetup');
+  const execEl = document.getElementById('demoExExecution');
+  const mistEl = document.getElementById('demoExMistakes');
+
+  if (titleEl) titleEl.innerText = ex ? ex.name : 'Exercise Demo';
+  if (primEl) primEl.innerText = guide.primary || (ex ? ex.target : '');
+  if (secEl) secEl.innerText = guide.secondary || 'Core & Stabilizers';
+  if (tempoEl) tempoEl.innerText = guide.tempo || '2s Down ➔ 1s Up';
+  if (setupEl) setupEl.innerText = guide.setup || 'Standard athletic setup.';
+  if (execEl) execEl.innerText = guide.execution || (ex ? ex.notes : '');
+  if (mistEl) mistEl.innerText = guide.mistakes || 'Momentum aur swinging se bachein.';
 
   // Render Visual Media (Custom Video OR Biomechanics SVG Animation)
   const mediaContainer = document.getElementById('demoMediaContainer');
