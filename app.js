@@ -1102,8 +1102,8 @@ function escapeHtml(str) {
     .replace(/'/g, '&#039;');
 }
 
-// Register Service Worker for 100% Offline Support
-if ('serviceWorker' in navigator) {
+// Register Service Worker for 100% Offline Support (Web / PWA)
+if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js')
       .then((reg) => {
