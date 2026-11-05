@@ -450,11 +450,11 @@ function generateExerciseSvgAnimation(svgType) {
             <!-- Forearm & Barbell -->
             <line x1="140" y1="120" x2="140" y2="70" stroke="#cbd5e1" stroke-width="8" stroke-linecap="round" />
             <!-- Barbell Weight -->
-            <rect x="80" y="65" width="120" height="8" rx="3" fill="#94a3b8" />
+            <rect x="80" y="65" width="120" height="8" rx="3" fill="#475569" />
             <rect x="70" y="52" width="10" height="34" rx="3" fill="#10b981" />
             <rect x="200" y="52" width="10" height="34" rx="3" fill="#10b981" />
           </g>
-          <text x="150" y="190" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="700">PUSH & SQUEEZE (7-12-15)</text>
+          <text x="150" y="190" text-anchor="middle" fill="#475569" font-size="11" font-weight="700">PUSH & SQUEEZE (7-12-15)</text>
         </svg>
       `;
 
@@ -485,7 +485,7 @@ function generateExerciseSvgAnimation(svgType) {
           </g>
           <!-- Depth Indicator line -->
           <line x1="110" y1="140" x2="190" y2="140" stroke="rgba(16, 185, 129, 0.4)" stroke-width="1.5" stroke-dasharray="3,3" />
-          <text x="150" y="196" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="700">PARALLEL DEPTH ➔ EXPLOSIVE DRIVE</text>
+          <text x="150" y="196" text-anchor="middle" fill="#475569" font-size="11" font-weight="700">PARALLEL DEPTH ➔ EXPLOSIVE DRIVE</text>
         </svg>
       `;
 
@@ -510,7 +510,7 @@ function generateExerciseSvgAnimation(svgType) {
             <circle cx="170" cy="135" r="24" fill="#0f172a" stroke="#10b981" stroke-width="5" />
             <circle cx="170" cy="135" r="6" fill="#38bdf8" />
           </g>
-          <text x="150" y="196" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="700">FLAT BACK ➔ HIP HINGE POWER</text>
+          <text x="150" y="196" text-anchor="middle" fill="#475569" font-size="11" font-weight="700">FLAT BACK ➔ HIP HINGE POWER</text>
         </svg>
       `;
 
@@ -535,7 +535,7 @@ function generateExerciseSvgAnimation(svgType) {
             <line x1="140" y1="105" x2="105" y2="55" stroke="#cbd5e1" stroke-width="7" stroke-linecap="round" />
             <line x1="160" y1="105" x2="195" y2="55" stroke="#cbd5e1" stroke-width="7" stroke-linecap="round" />
           </g>
-          <text x="150" y="190" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="700">DRIVE ELBOWS TO POCKETS (V-TAPER)</text>
+          <text x="150" y="190" text-anchor="middle" fill="#475569" font-size="11" font-weight="700">DRIVE ELBOWS TO POCKETS (V-TAPER)</text>
         </svg>
       `;
 
@@ -556,7 +556,7 @@ function generateExerciseSvgAnimation(svgType) {
             <line x1="140" y1="115" x2="185" y2="85" stroke="#cbd5e1" stroke-width="9" stroke-linecap="round" />
             <circle cx="188" cy="83" r="14" fill="#0f172a" stroke="#10b981" stroke-width="4" />
           </g>
-          <text x="150" y="185" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="700">ISOLATE BICEPS ➔ ZERO ELBOW SWING</text>
+          <text x="150" y="185" text-anchor="middle" fill="#475569" font-size="11" font-weight="700">ISOLATE BICEPS ➔ ZERO ELBOW SWING</text>
         </svg>
       `;
 
@@ -580,7 +580,7 @@ function generateExerciseSvgAnimation(svgType) {
             <line x1="135" y1="75" x2="120" y2="40" stroke="#cbd5e1" stroke-width="7" stroke-linecap="round" />
             <line x1="165" y1="75" x2="180" y2="40" stroke="#cbd5e1" stroke-width="7" stroke-linecap="round" />
           </g>
-          <text x="150" y="190" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="700">LOCKOUT OVERHEAD ➔ CORE BRACED</text>
+          <text x="150" y="190" text-anchor="middle" fill="#475569" font-size="11" font-weight="700">LOCKOUT OVERHEAD ➔ CORE BRACED</text>
         </svg>
       `;
 
@@ -614,7 +614,7 @@ function generateExerciseSvgAnimation(svgType) {
           <circle cx="150" cy="70" r="18" fill="#38bdf8" />
           <line x1="150" y1="88" x2="150" y2="150" stroke="#475569" stroke-width="22" stroke-linecap="round" />
           <ellipse cx="150" cy="115" rx="12" ry="18" fill="#10b981" class="anim-muscle-pec" />
-          <text x="150" y="185" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="700">ATHLETIC FORM & FULL RANGE OF MOTION</text>
+          <text x="150" y="185" text-anchor="middle" fill="#475569" font-size="11" font-weight="700">ATHLETIC FORM & FULL RANGE OF MOTION</text>
         </svg>
       `;
   }

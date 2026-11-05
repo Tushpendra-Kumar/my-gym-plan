@@ -4,8 +4,8 @@
   "description": "Athletic Workout Planner & Tracker with 7-12-15 Rep Scheme - 100% Offline PWA",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#090d16",
-  "theme_color": "#10b981",
+  "background_color": "#FAF7F0",
+  "theme_color": "#FAF7F0",
   "orientation": "portrait",
   "icons": [
     {
