@@ -66,52 +66,52 @@ const EXERCISE_GUIDES = {
   m1: {
     category: "press",
     svgType: "incline_press",
-    primary: "Upper Pectorals (Clavicular Head)",
+    primary: "[1/5] Upper Chest (Upar Ka Seena / Clavicle Muscle)",
     secondary: "Front Deltoids, Triceps",
-    tempo: "2s Down (Eccentric) → 1s Explode Up",
-    setup: "Bench ko 30-45 degree angle par set karein. Feet floor par firmly lock karein.",
-    execution: "Dumbbells ko chest ke upper hisse tak control me layein, fir upar push karte waqt pecs ko squeeze karein.",
+    tempo: "2s Slow Down (Negative) → 1s Explode Up",
+    setup: "Bench ko 30-45 degree angle par set karein. Pair zameen par tight lock karein.",
+    execution: "Dumbbells ko upper chest tak 2 second control ke sath slow layein, upar le jaakar upper chest ko tight squeeze karein. Upar dumbbells takrayein nahi.",
     mistakes: "Bench ko 45 degree se zyada steep na karein, varna chest ki jagah shoulders par load aayega."
   },
   m2: {
     category: "press",
     svgType: "bench_press",
-    primary: "Mid & Overall Pectorals",
+    primary: "[2/5] Mid Chest (Chhati Ka Main Base & Heavy Power)",
     secondary: "Triceps, Anterior Deltoids",
     tempo: "2s Control Down → 1s Explosive Drive",
-    setup: "Shoulder blades ko peeche pinch karke bench par rakhein. Bar ko shoulder se thoda wide pakdein.",
-    execution: "Barbell ko lower-mid chest tak touch karein, elbows ko 75-degree angle par rakhein (flared out na karein).",
-    mistakes: "Bar ko chest par bounce na karein aur wrists ko peeche bend na hone dein."
+    setup: "Shoulder blades ko peeche bench par pinch karein. Bar ko shoulder se thoda wide pakdein.",
+    execution: "Barbell ko chest ke center tak touch karein aur explosively upar push karein. Elbows ko 75-degree angle par rakhein.",
+    mistakes: "Bar ko chest par bounce na karein aur kamar ko zyada jhatka na dein."
   },
   m3: {
     category: "dip",
     svgType: "dips",
-    primary: "Lower Chest & Triceps",
+    primary: "[3/5] Lower Chest Cut (Neeche Ka V-Cut & Triceps)",
     secondary: "Anterior Delts",
     tempo: "2s Controlled Lower → 1s Strong Press",
-    setup: "Parallel bars par pakad banayein. Torso ko 20-30 degree aage lean karein lower chest target karne ke liye.",
-    execution: "Elbows 90 degree aane tak neeche jayein, fir chest aur triceps se upar push karein.",
-    mistakes: "Seedha khade rehkar dips karne se sirf triceps par load aayega; aage jhukna zaroori hai."
+    setup: "Parallel bars par pakad banayein. Torso ko 20-30 degree aage lean karein (aage jhukna zaroori hai).",
+    execution: "Elbows 90 degree aane tak control se neeche jayein, fir lower chest aur triceps se power push karein.",
+    mistakes: "Seedha khade rehkar dips karne se load sirf triceps par jayega; lower chest ke liye 20° aage jhukna zaroori hai."
   },
   m4: {
     category: "fly",
     svgType: "cable_fly",
-    primary: "Inner & Sternal Pectorals",
+    primary: "[4/5] Inner Chest Line (Beech Ki Lakir & Deep Separation)",
     secondary: "Anterior Delts",
-    tempo: "2s Stretch → 1s Peak Contraction Hold",
-    setup: "Cables ko shoulder level ya thoda upar set karein. Ek kadam aage badhakar stable stance lein.",
-    execution: "Dono haathon ko aage gale lagane wale motion me layein. Center me 1 second tak squeeze karein.",
-    mistakes: "Arms ko bilkul straight na rakhein; elbows me slight bend hona zaroori hai joint safety ke liye."
+    tempo: "2s Stretch → 2s Peak Contraction Hold",
+    setup: "Cables ko shoulder level ya upar set karein. Ek pair aage rakh kar stable athletic stance lein.",
+    execution: "Cables ko aage laate hue dono haathon ko center me aapas me milayein aur 2 second squeeze hold karein taaki beech ki deep line bane.",
+    mistakes: "Arms ko bilkul straight lock na karein; elbows me halka bend rakhein taaki tendons safe rahein."
   },
   m5: {
     category: "core",
     svgType: "leg_raise",
-    primary: "Lower Abs & Hip Flexors",
-    secondary: "Obliques, Grip Strength",
-    tempo: "1s Curl Up → 2s Slow Descent",
-    setup: "Pull-up bar par shoulder-width grip se hang karein. Shoulders active rakhein.",
-    execution: "Bina jhulne (no swinging), knees ya straight legs ko chest ki taraf curl karein. Pelvis ko upar rotate karein.",
-    mistakes: "Body ko jhulakar momentum se pair upar na uthayein; core ko strictly brace karein."
+    primary: "[5/5] Lower 6-Pack Abs & Core (Pet Ka Nichla Hissa)",
+    secondary: "Hip Flexors, Obliques, Grip Strength",
+    tempo: "1s Strict Curl Up → 2s Slow Controlled Down",
+    setup: "Pull-up bar par shoulder-width pakad banakar hang karein. Body ko bilkul steady rakhein.",
+    execution: "Bina jhoole (no body swing), knees ya legs ko chest ki taraf curl karein aur hips ko upar rotate karein taaki lower abs poore crunch hon.",
+    mistakes: "Body ko aage-peeche jhulakar momentum se pair mat uthayein; strictly abs ki power se lift karein."
   },
 
   // Tuesday: Back
@@ -605,6 +605,41 @@ function generateExerciseSvgAnimation(svgType) {
             <line x1="140" y1="85" x2="200" y2="85" stroke="#cbd5e1" stroke-width="6" stroke-linecap="round" />
           </g>
           <text x="150" y="196" text-anchor="middle" fill="#a78bfa" font-size="11" font-weight="700">KOHLI ATHLETIC EXPLOSION & STAMINA</text>
+        </svg>
+      `;
+
+    case 'cable_fly':
+      return `
+        <svg viewBox="0 0 300 200" class="bio-svg" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="150" cy="55" r="14" fill="#111111" />
+          <line x1="150" y1="69" x2="150" y2="135" stroke="#333333" stroke-width="14" stroke-linecap="round" />
+          <line x1="150" y1="80" x2="150" y2="110" stroke="#000000" stroke-width="4" stroke-linecap="round" class="anim-muscle-pec" />
+          <ellipse cx="143" cy="95" rx="8" ry="12" fill="#555555" class="anim-muscle-pec" />
+          <ellipse cx="157" cy="95" rx="8" ry="12" fill="#555555" class="anim-muscle-pec" />
+          <g class="anim-press-motion">
+            <path d="M70,70 Q110,80 142,95" stroke="#111111" stroke-width="6" fill="none" stroke-linecap="round" />
+            <circle cx="142" cy="95" r="5" fill="#111111" />
+            <path d="M230,70 Q190,80 158,95" stroke="#111111" stroke-width="6" fill="none" stroke-linecap="round" />
+            <circle cx="158" cy="95" r="5" fill="#111111" />
+          </g>
+          <text x="150" y="180" text-anchor="middle" fill="#555555" font-size="10" font-weight="700">INNER CHEST SQUEEZE & DEEP SEPARATION</text>
+        </svg>
+      `;
+
+    case 'leg_raise':
+      return `
+        <svg viewBox="0 0 300 200" class="bio-svg" xmlns="http://www.w3.org/2000/svg">
+          <line x1="80" y1="25" x2="220" y2="25" stroke="#111111" stroke-width="6" stroke-linecap="round" />
+          <circle cx="150" cy="50" r="12" fill="#111111" />
+          <line x1="150" y1="62" x2="150" y2="115" stroke="#333333" stroke-width="12" stroke-linecap="round" />
+          <line x1="145" y1="30" x2="148" y2="60" stroke="#555555" stroke-width="5" stroke-linecap="round" />
+          <line x1="155" y1="30" x2="152" y2="60" stroke="#555555" stroke-width="5" stroke-linecap="round" />
+          <ellipse cx="150" cy="100" rx="7" ry="10" fill="#111111" class="anim-muscle-core" />
+          <g class="anim-pull-motion">
+            <path d="M150,115 Q150,145 185,145" stroke="#111111" stroke-width="9" fill="none" stroke-linecap="round" />
+            <circle cx="185" cy="145" r="5" fill="#000000" />
+          </g>
+          <text x="150" y="185" text-anchor="middle" fill="#555555" font-size="10" font-weight="700">LOWER 6-PACK ABS PELVIC CURL</text>
         </svg>
       `;
 

@@ -1,5 +1,5 @@
 /**
- * Gym Plan - Ultra-Premium Luxury Monochrome Edition (v0.03)
+ * Gym Plan - Ultra-Premium Luxury Monochrome Edition (v0.04)
  * Powered by Tushpender
  * 7 - 12 - 15 Reverse Pyramid Rep Scheme
  * 100% Offline with LocalStorage, IndexedDB & Service Worker
@@ -11,14 +11,14 @@ const DEFAULT_PLAN = {
     name: "Monday",
     title: "Chest & Athletic Core",
     focus: "Push Strength & Core Stability",
-    description: "Build a broad athletic chest and solid core. 1-2 light dynamic warmup sets, then hit 7-12-15 Reverse Pyramid.",
+    description: "Athletic chest & solid core. Har exercise ke alag-alag muscles aur proper Hinglish form tips neeche diye gaye hain.",
     color: "#111111",
     exercises: [
       {
         id: "m1",
         name: "Incline Dumbbell Bench Press",
-        target: "Upper Chest & Shoulders",
-        notes: "45-degree angle. Explode up, control down in 2 seconds.",
+        target: "[1/5] Upper Chest (Upar Ka Seena) & Clavicle Shape",
+        notes: "Bench ko 30°-45° incline karein. Dumbbells ko slow neeche layein aur upar le jaakar upper chest ko tight squeeze karein. Upar dumbbells takrayein nahi.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 25, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 20, reps: 12, done: false },
@@ -28,8 +28,8 @@ const DEFAULT_PLAN = {
       {
         id: "m2",
         name: "Flat Barbell Bench Press",
-        target: "Mid Chest & Raw Power",
-        notes: "Grip slightly wider than shoulders. Drive through feet.",
+        target: "[2/5] Mid Chest (Chhati Ka Main Base & Raw Pushing Power)",
+        notes: "Shoulders ko bench par peeche lock karein, pair zameen par jamayein. Barbell ko chest par touch karke explosive push karein. Bounce bilkul mat karein.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 60, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 50, reps: 12, done: false },
@@ -39,8 +39,8 @@ const DEFAULT_PLAN = {
       {
         id: "m3",
         name: "Weighted / Bodyweight Dips",
-        target: "Lower Chest & Triceps",
-        notes: "Lean forward 20 degrees to hit lower chest fibers.",
+        target: "[3/5] Lower Chest Cut (Neeche Ka V-Shape Cut & Triceps)",
+        notes: "Bars par pakad banayein aur body ko 20°-30° aage lean karein (aage jhukna zaroori hai taaki load lower chest ke cut par aaye; seedhe rehne se load sirf triceps par aayega).",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 10, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 0, reps: 12, done: false },
@@ -50,23 +50,23 @@ const DEFAULT_PLAN = {
       {
         id: "m4",
         name: "Cable Chest Flyes (High to Low)",
-        target: "Inner & Lower Chest Definition",
-        notes: "Squeeze 1 sec at peak contraction.",
+        target: "[4/5] Inner Chest Line (Beech Ki Lakir & Deep Separation)",
+        notes: "Cables ko aage laate waqt dono haath center me milayein aur 2 second tight squeeze hold karein. Beech ki deep line banegi. Elbows me halka sa bend rakhein.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 25, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 20, reps: 12, done: false },
-          { setNum: 3, type: "Light/Pump", targetReps: 15, weight: 15, reps: 15, done: false }
+          { setNum: 3, type: "Burnout", targetReps: 15, weight: 15, reps: 15, done: false }
         ]
       },
       {
         id: "m5",
         name: "Hanging Leg / Knee Raises",
-        target: "Lower Abs & Athletic Core",
-        notes: "No swinging. Curl pelvis up towards chest.",
+        target: "[5/5] Lower 6-Pack Abs & Core (Pet Ka Nichla Hissa & Belly Fat Cut)",
+        notes: "Pull-up bar par latak kar bina swing kiye ghutno ya legs ko chest ki taraf curl karein. Hips ko upar roll karein taaki lower six-pack poora squeeze ho sake.",
         sets: [
           { setNum: 1, type: "Strict", targetReps: 12, weight: 0, reps: 12, done: false },
           { setNum: 2, type: "Strict", targetReps: 12, weight: 0, reps: 12, done: false },
-          { setNum: 3, type: "Strict", targetReps: 15, weight: 0, reps: 15, done: false }
+          { setNum: 3, type: "Burnout", targetReps: 15, weight: 0, reps: 15, done: false }
         ]
       }
     ]
@@ -75,14 +75,14 @@ const DEFAULT_PLAN = {
     name: "Tuesday",
     title: "Back & Posterior Chain",
     focus: "V-Taper, Posture & Pulling Power",
-    description: "Athletic posture and strong back. Essential for explosive throwing, running posture, and V-taper frame.",
+    description: "Athletic posture aur chaudi peeth (V-Taper). Har exercise ka target aur Hinglish technique neeche check karein.",
     color: "#3b82f6",
     exercises: [
       {
         id: "t1",
         name: "Deadlift (Conventional or Trap Bar)",
-        target: "Full Posterior Chain & Raw Brute Force",
-        notes: "Keep spine neutral. Push through floor with heels.",
+        target: "[1/5] Full Back & Raw Strength (Puri Peeth Ki Power)",
+        notes: "Spine neutral rakhein (kamar bilkul round na karein). Heels se zameen ko push karein aur top par glutes squeeze karein.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 100, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 80, reps: 12, done: false },
@@ -92,8 +92,8 @@ const DEFAULT_PLAN = {
       {
         id: "t2",
         name: "Wide-Grip Lat Pulldowns / Pull-Ups",
-        target: "Lats & Upper Back Width",
-        notes: "Pull elbows down to your pockets, chest up high.",
+        target: "[2/5] Upper Lats & V-Taper (Peeth Ki Chaudai)",
+        notes: "Bar ko shoulder se wide pakdein. Elbows ko peeche pocket ki taraf drive karein, chest high rakhein.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 65, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 50, reps: 12, done: false },
@@ -103,8 +103,8 @@ const DEFAULT_PLAN = {
       {
         id: "t3",
         name: "Bent-Over Barbell Rows",
-        target: "Mid Back Thickness & Grip",
-        notes: "45-degree hip hinge. Pull bar to belly button.",
+        target: "[3/5] Mid Back Thickness (Peeth Ki Motai & Posture)",
+        notes: "Hips ko 45° peeche push karein, bar ko naabhi (belly button) ki taraf pull karke back muscles ko nichodein.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 60, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 50, reps: 12, done: false },
@@ -114,8 +114,8 @@ const DEFAULT_PLAN = {
       {
         id: "t4",
         name: "Single-Arm Dumbbell Row",
-        target: "Lat Isolation & Unilateral Balance",
-        notes: "Full stretch at bottom, squeeze lat hard at top.",
+        target: "[4/5] Lower Lat Isolation (Single Arm Deep Stretch)",
+        notes: "Neeche pura stretch karein, upar aate waqt elbow ko ceiling ki taraf kheenchein bina torso rotate kiye.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 27.5, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 22.5, reps: 12, done: false },
@@ -125,8 +125,8 @@ const DEFAULT_PLAN = {
       {
         id: "t5",
         name: "Face Pulls (with Rope)",
-        target: "Rear Delts, Rotator Cuff & Posture",
-        notes: "Pull rope towards eyes, rotate thumbs backward.",
+        target: "[5/5] Rear Delts & Posture Fix (Peeche Ke Kandhe)",
+        notes: "Rope ko aankhon ki taraf pull karein aur thumbs ko peeche rotate karein. Round shoulders ko theek karta hai.",
         sets: [
           { setNum: 1, type: "Control", targetReps: 12, weight: 25, reps: 12, done: false },
           { setNum: 2, type: "Control", targetReps: 15, weight: 20, reps: 15, done: false },
@@ -139,14 +139,14 @@ const DEFAULT_PLAN = {
     name: "Wednesday",
     title: "Shoulders (Delts) & Core",
     focus: "3D Delts & Rotational Power",
-    description: "Athletes need strong, mobile shoulders for throwing, pushing, and striking power + rock hard core stability.",
+    description: "Athletic 3D round shoulders aur rock-hard core. Har angle ka muscle target aur Hinglish cues neeche hain.",
     color: "#f59e0b",
     exercises: [
       {
         id: "w1",
         name: "Standing Overhead Barbell / Dumbbell Press",
-        target: "Anterior Delts & Core Stability",
-        notes: "Tight glutes and abs. Lock out overhead without arching back.",
+        target: "[1/5] Front Delts & Push Power (Kandhe Ka Front Hissa)",
+        notes: "Glutes aur core ko tight lock karein. Bar ko seedha sar ke upar press karein bina kamar zyada bend kiye.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 45, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 35, reps: 12, done: false },
@@ -156,8 +156,8 @@ const DEFAULT_PLAN = {
       {
         id: "w2",
         name: "Dumbbell Lateral Raises (Strict Form)",
-        target: "Lateral Delts (V-Taper Width)",
-        notes: "Slight forward lean. Lead with elbows, avoid swinging.",
+        target: "[2/5] Side Delts (3D Kandhe Ka Round Look & Width)",
+        notes: "Dumbbells ko body se thoda aage le jaate hue elbows se lift karein. Momentum ya jhatka bilkul na dein.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 12.5, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 10, reps: 12, done: false },
@@ -167,8 +167,8 @@ const DEFAULT_PLAN = {
       {
         id: "w3",
         name: "Arnold Dumbbell Press",
-        target: "Full Shoulder Roundness",
-        notes: "Rotate palms from facing you to facing outward as you press.",
+        target: "[3/5] Full Shoulder 360° Roundness & Rotator Cuff",
+        notes: "Palms ko chehre ki taraf se shuru karein aur upar press karte waqt bahar ki taraf rotate karein.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 18, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 14, reps: 12, done: false },
@@ -178,8 +178,8 @@ const DEFAULT_PLAN = {
       {
         id: "w4",
         name: "Dumbbell / Barbell Shrugs",
-        target: "Upper Traps & Neck Support",
-        notes: "Lift straight up to ears, pause 2 seconds at the top.",
+        target: "[4/5] Upper Traps & Neck Stability (Gardan Ka Muscle)",
+        notes: "Kandhon ko seedha kaanon ki taraf upar uthayein aur 2 second hold karein. Kandhe gol-gol na ghumayein.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 10, weight: 30, reps: 10, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 25, reps: 12, done: false },
@@ -189,8 +189,8 @@ const DEFAULT_PLAN = {
       {
         id: "w5",
         name: "Ab Wheel Rollouts / Cable Woodchoppers",
-        target: "Deep Core & Rotational Power",
-        notes: "Brace core hard like preparing for a punch.",
+        target: "[5/5] Deep Six-Pack Compression & Core Armor (Pet Ka Cut)",
+        notes: "Pet ko andar kheenchte hue roll karein jaise koi punch marne wala ho. Lower back ko arch na hone dein.",
         sets: [
           { setNum: 1, type: "Strict", targetReps: 10, weight: 0, reps: 10, done: false },
           { setNum: 2, type: "Strict", targetReps: 12, weight: 0, reps: 12, done: false },
@@ -203,14 +203,14 @@ const DEFAULT_PLAN = {
     name: "Thursday",
     title: "Arms & Grip Power",
     focus: "Biceps, Triceps & Forearms",
-    description: "Athletic arms for high torque, grip strength for sports, and proportionate muscular aesthetics.",
+    description: "Athletic arms for high torque & crushing grip strength. Har arm muscle ka alag role neeche samjhaya gaya hai.",
     color: "#ec4899",
     exercises: [
       {
         id: "th1",
         name: "Barbell / EZ-Bar Bicep Curls",
-        target: "Biceps Brachii & Arm Mass",
-        notes: "Strict form, pin elbows to ribs, no hip momentum.",
+        target: "[1/5] Bicep Peak (Dole Ka Upar Ka Ubhaar)",
+        notes: "Elbows ko kamar ke sath chipka kar rakhein. Sirf forearms ko move karein, kamar mat hilayein.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 35, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 27.5, reps: 12, done: false },
@@ -220,8 +220,8 @@ const DEFAULT_PLAN = {
       {
         id: "th2",
         name: "Close-Grip Bench Press or Skullcrushers",
-        target: "Triceps Long & Lateral Heads",
-        notes: "Grip shoulder-width. Lower bar under full control.",
+        target: "[2/5] Tricep Long Head (Triceps Ka Bada Muscle Base)",
+        notes: "Elbows ko andar rakhein. Barbell ko matha (forehead) tak control me layein aur tricep se lock karein.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 50, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 40, reps: 12, done: false },
@@ -231,8 +231,8 @@ const DEFAULT_PLAN = {
       {
         id: "th3",
         name: "Incline Dumbbell Hammer Curls",
-        target: "Brachialis & Forearms",
-        notes: "Thumbs up throughout the curl.",
+        target: "[3/5] Brachialis & Bicep Width (Dole Ki Motai)",
+        notes: "Thumbs ko upar rakhein (hammer grip). Bench par peeche let kar poora stretch aur squeeze lein.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 16, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 12.5, reps: 12, done: false },
@@ -242,8 +242,8 @@ const DEFAULT_PLAN = {
       {
         id: "th4",
         name: "Triceps Cable Rope Pushdowns",
-        target: "Triceps Horseshoe & Definition",
-        notes: "Spread the rope wide at the bottom contraction.",
+        target: "[4/5] Tricep Outer Cut (Tricep Ki Horseshoe Shape)",
+        notes: "Neeche aate hi rope ke dono sirron ko bahar ki taraf failayein (spread wide) aur 1 second squeeze karein.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 30, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 22.5, reps: 12, done: false },
@@ -253,8 +253,8 @@ const DEFAULT_PLAN = {
       {
         id: "th5",
         name: "Wrist Curls + Heavy Plate Hold",
-        target: "Forearm Mass & Crushing Grip",
-        notes: "Hold heavy dumbbells or plates till failure.",
+        target: "[5/5] Forearms & Crushing Grip Power (Kalaai Aur Panja)",
+        notes: "Heavy plates ya dumbbells ko ungliyon se pakad kar maximum time tak hold karein. Grip unbreakable banegi.",
         sets: [
           { setNum: 1, type: "Hold", targetReps: 15, weight: 25, reps: 15, done: false },
           { setNum: 2, type: "Hold", targetReps: 15, weight: 20, reps: 15, done: false },
@@ -267,14 +267,14 @@ const DEFAULT_PLAN = {
     name: "Friday",
     title: "Athletic Functional & HIIT",
     focus: "Speed, Explosiveness & Stamina",
-    description: "Virat Kohli's secret weapon. High-intensity conditioning for shredding body fat, explosive stamina, and unmatched athleticism.",
+    description: "Virat Kohli style athletic conditioning. High-intensity speed, fat shredding aur explosive core stamina.",
     color: "#8b5cf6",
     exercises: [
       {
         id: "f1",
         name: "Kettlebell / Dumbbell Swings",
-        target: "Hip Hinge Explosion & Posterior Power",
-        notes: "Drive hips through explosively, squeeze glutes at top.",
+        target: "[1/5] Hip Hinge Power & Glute Explosion (Tez Fat Burn)",
+        notes: "Hips ko peeche push karke aage poori taaqat se snap karein. Haathon se mat uthayein, hips ki power se swing karein.",
         sets: [
           { setNum: 1, type: "Heavy Power", targetReps: 15, weight: 24, reps: 15, done: false },
           { setNum: 2, type: "Heavy Power", targetReps: 15, weight: 24, reps: 15, done: false },
@@ -284,8 +284,8 @@ const DEFAULT_PLAN = {
       {
         id: "f2",
         name: "Box Jumps or Broad Jumps",
-        target: "Fast-Twitch Leg Spring & Sprint Speed",
-        notes: "Land soft like a panther in quarter squat. Step down safely.",
+        target: "[2/5] Fast-Twitch Leg Spring (Running & Jumping Speed)",
+        notes: "Panther ki tarah soft landing karein ghutno ko bend karke. Upar aakar seedhe khade ho jayein.",
         sets: [
           { setNum: 1, type: "Explosive", targetReps: 8, weight: 0, reps: 8, done: false },
           { setNum: 2, type: "Explosive", targetReps: 8, weight: 0, reps: 8, done: false },
@@ -295,8 +295,8 @@ const DEFAULT_PLAN = {
       {
         id: "f3",
         name: "Battle Ropes / Medicine Ball Slams",
-        target: "Cardiovascular Stamina & Upper Body Grit",
-        notes: "Maximum intensity for 30-40 seconds per set.",
+        target: "[3/5] Upper Body Stamina & Core Grit (Heart Rate Booster)",
+        notes: "Full intensity ke sath ropes ko floor par slam karein. Har wave me poori body ki energy lagayein.",
         sets: [
           { setNum: 1, type: "Interval", targetReps: 30, weight: 8, reps: 30, done: false },
           { setNum: 2, type: "Interval", targetReps: 30, weight: 8, reps: 30, done: false },
@@ -306,8 +306,8 @@ const DEFAULT_PLAN = {
       {
         id: "f4",
         name: "Farmer's Walk / Dumbbell Carries",
-        target: "Total Body Brute Stability & Traps",
-        notes: "Walk tall, shoulder blades packed back, 30-40 meters.",
+        target: "[4/5] Total Body Core Stability & Traps (Full Body Toughness)",
+        notes: "Seena taan kar (chest high) aur shoulders ko peeche lock karke 30-40 meter seedhi line me chalein.",
         sets: [
           { setNum: 1, type: "Heavy Carry", targetReps: 1, weight: 30, reps: 1, done: false },
           { setNum: 2, type: "Heavy Carry", targetReps: 1, weight: 30, reps: 1, done: false },
@@ -317,8 +317,8 @@ const DEFAULT_PLAN = {
       {
         id: "f5",
         name: "HIIT Sprint Intervals / Treadmill",
-        target: "Sub-10% Bodyfat Conditioning",
-        notes: "30s sprint @ max effort, 45s rest walk. Repeat 6-8 rounds.",
+        target: "[5/5] Maximum Fat Shredding (Athletic VO2 Max Stamina)",
+        notes: "30 second full speed sprint, fir 45 second slow walk recovery. 6 se 8 rounds lagayein.",
         sets: [
           { setNum: 1, type: "HIIT", targetReps: 6, weight: 0, reps: 6, done: false }
         ]
@@ -329,14 +329,14 @@ const DEFAULT_PLAN = {
     name: "Saturday",
     title: "Legs & Lower Body Power",
     focus: "Quads, Hamstrings & Calves",
-    description: "Athletes are built from the ground up. Heavy squats + single-leg balance to forge bulletproof knees and running speed.",
+    description: "Athletes are built from the ground up. Heavy squats + single-leg balance for powerful athletic legs.",
     color: "#ef4444",
     exercises: [
       {
         id: "s1",
         name: "Barbell Back / Front Squats",
-        target: "Total Quad, Glute & Core Power",
-        notes: "Hit parallel depth. Drive through midfoot, knees in line with toes.",
+        target: "[1/5] Quads & Raw Leg Drive (Thighs Ka Front Hissa)",
+        notes: "Ghutne toes ki line me rakhein. Parallel depth tak neeche jayein aur heels se floor ko push karein.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 80, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 65, reps: 12, done: false },
@@ -346,8 +346,8 @@ const DEFAULT_PLAN = {
       {
         id: "s2",
         name: "Romanian Deadlifts (RDLs)",
-        target: "Hamstrings, Glutes & Sprint Strength",
-        notes: "Push hips back towards wall, slight knee bend, feel deep hamstring stretch.",
+        target: "[2/5] Hamstrings & Glutes (Thighs Ka Peeche Ka Cut)",
+        notes: "Hips ko peeche deewar ki taraf dhakelein. Shins ke paas bar rakhein aur hamstrings me deep stretch mehsoos karein.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 70, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 55, reps: 12, done: false },
@@ -357,8 +357,8 @@ const DEFAULT_PLAN = {
       {
         id: "s3",
         name: "Bulgarian Split Squats (Dumbbell)",
-        target: "Single-Leg Balance & Strength",
-        notes: "Back foot elevated on bench. Keep front knee stable.",
+        target: "[3/5] Single-Leg Balance & Glute Shape (Unilateral Power)",
+        notes: "Ek pair peeche bench par rakhein. Front knee ko stable rakhte hue 90° neeche jayein.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 16, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 12, reps: 12, done: false },
@@ -368,8 +368,8 @@ const DEFAULT_PLAN = {
       {
         id: "s4",
         name: "Leg Press or Hack Squat",
-        target: "Quad Hypertrophy & Volume",
-        notes: "Feet shoulder-width on platform. Don't lock knees at top.",
+        target: "[4/5] Quad Sweep & Muscle Hypertrophy (Legs Ka Size & Cut)",
+        notes: "Feet shoulder-width rakhein. Upar jaate waqt ghutno ko kabhi poora lock (hyperextend) na karein.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 150, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 120, reps: 12, done: false },
@@ -379,8 +379,8 @@ const DEFAULT_PLAN = {
       {
         id: "s5",
         name: "Standing / Seated Calf Raises",
-        target: "Calves & Achilles Elasticity",
-        notes: "2-second deep stretch at bottom, 1-second pause at top on toes.",
+        target: "[5/5] Calves & Ankle Strength (Pindli Ka Strong Muscle)",
+        notes: "Neeche 2 second deep stretch karein, upar panjon par aakar 1 second tight pause karein.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 12, weight: 60, reps: 12, done: false },
           { setNum: 2, type: "Moderate", targetReps: 15, weight: 45, reps: 15, done: false },
@@ -393,14 +393,14 @@ const DEFAULT_PLAN = {
     name: "Sunday",
     title: "Active Recovery & Mobility",
     focus: "Muscle Repair & Flexibility",
-    description: "Muscles grow when you rest. Professional athletes treat recovery with the same seriousness as training.",
+    description: "Muscles rest karte waqt grow karte hain. Full body regeneration, flexibility aur CNS recovery.",
     color: "#06b6d4",
     exercises: [
       {
         id: "su1",
         name: "Full Body Foam Rolling & Myofascial",
-        target: "Tissue Quality & Lactic Flush",
-        notes: "Roll quads, IT band, lats, glutes, upper back (60s each).",
+        target: "[1/4] Tissue Quality & Lactic Acid Flush (Muscle Tightness Relief)",
+        notes: "Quads, IT band, lats aur peeth par 60-60 second foam roller chalayein jahan dard ya tightness ho.",
         sets: [
           { setNum: 1, type: "Recovery", targetReps: 1, weight: 0, reps: 1, done: false }
         ]
@@ -408,8 +408,8 @@ const DEFAULT_PLAN = {
       {
         id: "su2",
         name: "Dynamic Hip Flow (World's Greatest Stretch)",
-        target: "Hip Mobility & Joint Health",
-        notes: "Deep lunge, reach elbow to instep, twist chest upward.",
+        target: "[2/4] Hip Mobility & Lower Back Relief (Ghutne & Kamar Safe)",
+        notes: "Deep lunge me jayein, elbow ko floor ke paas layein aur chest ko aasman ki taraf twist karein.",
         sets: [
           { setNum: 1, type: "Mobility", targetReps: 10, weight: 0, reps: 10, done: false },
           { setNum: 2, type: "Mobility", targetReps: 10, weight: 0, reps: 10, done: false }
@@ -417,9 +417,9 @@ const DEFAULT_PLAN = {
       },
       {
         id: "su3",
-        name: "Shoulder Dislocations & Thoracic",
-        target: "Spine & Shoulder Overhead Freedom",
-        notes: "Use resistance band or PVC pipe.",
+        name: "Shoulder Dislocations & Band Pull-Aparts",
+        target: "[3/4] Overhead Shoulder Freedom & Rotator Cuff Health",
+        notes: "Resistance band ya towel pakad kar bina elbow bend kiye aage se peeche smoothly le jayein.",
         sets: [
           { setNum: 1, type: "Mobility", targetReps: 15, weight: 0, reps: 15, done: false },
           { setNum: 2, type: "Mobility", targetReps: 15, weight: 0, reps: 15, done: false }
@@ -428,8 +428,8 @@ const DEFAULT_PLAN = {
       {
         id: "su4",
         name: "45-Minute Outdoor Low-Intensity Walk",
-        target: "Aerobic Base & Lymphatic Drainage",
-        notes: "Breathe through nose, relaxed pace in fresh air.",
+        target: "[4/4] Aerobic Base & Active CNS Recovery (Taazi Hawa Me Walk)",
+        notes: "Naak se saans lein, aaramdayak pace par 7,000 steps chalein. Fresh oxygen se body recover hoti hai.",
         sets: [
           { setNum: 1, type: "Cardio", targetReps: 45, weight: 0, reps: 45, done: false }
         ]
@@ -455,6 +455,32 @@ const STORAGE_REMINDERS = 'tushu_gym_reminders_v1';
 const STORAGE_ROADMAP = 'tushu_gym_roadmap_v1';
 const STORAGE_USER_NAME = 'tushu_gym_user_name_v1';
 const STORAGE_PLAN_CONFIGURED = 'tushu_user_plan_configured_v1';
+const STORAGE_USER_PIN = 'tushu_gym_user_pin_v1';
+const STORAGE_LOGGED_OUT = 'tushu_gym_logged_out_v1';
+
+function saveUserPin(pin) {
+  try {
+    if (pin && String(pin).trim()) {
+      localStorage.setItem(STORAGE_USER_PIN, String(pin).trim());
+    } else {
+      localStorage.removeItem(STORAGE_USER_PIN);
+    }
+  } catch (e) {
+    console.error("Error saving PIN", e);
+  }
+}
+
+function getUserPin() {
+  try {
+    return localStorage.getItem(STORAGE_USER_PIN) || '';
+  } catch (e) {
+    return '';
+  }
+}
+
+function hasUserPin() {
+  return Boolean(getUserPin());
+}
 
 function getTodayDateStr() {
   const d = new Date();
@@ -516,7 +542,34 @@ function getTodayDayKey() {
 function loadPlan() {
   try {
     const saved = localStorage.getItem(STORAGE_PLAN);
-    if (saved) return JSON.parse(saved);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      // Auto-update Hinglish target and notes from DEFAULT_PLAN
+      let hasUpdate = false;
+      Object.keys(DEFAULT_PLAN).forEach(day => {
+        if (parsed[day] && DEFAULT_PLAN[day]) {
+          parsed[day].title = DEFAULT_PLAN[day].title;
+          parsed[day].focus = DEFAULT_PLAN[day].focus;
+          parsed[day].description = DEFAULT_PLAN[day].description;
+          if (Array.isArray(parsed[day].exercises)) {
+            parsed[day].exercises.forEach((ex, idx) => {
+              const defEx = DEFAULT_PLAN[day].exercises[idx];
+              if (defEx && (defEx.name === ex.name || defEx.id === ex.id)) {
+                if (ex.target !== defEx.target || ex.notes !== defEx.notes) {
+                  ex.target = defEx.target;
+                  ex.notes = defEx.notes;
+                  hasUpdate = true;
+                }
+              }
+            });
+          }
+        }
+      });
+      if (hasUpdate) {
+        localStorage.setItem(STORAGE_PLAN, JSON.stringify(parsed));
+      }
+      return parsed;
+    }
   } catch (e) {
     console.error("Error loading plan", e);
   }
@@ -599,7 +652,7 @@ function updateUserGreeting() {
   }
   const subgreetingEl = document.getElementById('headerSubgreeting');
   if (subgreetingEl) {
-    const dietStr = athleteRoadmap && athleteRoadmap.dietType ? athleteRoadmap.dietType.toUpperCase() : 'v0.03';
+    const dietStr = athleteRoadmap && athleteRoadmap.dietType ? athleteRoadmap.dietType.toUpperCase() : 'v0.04';
     subgreetingEl.innerText = `Ready to train • ${dietStr}`;
   }
 }
@@ -690,22 +743,127 @@ let onboardingPlanState = {
 };
 
 function checkOnboarding() {
+  const isLoggedOut = localStorage.getItem(STORAGE_LOGGED_OUT) === 'true';
   const isDone = localStorage.getItem(STORAGE_ONBOARDED);
   const screen = document.getElementById('viewOnboarding');
-  if (screen) {
-    if (isDone === 'true') {
-      screen.classList.add('hidden');
-    } else {
-      screen.classList.remove('hidden');
-      resetOnboardingView();
-      const input = document.getElementById('onboardingUserNameInput');
-      if (input) {
-        const saved = localStorage.getItem(STORAGE_USER_NAME);
-        if (saved && saved !== 'Athlete') input.value = saved;
-        setTimeout(() => input.focus(), 300);
-      }
+  if (!screen) return;
+
+  if (isLoggedOut) {
+    screen.classList.remove('hidden');
+    screen.style.display = 'block';
+    setupAthleteLoginScreen();
+  } else if (isDone === 'true') {
+    screen.classList.add('hidden');
+    screen.style.display = 'none';
+  } else {
+    screen.classList.remove('hidden');
+    screen.style.display = 'block';
+    resetOnboardingView();
+    const input = document.getElementById('onboardingUserNameInput');
+    if (input) {
+      const saved = localStorage.getItem(STORAGE_USER_NAME);
+      if (saved && saved !== 'Athlete') input.value = saved;
+      setTimeout(() => input.focus(), 300);
     }
   }
+}
+
+function handleUserLogout() {
+  const ok = confirm("Kya aap logout karna chahte hain? Aapka sara workout aur diet data device me 100% safe rahega aur aap kabhi bhi wapas login kar sakte hain.");
+  if (!ok) return;
+
+  localStorage.setItem(STORAGE_LOGGED_OUT, 'true');
+  closeSideDrawer();
+  
+  const screen = document.getElementById('viewOnboarding');
+  if (screen) {
+    screen.classList.remove('hidden');
+    screen.style.display = 'block';
+  }
+  
+  setupAthleteLoginScreen();
+}
+
+function setupAthleteLoginScreen() {
+  resetOnboardingView();
+  
+  const savedName = getUserName();
+  const savedPin = getUserPin();
+  
+  const titleEl = document.getElementById('onboardingHeroTitle');
+  const subEl = document.getElementById('onboardingHeroSubtitle');
+  const nameInput = document.getElementById('onboardingUserNameInput');
+  const pinLabel = document.getElementById('onboardingPinLabel');
+  const pinInput = document.getElementById('onboardingUserPinInput');
+  const pinHint = document.getElementById('onboardingPinHint');
+  const btnText = document.getElementById('btnOnboardingContinueText');
+  const switchBtn = document.getElementById('btnSwitchAthlete');
+
+  if (nameInput) {
+    nameInput.value = (savedName && savedName !== 'Athlete') ? savedName : '';
+  }
+
+  if (titleEl) {
+    titleEl.textContent = (savedName && savedName !== 'Athlete') ? `Welcome Back, ${savedName}!` : 'Athlete Login';
+  }
+
+  if (subEl) {
+    subEl.textContent = savedPin ? 'Apna dashboard access karne ke liye PIN enter karein.' : 'Apna dashboard access karne ke liye Log In karein (100% Free).';
+  }
+
+  if (pinLabel) {
+    pinLabel.textContent = savedPin ? 'ENTER YOUR PIN / PASSWORD' : 'LOGIN PIN / PASSWORD (OPTIONAL • FREE)';
+  }
+
+  if (pinInput) {
+    pinInput.value = '';
+    pinInput.placeholder = savedPin ? 'Enter your PIN or password' : 'Set PIN or Password (optional)';
+  }
+
+  if (pinHint) {
+    pinHint.textContent = savedPin ? 'Protected by Security PIN' : 'Free offline login • Safe device storage';
+  }
+
+  if (btnText) {
+    btnText.textContent = 'Log In to My Dashboard';
+  }
+
+  if (switchBtn) {
+    switchBtn.style.display = 'block';
+  }
+
+  setTimeout(() => {
+    if (savedPin && pinInput) {
+      pinInput.focus();
+    } else if (nameInput) {
+      nameInput.focus();
+    }
+  }, 200);
+}
+
+function switchAthleteLogin() {
+  const nameInput = document.getElementById('onboardingUserNameInput');
+  const pinInput = document.getElementById('onboardingUserPinInput');
+  const titleEl = document.getElementById('onboardingHeroTitle');
+  const subEl = document.getElementById('onboardingHeroSubtitle');
+  const pinLabel = document.getElementById('onboardingPinLabel');
+  const pinHint = document.getElementById('onboardingPinHint');
+  const btnText = document.getElementById('btnOnboardingContinueText');
+  const switchBtn = document.getElementById('btnSwitchAthlete');
+
+  if (nameInput) {
+    nameInput.value = '';
+    nameInput.focus();
+  }
+  if (pinInput) pinInput.value = '';
+  if (titleEl) titleEl.textContent = 'Athletic Performance Starts Here';
+  if (subEl) subEl.textContent = 'Reverse pyramid 7-12-15 strength lifts, customized athlete nutrition & 100% offline precision tracking.';
+  if (pinLabel) pinLabel.textContent = 'LOGIN PIN / PASSWORD (OPTIONAL • FREE)';
+  if (pinHint) pinHint.textContent = 'Free offline login • Apne data ko secure rakhein';
+  if (btnText) btnText.textContent = 'Continue to Plan Setup';
+  if (switchBtn) switchBtn.style.display = 'none';
+
+  localStorage.removeItem(STORAGE_LOGGED_OUT);
 }
 
 function resetOnboardingView() {
@@ -724,6 +882,11 @@ function goToOnboardingStep2() {
 
   saveUserName(name);
 
+  const pinEl = document.getElementById('onboardingUserPinInput');
+  if (pinEl && pinEl.value.trim()) {
+    saveUserPin(pinEl.value.trim());
+  }
+
   const welcomeNameEl = document.getElementById('onboardingWelcomeName');
   if (welcomeNameEl) welcomeNameEl.textContent = name;
 
@@ -739,6 +902,64 @@ function goToOnboardingStep2() {
   }
   if (btnBack) btnBack.style.display = 'inline-flex';
   if (screen) screen.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function handleOnboardingContinue() {
+  const isLoggedOut = localStorage.getItem(STORAGE_LOGGED_OUT) === 'true';
+  const nameInput = document.getElementById('onboardingUserNameInput');
+  const pinInput = document.getElementById('onboardingUserPinInput');
+  const enteredPin = pinInput ? pinInput.value.trim() : '';
+  const savedPin = getUserPin();
+
+  // If user is currently logged out
+  if (isLoggedOut) {
+    if (savedPin) {
+      if (enteredPin !== savedPin) {
+        alert("Galat PIN / Password! Kripya apna sahi password dalein.");
+        if (pinInput) {
+          pinInput.focus();
+          pinInput.select();
+        }
+        return;
+      }
+    } else {
+      // If no PIN was previously set, but user entered one now, save it
+      if (enteredPin) {
+        saveUserPin(enteredPin);
+      }
+    }
+
+    // Name update if changed
+    if (nameInput && nameInput.value.trim()) {
+      saveUserName(nameInput.value.trim());
+    }
+
+    localStorage.removeItem(STORAGE_LOGGED_OUT);
+    localStorage.setItem(STORAGE_ONBOARDED, 'true');
+
+    const screen = document.getElementById('viewOnboarding');
+    if (screen) {
+      screen.classList.add('hidden');
+      screen.style.display = 'none';
+    }
+
+    updateUserGreeting();
+    renderHomeStats();
+    renderRoadmapHero();
+    switchView('home');
+    return;
+  }
+
+  // First-time onboarding flow: Save name and PIN, then go to Step 2
+  let name = (nameInput && nameInput.value.trim()) ? nameInput.value.trim() : '';
+  if (!name) name = 'Athlete';
+  saveUserName(name);
+
+  if (enteredPin) {
+    saveUserPin(enteredPin);
+  }
+
+  goToOnboardingStep2();
 }
 
 function prevOnboardingStep() {
@@ -859,15 +1080,29 @@ function finishOnboardingSetup() {
 }
 
 function skipOnboarding() {
-  const inputEl = document.getElementById('onboardingUserNameInput');
-  let name = (inputEl && inputEl.value.trim()) ? inputEl.value.trim() : '';
-  if (!name) name = 'Athlete';
-  saveUserName(name);
+  const isLoggedOut = localStorage.getItem(STORAGE_LOGGED_OUT) === 'true';
+  const savedPin = getUserPin();
 
+  if (isLoggedOut && savedPin) {
+    alert("Security PIN set hai. Dashboard open karne ke liye kripya apna PIN dalein.");
+    const pinInput = document.getElementById('onboardingUserPinInput');
+    if (pinInput) pinInput.focus();
+    return;
+  }
+
+  localStorage.removeItem(STORAGE_LOGGED_OUT);
   localStorage.setItem(STORAGE_ONBOARDED, 'true');
 
+  const inputEl = document.getElementById('onboardingUserNameInput');
+  let name = (inputEl && inputEl.value.trim()) ? inputEl.value.trim() : '';
+  if (!name) name = getUserName() || 'Athlete';
+  saveUserName(name);
+
   const screen = document.getElementById('viewOnboarding');
-  if (screen) screen.classList.add('hidden');
+  if (screen) {
+    screen.classList.add('hidden');
+    screen.style.display = 'none';
+  }
 
   updateUserGreeting();
   renderHomeStats();
@@ -879,7 +1114,7 @@ function submitOnboardingName(isSkip = false) {
   if (isSkip) {
     skipOnboarding();
   } else {
-    goToOnboardingStep2();
+    handleOnboardingContinue();
   }
 }
 
@@ -898,23 +1133,33 @@ function showOnboardingScreen() {
 }
 
 function resetForNewUser() {
-  const ok = confirm("Kya aap naye user ke liye app reset karna chahte hain? Sabhi personalized settings naye sire se set hongi.");
+  const ok = confirm("Kya aap device ka sara data clear karke naye sire se app start karna chahte hain?");
   if (!ok) return;
 
   localStorage.removeItem(STORAGE_ONBOARDED);
   localStorage.removeItem(STORAGE_USER_NAME);
   localStorage.removeItem(STORAGE_PLAN_CONFIGURED);
   localStorage.removeItem(STORAGE_ROADMAP);
+  localStorage.removeItem(STORAGE_USER_PIN);
+  localStorage.removeItem(STORAGE_LOGGED_OUT);
+
+  workoutPlan = JSON.parse(JSON.stringify(DEFAULT_PLAN));
+  savePlan();
 
   athleteRoadmap = loadRoadmap();
   
   const inputEl = document.getElementById('onboardingUserNameInput');
   if (inputEl) inputEl.value = '';
+  const pinEl = document.getElementById('onboardingUserPinInput');
+  if (pinEl) pinEl.value = '';
 
   resetOnboardingView();
 
   const screen = document.getElementById('viewOnboarding');
-  if (screen) screen.classList.remove('hidden');
+  if (screen) {
+    screen.classList.remove('hidden');
+    screen.style.display = 'block';
+  }
 
   updateUserGreeting();
   renderMeals();
