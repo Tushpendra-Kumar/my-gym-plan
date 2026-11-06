@@ -11,7 +11,7 @@ if (!fs.existsSync(assetsTarget)) {
 }
 
 // Copy web files
-const filesToCopy = ['index.html', 'style.css', 'visual-guides.js', 'app.js', 'manifest.json'];
+const filesToCopy = ['index.html', 'style.css', 'visual-guides.js', 'app.js', 'manifest.json', 'sw.js'];
 filesToCopy.forEach(file => {
   const src = path.join(rootDir, file);
   const dest = path.join(assetsTarget, file);
