@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg_cream">#FAF7F0</color>
+    <color name="primary_emerald">#059669</color>
+    <color name="text_black">#111827</color>
+    <string name="app_name">Gym Plan</string>
+    <style name="Theme.AthleticGymTracker" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/bg_cream</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor">@color/bg_cream</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:windowBackground">@color/bg_cream</item>
+    </style>
+</resources>

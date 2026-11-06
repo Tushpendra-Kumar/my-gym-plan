@@ -1,0 +1,4 @@
+com.athletic.gymtracker.test.app-androidTest-0 E:\My GYM Plan\android\app\build\generated\res\resValues\androidTest\debug
+com.athletic.gymtracker.test.app-mergeDebugAndroidTestResources-1 E:\My GYM Plan\android\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
+com.athletic.gymtracker.test.app-mergeDebugAndroidTestResources-2 E:\My GYM Plan\android\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
+com.athletic.gymtracker.test.app-merged_res-3 E:\My GYM Plan\android\app\build\intermediates\merged_res\debugAndroidTest

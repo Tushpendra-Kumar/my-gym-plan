@@ -1,0 +1,8 @@
+R_DEF: Internal format may change without notice
+local
+color bg_cream
+color primary_emerald
+color text_black
+mipmap ic_launcher
+string app_name
+style Theme.AthleticGymTracker

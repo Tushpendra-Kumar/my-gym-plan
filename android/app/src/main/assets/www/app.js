@@ -1,5 +1,5 @@
 /**
- * Gym Plan - Ultra-Premium Luxury Monochrome Edition (v0.02)
+ * Gym Plan - Ultra-Premium Luxury Monochrome Edition (v0.03)
  * Powered by Tushpender
  * 7 - 12 - 15 Reverse Pyramid Rep Scheme
  * 100% Offline with LocalStorage, IndexedDB & Service Worker
@@ -599,7 +599,7 @@ function updateUserGreeting() {
   }
   const subgreetingEl = document.getElementById('headerSubgreeting');
   if (subgreetingEl) {
-    const dietStr = athleteRoadmap && athleteRoadmap.dietType ? athleteRoadmap.dietType.toUpperCase() : 'v0.02';
+    const dietStr = athleteRoadmap && athleteRoadmap.dietType ? athleteRoadmap.dietType.toUpperCase() : 'v0.03';
     subgreetingEl.innerText = `Ready to train • ${dietStr}`;
   }
 }
@@ -806,42 +806,56 @@ function selectOnboardingHours(hours) {
 }
 
 function finishOnboardingSetup() {
-  const currentName = getUserName();
-  roadmapFormState = {
-    userName: currentName,
-    duration: onboardingPlanState.duration,
-    diet: onboardingPlanState.diet,
-    hours: onboardingPlanState.hours,
-    goal: onboardingPlanState.goal
-  };
+  try {
+    const currentName = getUserName();
+    roadmapFormState = {
+      userName: currentName,
+      duration: onboardingPlanState.duration,
+      diet: onboardingPlanState.diet,
+      hours: onboardingPlanState.hours,
+      goal: onboardingPlanState.goal
+    };
 
-  athleteRoadmap = generateRoadmapPlan(roadmapFormState);
-  saveRoadmap();
+    athleteRoadmap = generateRoadmapPlan(roadmapFormState);
+    saveRoadmap();
 
-  localStorage.setItem(STORAGE_ONBOARDED, 'true');
-  localStorage.setItem(STORAGE_PLAN_CONFIGURED, 'true');
+    localStorage.setItem(STORAGE_ONBOARDED, 'true');
+    localStorage.setItem(STORAGE_PLAN_CONFIGURED, 'true');
 
-  // Automatically apply meals to Today's tracker
-  if (athleteRoadmap && athleteRoadmap.meals) {
-    nutritionMeals = athleteRoadmap.meals.map((meal, idx) => ({
-      id: 'rm_' + Date.now() + '_' + idx,
-      name: meal.name,
-      desc: `${meal.timing} • ${meal.calories} kcal • ${meal.desc}`,
-      type: meal.type,
-      calories: meal.calories,
-      done: false
-    }));
-    saveMeals();
-    renderMeals();
+    // Automatically apply meals to Today's tracker
+    if (athleteRoadmap && athleteRoadmap.meals) {
+      nutritionMeals = athleteRoadmap.meals.map((meal, idx) => ({
+        id: 'rm_' + Date.now() + '_' + idx,
+        name: meal.name,
+        desc: `${meal.timing} • ${meal.calories} kcal • ${meal.desc}`,
+        type: meal.type,
+        calories: meal.calories,
+        done: false
+      }));
+      saveMeals();
+      renderMeals();
+    }
+  } catch (err) {
+    console.error('Error in finishOnboardingSetup:', err);
+    localStorage.setItem(STORAGE_ONBOARDED, 'true');
+    localStorage.setItem(STORAGE_PLAN_CONFIGURED, 'true');
   }
 
   const screen = document.getElementById('viewOnboarding');
-  if (screen) screen.classList.add('hidden');
+  if (screen) {
+    screen.classList.add('hidden');
+    screen.style.display = 'none';
+  }
 
-  updateUserGreeting();
-  renderHomeStats();
-  renderRoadmapHero();
-  switchView('home');
+  try {
+    updateUserGreeting();
+    renderHomeStats();
+    renderRoadmapHero();
+    switchView('home');
+  } catch (renderErr) {
+    console.error('Render error after onboarding:', renderErr);
+    switchView('home');
+  }
 }
 
 function skipOnboarding() {
@@ -1819,7 +1833,7 @@ function generateRoadmapPlan(options) {
 
   return {
     profileName: profileName,
-    isGuest: isGuest,
+    isGuest: Boolean(options && options.isGuest),
     durationDays: duration,
     startDate: getTodayDateStr(),
     dietType: diet,

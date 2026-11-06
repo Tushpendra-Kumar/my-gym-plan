@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Gym Plan</title>
+  
+  <!-- Apple iOS & PWA Meta Tags -->
+  <meta name="theme-color" content="#f2f2f7">
+  <meta name="description" content="Gym Plan - Apple-Inspired Athletic Workout & Nutrition Tracker. 100% Offline.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Gym Plan">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="icon" type="image/png" href="./icons/icon-192.png">
+
+  <link rel="stylesheet" href="./style.css?v=0.03">
+</head>
+<body>
+
+  <!-- ===================================================
+       1. WELCOME ONBOARDING SCREEN (Apple Fitness Style)
+       Step 1: Goku Ultra Instinct Hero & Name Entry
+       Step 2: Food Category, Months Duration & Purpose Setup
+       =================================================== -->
+  <div id="viewOnboarding" class="onboarding-screen">
+    <div class="onboarding-top-bar">
+      <div class="onboarding-brand">
+        <button id="btnOnboardingBack" class="icon-btn" onclick="prevOnboardingStep()" style="display: none; width: 28px; height: 28px; margin-right: 4px;" aria-label="Back">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <span class="brand-accent-pill"></span>
+        <span class="brand-title" id="onboardingBrandTitle">Gym Plan</span>
+      </div>
+      <button class="btn-skip-pill" onclick="skipOnboarding()" aria-label="Skip to Dashboard">
+        <span>Skip</span>
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- ==============================================
+         STEP 1: WELCOME SCREEN (GOKU ANIMATION + NAME)
+         ============================================== -->
+    <div id="onboardingStep1" class="onboarding-step-content active">
+      
+      <!-- Cinematic Goku Warrior Animation Frame -->
+      <div class="onboarding-hero-wrapper">
+        <div class="onboarding-hero-aura"></div>
+        <div class="onboarding-hero">
+          <img src="./images/hero-goku.jpg" alt="Ultra Instinct Goku Mindset" class="onboarding-hero-img">
+          <div class="onboarding-hero-overlay"></div>
+          <div class="onboarding-hero-badge">
+            <span class="hero-badge-dot" style="background: #ffffff; box-shadow: 0 0 8px #ffffff;"></span>
+            <span>Ultra Instinct Mindset • v0.02</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="max-width: 360px; margin: 0 auto; width: 100%; text-align: center;">
+        <h1 style="font-size: 1.55rem; font-weight: 600; line-height: 1.22; color: var(--text-primary); letter-spacing: -0.02em; margin-bottom: 6px;">
+          Athletic Performance Starts Here
+        </h1>
+        <p style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 16px; font-weight: 400;">
+          Reverse pyramid 7-12-15 strength lifts, customized athlete nutrition & 100% offline precision tracking.
+        </p>
+
+        <!-- Athlete Name Input Field -->
+        <div class="onboarding-input-wrap">
+          <label for="onboardingUserNameInput" class="onboarding-input-label">WHAT SHOULD WE CALL YOU?</label>
+          <div class="onboarding-name-field">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-tertiary); margin-left: 12px; flex-shrink: 0;">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <input type="text" id="onboardingUserNameInput" placeholder="Enter your name (e.g. Virat, Rohit)" maxlength="24" autocomplete="name" onkeydown="if(event.key==='Enter') goToOnboardingStep2();">
+          </div>
+        </div>
+        
+        <button class="btn-get-started" onclick="goToOnboardingStep2()">
+          <span>Continue to Plan Setup</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+
+        <div style="text-align: center; margin-top: 14px;">
+          <span class="powered-by-tag">Powered by <strong>Tushpender</strong> • v0.02</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==============================================
+         STEP 2: PLAN CUSTOMIZATION SCREEN
+         (FOOD CATEGORY, MONTHS, PURPOSE, GYM HOURS)
+         ============================================== -->
+    <div id="onboardingStep2" class="onboarding-step-content" style="display: none; max-width: 440px; margin: 0 auto; width: 100%; padding-bottom: 24px;">
+      
+      <div style="text-align: center; margin-bottom: 16px;">
+        <span class="step-counter-pill">STEP 2 OF 2 • PLAN SETUP</span>
+        <h2 style="font-size: 1.45rem; font-weight: 600; color: var(--text-primary); margin-top: 6px; margin-bottom: 4px;">
+          Welcome, <span id="onboardingWelcomeName" style="color: var(--text-primary);">Athlete</span>!
+        </h2>
+        <p style="font-size: 0.8rem; color: var(--text-secondary);">
+          Choose your food category, duration & training purpose to generate your customized gym roadmap.
+        </p>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        
+        <!-- Food Category -->
+        <div>
+          <label class="roadmap-field-label">Food Category & Diet (Kya khana hai)</label>
+          <div class="options-pill-grid cols-3" id="onboardingDietGrid">
+            <button type="button" class="option-pill active" data-diet="veg" onclick="selectOnboardingDiet('veg')">
+              <span class="pill-title">Vegetarian</span>
+              <span class="pill-desc">Paneer, Soya, Dal</span>
+            </button>
+            <button type="button" class="option-pill" data-diet="non-veg" onclick="selectOnboardingDiet('non-veg')">
+              <span class="pill-title">Non-Veg</span>
+              <span class="pill-desc">Eggs, Chicken, Fish</span>
+            </button>
+            <button type="button" class="option-pill" data-diet="eggetarian" onclick="selectOnboardingDiet('eggetarian')">
+              <span class="pill-title">Eggetarian</span>
+              <span class="pill-desc">Eggs + Dairy Veg</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Plan Duration -->
+        <div>
+          <label class="roadmap-field-label">Plan Duration (Kitne months / days)</label>
+          <div class="options-pill-grid cols-2" id="onboardingDurationGrid">
+            <button type="button" class="option-pill active" data-days="30" onclick="selectOnboardingDuration(30)">
+              <span class="pill-title">1 Month (30 Days)</span>
+              <span class="pill-desc">Recommended Transformation</span>
+            </button>
+            <button type="button" class="option-pill" data-days="60" onclick="selectOnboardingDuration(60)">
+              <span class="pill-title">2 Months (60 Days)</span>
+              <span class="pill-desc">Athletic Peak Conditioning</span>
+            </button>
+            <button type="button" class="option-pill" data-days="90" onclick="selectOnboardingDuration(90)">
+              <span class="pill-title">3 Months (90 Days)</span>
+              <span class="pill-desc">Total Body Athletic Shred</span>
+            </button>
+            <button type="button" class="option-pill" data-days="14" onclick="selectOnboardingDuration(14)">
+              <span class="pill-title">14 Days (2 Weeks)</span>
+              <span class="pill-desc">Quick Kickstart Reset</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Training Purpose -->
+        <div>
+          <label class="roadmap-field-label">Training Purpose (Kis purpose ke liye)</label>
+          <div class="options-pill-grid cols-2" id="onboardingGoalGrid">
+            <button type="button" class="option-pill active" data-goal="shred" onclick="selectOnboardingGoal('shred')">
+              <span class="pill-title">Athletic Lean Shred</span>
+              <span class="pill-desc">Virat Kohli Protocol • 6-Pack</span>
+            </button>
+            <button type="button" class="option-pill" data-goal="bulk" onclick="selectOnboardingGoal('bulk')">
+              <span class="pill-title">Clean Muscle Bulk</span>
+              <span class="pill-desc">Hypertrophy & V-Taper</span>
+            </button>
+            <button type="button" class="option-pill" data-goal="speed" onclick="selectOnboardingGoal('speed')">
+              <span class="pill-title">Speed & Agility</span>
+              <span class="pill-desc">Sports Torque & Stamina</span>
+            </button>
+            <button type="button" class="option-pill" data-goal="fitness" onclick="selectOnboardingGoal('fitness')">
+              <span class="pill-title">Daily Fitness</span>
+              <span class="pill-desc">Core Health & Posture</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Daily Gym Hours -->
+        <div>
+          <label class="roadmap-field-label">Daily Gym Hours & Split (Kitne ghante gym)</label>
+          <div class="options-pill-grid cols-1" id="onboardingHoursGrid">
+            <button type="button" class="option-pill active" data-hours="1.5-2" onclick="selectOnboardingHours('1.5-2')">
+              <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <span class="pill-title">1.5 - 2 Hours / Day</span>
+                <span class="pill-badge" style="background: rgba(0, 0, 0, 0.08); color: var(--text-primary); font-weight: 700; font-size: 0.65rem; padding: 2px 7px; border-radius: 99px;">ELITE ATHLETE</span>
+              </div>
+              <span class="pill-desc">15m Warmup + 65m 7-12-15 Lifts + 15m Core/Grip + 10m Mobility</span>
+            </button>
+            <button type="button" class="option-pill" data-hours="1" onclick="selectOnboardingHours('1')">
+              <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <span class="pill-title">60 - 75 Min / Day</span>
+                <span class="pill-badge" style="background: rgba(0,0,0,0.06); color: var(--text-secondary); font-size: 0.65rem; padding: 2px 7px; border-radius: 99px;">SPORTSMAN</span>
+              </div>
+              <span class="pill-desc">10m Warmup + 45m 7-12-15 Hypertrophy + 10m Core & Stretch</span>
+            </button>
+            <button type="button" class="option-pill" data-hours="0.75" onclick="selectOnboardingHours('0.75')">
+              <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <span class="pill-title">45 Min / Day</span>
+                <span class="pill-badge" style="background: rgba(0,0,0,0.06); color: var(--text-secondary); font-size: 0.65rem; padding: 2px 7px; border-radius: 99px;">EXPRESS</span>
+              </div>
+              <span class="pill-desc">5m Warmup + 35m High-Torque Compound Sets + 5m Stretch</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="margin-top: 18px; margin-bottom: 10px;">
+        <button class="btn-get-started" onclick="finishOnboardingSetup()" style="background: #000000; color: #ffffff;">
+          <span>Launch My Dashboard ⚡</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+
+      <div style="text-align: center; margin-top: 14px;">
+        <span class="powered-by-tag">Powered by <strong>Tushpender</strong> • v0.02</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ===================================================
+       2. TOP APP HEADER (Apple Clean HIG)
+       Left: Menu  |  Center: Hi, {UserName}  |  Right: Bell Icon
+       =================================================== -->
+  <header class="app-header">
+    <div class="header-container">
+      
+      <!-- Minimalist Vector Menu Button -->
+      <button class="nav-icon-btn" onclick="toggleSideDrawer()" aria-label="Open Navigation">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="4" y1="7" x2="20" y2="7" />
+          <line x1="4" y1="17" x2="20" y2="17" />
+        </svg>
+      </button>
+
+      <!-- Center Greeting (Typography Only - Zero Emojis) -->
+      <div class="header-greeting-wrap" onclick="switchView('home')">
+        <span id="headerGreetingName" class="header-greeting">Hi, Athlete</span>
+        <span id="headerSubgreeting" class="header-subgreeting">Ready to train • v0.02</span>
+      </div>
+
+      <!-- Minimalist Vector Bell Button -->
+      <button class="btn-notification" onclick="openNotificationsModal()" aria-label="Notifications">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+          <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+        </svg>
+        <span class="notification-dot"></span>
+      </button>
+
+    </div>
+  </header>
+
+  <!-- ===================================================
+       3. MAIN CONTAINER (Views)
+       =================================================== -->
+  <main class="main-wrapper">
+
+    <!-- -----------------------------------------------
+         VIEW 1: HOME DASHBOARD (Apple Health Style)
+         ----------------------------------------------- -->
+    <div id="viewHome" class="app-view active">
+
+      <!-- Today's Progress Card -->
+      <section class="glass-card progress-card">
+        <div class="card-header-row">
+          <h2 class="card-title">Today's Progress</h2>
+          <span id="homeTodayName" style="font-size: 0.8rem; font-weight: 600; color: var(--apple-green-dark);">Monday</span>
+        </div>
+
+        <div class="progress-hero-content">
+          <!-- Circular Ring -->
+          <div class="circle-progress-wrapper">
+            <svg class="circle-svg" viewBox="0 0 100 100">
+              <circle class="circle-bg" cx="50" cy="50" r="45"></circle>
+              <circle id="homeProgressCircle" class="circle-bar" cx="50" cy="50" r="45"></circle>
+            </svg>
+            <div id="homeProgressPct" class="circle-text">0%</div>
+          </div>
+
+          <!-- Metrics List -->
+          <div class="progress-metrics-list">
+            <div class="metric-row">
+              <div class="metric-row-left">
+                <span class="metric-dot" style="background: var(--apple-green);"></span>
+                <span>Workout</span>
+              </div>
+              <span id="homeStatFocus" class="metric-row-val">Chest</span>
+            </div>
+
+            <div class="metric-row">
+              <div class="metric-row-left">
+                <span class="metric-dot" style="background: var(--apple-orange);"></span>
+                <span>Volume</span>
+              </div>
+              <span id="homeStatVolume" class="metric-row-val">0 kg</span>
+            </div>
+
+            <div class="metric-row">
+              <div class="metric-row-left">
+                <span class="metric-dot" style="background: var(--apple-blue);"></span>
+                <span>Sets Done</span>
+              </div>
+              <span id="homeStatSets" class="metric-row-val">0 / 15</span>
+            </div>
+
+            <div class="metric-row">
+              <div class="metric-row-left">
+                <span class="metric-dot" style="background: var(--apple-purple);"></span>
+                <span>Session Duration</span>
+              </div>
+              <span id="homeStatTime" class="metric-row-val">~45 min</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Weekly Activity Card -->
+      <section class="glass-card weekly-activity-card">
+        <div class="card-header-row">
+          <h2 class="card-title">Weekly Activity</h2>
+          <span style="font-size: 0.72rem; font-weight: 500; color: var(--text-tertiary);">7-DAY PLAN</span>
+        </div>
+
+        <div class="bar-chart-container" id="weeklyBarsContainer">
+          <!-- Injected via JS -->
+        </div>
+      </section>
+
+      <!-- Quick Actions Grid -->
+      <div class="card-header-row" style="margin: 8px 2px 8px;">
+        <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em;">Quick Access</span>
+      </div>
+
+      <div class="quick-actions-grid">
+        <div class="action-tile" onclick="switchView('workouts')">
+          <div class="action-tile-icon" style="background: var(--apple-green-subtle); color: var(--apple-green-dark);">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 5v14M18 5v14M2 9v6M22 9v6M6 12h12"/></svg>
+          </div>
+          <div>
+            <span class="action-tile-title">Start Workout</span>
+            <span class="action-tile-sub">Today's 7-12-15</span>
+          </div>
+        </div>
+
+        <div class="action-tile" onclick="switchView('nutrition')">
+          <div class="action-tile-icon" style="background: var(--apple-orange-subtle); color: var(--apple-orange);">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+          </div>
+          <div>
+            <span class="action-tile-title">Log Meals</span>
+            <span class="action-tile-sub">Athlete Diet</span>
+          </div>
+        </div>
+
+        <div class="action-tile" onclick="switchView('activity')">
+          <div class="action-tile-icon" style="background: var(--apple-blue-subtle); color: var(--apple-blue);">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+          </div>
+          <div>
+            <span class="action-tile-title">Performance</span>
+            <span class="action-tile-sub">PRs & Volume</span>
+          </div>
+        </div>
+
+        <div class="action-tile" onclick="toggleRestTimerQuick()">
+          <div class="action-tile-icon" style="background: rgba(175, 82, 222, 0.08); color: var(--apple-purple);">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M10 2h4M12 2v3"/></svg>
+          </div>
+          <div>
+            <span class="action-tile-title">Rest Timer</span>
+            <span class="action-tile-sub">Stopwatch (60s)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page Footer -->
+      <div class="app-page-footer">
+        Powered by <strong>Tushpender</strong> • v0.02
+      </div>
+
+    </div>
+
+
+    <!-- -----------------------------------------------
+         VIEW 2: WORKOUTS PLANNER (Clean Apple Fitness Inset Cards)
+         ----------------------------------------------- -->
+    <div id="viewWorkouts" class="app-view">
+
+      <div class="card-header-row" style="margin-bottom: 8px;">
+        <h2 class="view-main-title">Workouts</h2>
+        <button class="btn btn-primary" style="padding: 6px 14px; font-size: 0.78rem;" onclick="openAddExerciseModal()">
+          + Add
+        </button>
+      </div>
+
+      <!-- Segmented Day Filter Row -->
+      <div class="filter-pills-row" id="workoutDayPills">
+        <!-- Injected via JS -->
+      </div>
+
+      <!-- Workout Day Header Banner -->
+      <section class="glass-card workout-today-banner">
+        <span id="workoutTodayBadge" class="today-badge-pill">TODAY</span>
+        <h1 id="workoutDayTitle" class="banner-day-title">Chest & Athletic Core</h1>
+        <p id="workoutDayFocus" class="banner-day-focus">Push Strength & Core Stability</p>
+        
+        <div class="scheme-pill-box">
+          <span>Reverse Pyramid: Set 1 (7 Reps) · Set 2 (12 Reps) · Set 3 (15 Reps)</span>
+        </div>
+      </section>
+
+      <!-- Clean Exercise List -->
+      <div id="exerciseList" class="exercise-list">
+        <!-- Injected via JS -->
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-top: 14px;">
+        <button class="btn btn-outline" style="flex: 1;" onclick="toggleRestTimerQuick()">
+          Rest Timer
+        </button>
+        <button class="btn btn-danger-subtle" style="flex: 1;" onclick="resetTodayWorkout()">
+          Reset Today's Sets
+        </button>
+      </div>
+
+      <!-- Page Footer -->
+      <div class="app-page-footer">
+        Powered by <strong>Tushpender</strong> • v0.02
+      </div>
+
+    </div>
+
+
+    <!-- -----------------------------------------------
+         VIEW 3: ACTIVITY & STATS
+         ----------------------------------------------- -->
+    <div id="viewActivity" class="app-view">
+
+      <h2 class="view-main-title" style="margin-bottom: 12px;">Activity</h2>
+
+      <!-- Time Pills -->
+      <div class="time-pills-row">
+        <button class="time-pill" onclick="setTimePill(this)">Day</button>
+        <button class="time-pill active" onclick="setTimePill(this)">Week</button>
+        <button class="time-pill" onclick="setTimePill(this)">Month</button>
+        <button class="time-pill" onclick="setTimePill(this)">Year</button>
+      </div>
+
+      <!-- Volume Chart Card -->
+      <section class="glass-card activity-card">
+        <div class="card-header-row">
+          <div>
+            <span style="font-size: 0.7rem; font-weight: 500; color: var(--text-tertiary); text-transform: uppercase;">Total Volume</span>
+            <div id="actVolumeNum" style="font-size: 1.5rem; font-weight: 600; color: var(--text-primary); margin-top: 2px;">
+              0 kg
+            </div>
+          </div>
+          <span style="font-size: 0.74rem; font-weight: 600; color: var(--apple-green-dark); background: var(--apple-green-subtle); padding: 3px 8px; border-radius: var(--radius-full);">
+            Volume Trend Active
+          </span>
+        </div>
+
+        <div class="chart-container">
+          <svg class="chart-svg" viewBox="0 0 300 120" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="waveGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="rgba(52, 199, 89, 0.25)" />
+                <stop offset="100%" stop-color="rgba(52, 199, 89, 0.0)" />
+              </linearGradient>
+            </defs>
+            <path d="M0,95 Q40,65 80,72 T160,42 T240,58 T300,32 L300,120 L0,120 Z" fill="url(#waveGrad)" />
+            <path d="M0,95 Q40,65 80,72 T160,42 T240,58 T300,32" fill="none" stroke="#34c759" stroke-width="2.5" stroke-linecap="round" />
+            <circle cx="240" cy="58" r="4.5" fill="#ffffff" stroke="#34c759" stroke-width="2.5" />
+          </svg>
+          <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-tertiary); font-weight: 500; padding: 4px 6px 0;">
+            <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Personal Records Card -->
+      <section class="glass-card" style="padding: 18px 20px;">
+        <h3 style="font-size: 0.94rem; font-weight: 600; color: var(--text-primary); margin-bottom: 10px;">Personal Records</h3>
+        <div id="activityPrList">
+          <!-- Injected via JS -->
+        </div>
+      </section>
+
+      <!-- Page Footer -->
+      <div class="app-page-footer">
+        Powered by <strong>Tushpender</strong> • v0.02
+      </div>
+
+    </div>
+
+
+    <!-- -----------------------------------------------
+         VIEW 4: NUTRITION & DIET (Clean Apple Style)
+         ----------------------------------------------- -->
+    <div id="viewNutrition" class="app-view">
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <h2 class="view-main-title" style="margin-bottom: 0;">Nutrition & Diet</h2>
+        <button class="btn-sm-pill" onclick="openRoadmapModal()" style="display: inline-flex; align-items: center; gap: 5px; font-size: 0.76rem; padding: 6px 12px; background: rgba(52, 199, 89, 0.12); color: var(--apple-green-dark); border: 0.5px solid rgba(52, 199, 89, 0.25); border-radius: var(--radius-full); font-weight: 600; cursor: pointer;">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Roadmap Generator
+        </button>
+      </div>
+
+      <!-- ACTIVE ROADMAP HERO CARD -->
+      <section class="glass-card roadmap-hero-card" id="roadmapHeroCard">
+        <!-- Injected via renderRoadmapHero() -->
+      </section>
+
+      <section class="glass-card nutrition-card">
+        <div class="calorie-target-wrap">
+          <div>
+            <span style="font-size: 0.7rem; font-weight: 500; color: var(--text-tertiary); text-transform: uppercase;">Daily Energy Target</span>
+            <div class="calorie-num" id="nutriTargetDisplay">2,400 <span style="font-size: 0.92rem; color: var(--text-tertiary); font-weight: 400;">kcal</span></div>
+          </div>
+          <span id="nutriConsumed" style="font-size: 0.82rem; font-weight: 600; color: var(--text-primary);">1,750 / 2,400</span>
+        </div>
+
+        <div class="calorie-bar-track">
+          <div class="calorie-bar-fill" id="nutriBarFill"></div>
+        </div>
+
+        <!-- Macro 3-column Grid -->
+        <div class="macros-grid">
+          <div class="macro-box">
+            <span class="macro-label">Carbs</span>
+            <div class="macro-val" id="macroCarbsVal">220g</div>
+            <span class="macro-pct pct-carbs" id="macroCarbsPct">45%</span>
+          </div>
+          <div class="macro-box">
+            <span class="macro-label">Protein</span>
+            <div class="macro-val" id="macroProteinVal">160g</div>
+            <span class="macro-pct pct-protein" id="macroProteinPct">30%</span>
+          </div>
+          <div class="macro-box">
+            <span class="macro-label">Fats</span>
+            <div class="macro-val" id="macroFatsVal">60g</div>
+            <span class="macro-pct pct-fats" id="macroFatsPct">25%</span>
+          </div>
+        </div>
+
+        <div class="card-header-row" style="margin-bottom: 10px;">
+          <h3 style="font-size: 0.94rem; font-weight: 600; color: var(--text-primary);">Today's Fuel</h3>
+          <span id="nutriDietBadge" style="font-size: 0.72rem; color: var(--text-primary); font-weight: 700; background: rgba(0, 0, 0, 0.06); border: 0.5px solid rgba(0, 0, 0, 0.1); padding: 2px 8px; border-radius: var(--radius-full);">HIGH PROTEIN</span>
+        </div>
+
+        <div class="meals-list" id="mealsListContainer">
+          <!-- Injected via JS -->
+        </div>
+
+        <button class="btn-log-food" onclick="openAddMealModal()">
+          + Add Meal Log
+        </button>
+      </section>
+
+      <!-- Page Footer -->
+      <div class="app-page-footer">
+        Powered by <strong>Tushpender</strong> • v0.02
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ===================================================
+       4. APPLE iOS MINIMALIST FLOATING TAB BAR
+       =================================================== -->
+  <nav class="bottom-nav-bar">
+    <button id="tabHome" class="bottom-nav-item active" onclick="switchView('home')" aria-label="Home">
+      <div class="bottom-nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 10.5L12 3l9 7.5v9a2 2 0 0 1-2 2h-4a1 1 0 0 1-1-1v-4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v4a1 1 0 0 1-1 1H5a2 2 0 0 1-2-2z"/>
+        </svg>
+      </div>
+      <span class="bottom-nav-label">Home</span>
+    </button>
+
+    <button id="tabWorkouts" class="bottom-nav-item" onclick="switchView('workouts')" aria-label="Workouts">
+      <div class="bottom-nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 5v14M18 5v14M2 9v6M22 9v6M6 12h12" />
+        </svg>
+      </div>
+      <span class="bottom-nav-label">Workouts</span>
+    </button>
+
+    <button id="tabActivity" class="bottom-nav-item" onclick="switchView('activity')" aria-label="Activity">
+      <div class="bottom-nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="20" x2="18" y2="10" />
+          <line x1="12" y1="20" x2="12" y2="4" />
+          <line x1="6" y1="20" x2="6" y2="14" />
+        </svg>
+      </div>
+      <span class="bottom-nav-label">Activity</span>
+    </button>
+
+    <button id="tabNutrition" class="bottom-nav-item" onclick="switchView('nutrition')" aria-label="Food">
+      <div class="bottom-nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 11h16a1 1 0 0 1 1 1 8.5 8.5 0 0 1-17 0 1 1 0 0 1 0-1z" />
+          <path d="M12 4v4" />
+          <path d="M8.5 5.5l2 2.5" />
+          <path d="M15.5 5.5l-2 2.5" />
+        </svg>
+      </div>
+      <span class="bottom-nav-label">Food</span>
+    </button>
+
+    <button id="tabTimer" class="bottom-nav-item" onclick="toggleRestTimerQuick()" aria-label="Timer">
+      <div class="bottom-nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="13" r="8" />
+          <polyline points="12 9 12 13 14.5 15" />
+          <line x1="10" y1="2" x2="14" y2="2" />
+          <line x1="12" y1="2" x2="12" y2="5" />
+        </svg>
+      </div>
+      <span class="bottom-nav-label">Timer</span>
+    </button>
+  </nav>
+
+  <!-- ===================================================
+       5. REST TIMER WIDGET
+       =================================================== -->
+  <div id="restTimerWidget" class="rest-timer-widget">
+    <div class="timer-circle-wrapper">
+      <svg class="timer-svg" viewBox="0 0 100 100">
+        <circle class="timer-bg-circle" cx="50" cy="50" r="45"></circle>
+        <circle id="timerProgressCircle" class="timer-progress-circle" cx="50" cy="50" r="45"></circle>
+      </svg>
+      <div id="timerCountdown" class="timer-countdown">01:00</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 3px;">
+      <span style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-tertiary); font-weight: 600;">Rest Interval</span>
+      <div class="timer-quick-presets">
+        <button class="preset-pill" onclick="startRestTimer(45)">45s</button>
+        <button class="preset-pill" onclick="startRestTimer(60)">60s</button>
+        <button class="preset-pill" onclick="startRestTimer(90)">90s</button>
+        <button class="preset-pill" onclick="addTimerSeconds(30)">+30s</button>
+      </div>
+    </div>
+
+    <button class="icon-btn" onclick="stopRestTimer()" title="Close" aria-label="Close">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+
+  <!-- ===================================================
+       6. SLIDE-OVER SIDE DRAWER (Clean Apple Styling)
+       =================================================== -->
+  <div id="drawerBackdrop" class="drawer-backdrop" onclick="closeSideDrawer()">
+    <nav class="side-drawer" onclick="event.stopPropagation()">
+      <div class="drawer-header">
+        <div>
+          <div id="drawerUserName" class="drawer-name">Athlete</div>
+          <span id="drawerUserRole" class="drawer-role">Personalized Athlete Plan</span>
+        </div>
+        <button class="icon-btn" onclick="closeSideDrawer()" aria-label="Close Drawer">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="drawer-body">
+        <div class="drawer-section-title">NAVIGATION</div>
+        <a class="drawer-item" onclick="closeSideDrawer(); switchView('home');">Home Dashboard</a>
+        <a class="drawer-item" onclick="closeSideDrawer(); switchView('workouts');">7-Day Workout Routine</a>
+        <a class="drawer-item" onclick="closeSideDrawer(); switchView('activity');">Activity & Volume Trends</a>
+        <a class="drawer-item" onclick="closeSideDrawer(); switchView('nutrition');">Nutrition & Diet Plan</a>
+
+        <div class="drawer-section-title">SCHEDULE JUMP</div>
+        <a class="drawer-item" onclick="selectDayFromDrawer('monday')">Monday: Chest & Core</a>
+        <a class="drawer-item" onclick="selectDayFromDrawer('tuesday')">Tuesday: Back & Posterior</a>
+        <a class="drawer-item" onclick="selectDayFromDrawer('wednesday')">Wednesday: Shoulders & Core</a>
+        <a class="drawer-item" onclick="selectDayFromDrawer('thursday')">Thursday: Arms & Grip</a>
+        <a class="drawer-item" onclick="selectDayFromDrawer('friday')">Friday: Athletic HIIT</a>
+        <a class="drawer-item" onclick="selectDayFromDrawer('saturday')">Saturday: Legs & Power</a>
+        <a class="drawer-item" onclick="selectDayFromDrawer('sunday')">Sunday: Active Recovery</a>
+
+        <div class="drawer-section-title">DATA & PERSONALIZATION</div>
+        <a class="drawer-item" onclick="closeSideDrawer(); openRoadmapModal();" style="color: var(--text-primary); font-weight: 700;">Edit Profile & Plan Goals</a>
+        <a class="drawer-item" onclick="closeSideDrawer(); openModal('backupModal');">Backup & Restore</a>
+        <a class="drawer-item" onclick="closeSideDrawer(); resetTodayWorkout();">Reset Today's Sets</a>
+        <a class="drawer-item" onclick="closeSideDrawer(); resetForNewUser();" style="color: #ff3b30;">Reset App for New User</a>
+
+        <div style="background: rgba(0, 0, 0, 0.04); border: 0.5px solid rgba(0, 0, 0, 0.1); border-radius: var(--radius-sm); padding: 10px 12px; margin: 12px 2px 6px; font-size: 0.74rem; color: var(--text-secondary); line-height: 1.4;">
+          <strong style="color: var(--text-primary);">Personalized Device Storage</strong><br>
+          Har user ka naam, diet aur workout plan device ke local storage mein 100% offline aur safely save hota hai.
+        </div>
+      </div>
+
+      <div class="drawer-footer">
+        <span>Gym Plan</span>
+        <span>Powered by <strong>Tushpender</strong> • v0.02</span>
+      </div>
+        <span>iOS Edition v0.01</span>
+      </div>
+    </nav>
+  </div>
+
+  <!-- ===================================================
+       7. NOTIFICATIONS & REMINDER HUB (Apple iOS Style)
+       3 Athletic Protocols: Training, Hydration, Fuel
+       =================================================== -->
+  <div id="notificationsModal" class="modal-backdrop">
+    <div class="modal-box" style="max-width: 480px;">
+      <div class="modal-header">
+        <div>
+          <h3>Reminders & Protocols</h3>
+          <span style="font-size: 0.72rem; color: var(--text-tertiary); font-weight: 500;">3 ATHLETIC TASKS • OFFLINE ALARM ENGINE</span>
+        </div>
+        <button class="icon-btn" onclick="closeModal('notificationsModal')" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-body" style="padding: 14px 16px;">
+        
+        <!-- Daily Protocols Summary -->
+        <div class="reminder-summary-box">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span style="font-size: 0.72rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em;">Daily Protocols Status</span>
+            <span id="remindersSummaryCount" style="font-size: 0.76rem; font-weight: 600; color: var(--apple-green-dark);">0 / 3 Complete</span>
+          </div>
+          <div class="reminder-progress-track">
+            <div id="remindersProgressBar" class="reminder-progress-fill" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <!-- 3 Interactive Reminder Cards Injected via Redux Engine -->
+        <div id="remindersListContainer" class="reminders-list">
+          <!-- Dynamically Rendered via JS -->
+        </div>
+
+      </div>
+
+      <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 0.7rem; color: var(--text-tertiary); font-weight: 500;">Native AlarmManager Synced</span>
+        <button class="btn btn-primary" style="padding: 7px 18px;" onclick="closeModal('notificationsModal')">Dismiss</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       8. EXERCISE FORM & VIDEO GUIDE MODAL
+       =================================================== -->
+  <div id="exerciseDemoModal" class="modal-backdrop">
+    <div class="modal-box" style="max-width: 520px;">
+      <div class="modal-header">
+        <div>
+          <h3 id="demoExTitle">Form Guide</h3>
+          <span style="font-size: 0.72rem; color: var(--text-tertiary); font-weight: 500;">BIOMECHANICAL MOTION</span>
+        </div>
+        <button class="icon-btn" onclick="closeModal('exerciseDemoModal')" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div id="demoMediaContainer">
+          <!-- Dynamically Injected SVG or Video -->
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 14px 0;">
+          <div style="background: rgba(0, 0, 0, 0.03); padding: 8px 10px; border-radius: var(--radius-xs);">
+            <span style="font-size: 0.65rem; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase;">Primary Focus</span>
+            <div id="demoExPrimary" style="font-size: 0.82rem; font-weight: 600; color: var(--apple-green-dark); margin-top: 1px;">-</div>
+          </div>
+          <div style="background: rgba(0, 0, 0, 0.03); padding: 8px 10px; border-radius: var(--radius-xs);">
+            <span style="font-size: 0.65rem; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase;">Tempo</span>
+            <div id="demoExTempo" style="font-size: 0.82rem; font-weight: 600; color: var(--text-primary); margin-top: 1px;">-</div>
+          </div>
+        </div>
+
+        <div style="background: rgba(0, 0, 0, 0.02); border-left: 2px solid var(--apple-green); padding: 8px 10px; margin-bottom: 8px; font-size: 0.8rem; line-height: 1.4;">
+          <strong>Setup:</strong>
+          <div id="demoExSetup">-</div>
+        </div>
+
+        <div style="background: rgba(0, 0, 0, 0.02); border-left: 2px solid var(--apple-green); padding: 8px 10px; margin-bottom: 8px; font-size: 0.8rem; line-height: 1.4;">
+          <strong>Execution:</strong>
+          <div id="demoExExecution">-</div>
+        </div>
+
+        <div style="background: var(--apple-red-subtle); border-left: 2px solid var(--apple-red); padding: 8px 10px; margin-bottom: 12px; font-size: 0.78rem; color: var(--apple-red); line-height: 1.4;">
+          <strong>Avoid:</strong>
+          <div id="demoExMistakes">-</div>
+        </div>
+
+        <div style="background: rgba(0, 0, 0, 0.02); border-radius: var(--radius-sm); padding: 12px; text-align: center;">
+          <p style="font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 8px;">Upload a personal 5-10 second video from your device:</p>
+          <input type="file" id="mediaUploadInput" style="display: none;" accept="video/*,image/gif" onchange="handleMediaUpload(event)">
+          <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+            <button class="btn btn-outline" style="font-size: 0.78rem; padding: 6px 12px;" onclick="document.getElementById('mediaUploadInput').click()">
+              Choose Video Clip
+            </button>
+            <button id="btnRemoveCustomMedia" class="btn btn-danger-subtle" style="display: none;" onclick="removeActiveCustomMedia()">
+              Remove
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="closeModal('exerciseDemoModal')">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       9. MODAL: ADD MEAL LOG
+       =================================================== -->
+  <div id="addMealModal" class="modal-backdrop">
+    <div class="modal-box" style="max-width: 420px;">
+      <div class="modal-header">
+        <h3>Log Meal</h3>
+        <button class="icon-btn" onclick="closeModal('addMealModal')" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <form onsubmit="submitAddMeal(event)">
+        <div class="modal-body">
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 4px;">Meal Description</label>
+            <input type="text" id="mealInputName" placeholder="e.g. Boiled Eggs with Sourdough" required style="width: 100%; padding: 8px 10px; border-radius: var(--radius-xs); border: 0.5px solid rgba(0, 0, 0, 0.15); outline: none; font-size: 0.88rem;">
+          </div>
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 4px;">Calories (kcal)</label>
+            <input type="number" id="mealInputCalories" placeholder="450" style="width: 100%; padding: 8px 10px; border-radius: var(--radius-xs); border: 0.5px solid rgba(0, 0, 0, 0.15); outline: none; font-size: 0.88rem;">
+          </div>
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 4px;">Category</label>
+            <select id="mealInputType" style="width: 100%; padding: 8px 10px; border-radius: var(--radius-xs); border: 0.5px solid rgba(0, 0, 0, 0.15); outline: none; background: #ffffff; font-size: 0.88rem;">
+              <option value="Breakfast">Breakfast</option>
+              <option value="Lunch">Lunch</option>
+              <option value="Dinner">Dinner</option>
+              <option value="Snacks">Snack / Shake</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('addMealModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       10. MODAL: ADD EXERCISE
+       =================================================== -->
+  <div id="addExerciseModal" class="modal-backdrop">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>New Exercise</h3>
+        <button class="icon-btn" onclick="closeModal('addExerciseModal')" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <form onsubmit="submitAddExercise(event)">
+        <div class="modal-body">
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 4px;">Exercise Name</label>
+            <input type="text" id="addExName" placeholder="e.g. Incline Dumbbell Press" required style="width: 100%; padding: 8px 10px; border-radius: var(--radius-xs); border: 0.5px solid rgba(0, 0, 0, 0.15); outline: none; font-size: 0.88rem;">
+          </div>
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 4px;">Muscle Focus</label>
+            <input type="text" id="addExTarget" placeholder="e.g. Upper Pectorals" style="width: 100%; padding: 8px 10px; border-radius: var(--radius-xs); border: 0.5px solid rgba(0, 0, 0, 0.15); outline: none; font-size: 0.88rem;">
+          </div>
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 4px;">Form Cue</label>
+            <input type="text" id="addExNotes" placeholder="e.g. Control down in 2 seconds" style="width: 100%; padding: 8px 10px; border-radius: var(--radius-xs); border: 0.5px solid rgba(0, 0, 0, 0.15); outline: none; font-size: 0.88rem;">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('addExerciseModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Add Exercise</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       11. MODAL: BACKUP & RESTORE
+       =================================================== -->
+  <div id="backupModal" class="modal-backdrop">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Backup & Restore</h3>
+        <button class="icon-btn" onclick="closeModal('backupModal')" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p style="color: var(--text-secondary); font-size: 0.84rem; margin-bottom: 14px;">
+          All data is persisted locally on your device. Export a backup to transfer your routine or restore previously saved records.
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div style="background: rgba(0, 0, 0, 0.03); padding: 12px 14px; border-radius: var(--radius-sm);">
+            <div style="font-weight: 600; font-size: 0.88rem; color: var(--text-primary); margin-bottom: 2px;">Export Local Backup</div>
+            <p style="font-size: 0.74rem; color: var(--text-tertiary); margin-bottom: 8px;">Save custom exercises and weight records to JSON file.</p>
+            <button class="btn btn-primary" onclick="exportWorkoutData()">Download Backup</button>
+          </div>
+
+          <div style="background: rgba(0, 0, 0, 0.03); padding: 12px 14px; border-radius: var(--radius-sm);">
+            <div style="font-weight: 600; font-size: 0.88rem; color: var(--text-primary); margin-bottom: 2px;">Restore Backup</div>
+            <p style="font-size: 0.74rem; color: var(--text-tertiary); margin-bottom: 8px;">Import a previously downloaded JSON file.</p>
+            <input type="file" id="importFileInput" accept=".json" onchange="importWorkoutData(event)" style="font-size: 0.78rem; color: var(--text-secondary);">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('backupModal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       12. MODAL: ROADMAP GENERATOR
+       =================================================== -->
+  <div id="roadmapModal" class="modal-backdrop">
+    <div class="modal-box" style="max-width: 480px; max-height: 88vh; display: flex; flex-direction: column;">
+      <div class="modal-header" style="flex-shrink: 0;">
+        <div>
+          <h3>Build Custom Roadmap</h3>
+          <span style="font-size: 0.72rem; color: var(--text-tertiary); font-weight: 500;">DIET & GYM HOURS ENGINE • OFFLINE</span>
+        </div>
+        <button class="icon-btn" onclick="closeModal('roadmapModal')" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <form id="roadmapForm" onsubmit="submitRoadmapGenerator(event)" style="display: flex; flex-direction: column; overflow-y: auto; flex: 1;">
+        <div class="modal-body" style="display: flex; flex-direction: column; gap: 16px; padding: 14px 16px;">
+          
+          <!-- Athlete Name -->
+          <div>
+            <label class="roadmap-field-label">YOUR ATHLETE NAME</label>
+            <div style="position: relative;">
+              <input type="text" id="roadmapUserName" placeholder="Enter your name (e.g. Virat, Rohit)" required style="width: 100%; padding: 10px 14px; border-radius: var(--radius-sm); border: 0.5px solid rgba(0, 0, 0, 0.15); font-size: 0.9rem; font-weight: 600; outline: none; background: #ffffff; color: var(--text-primary);">
+            </div>
+          </div>
+
+          <!-- Diet Preference / Food Category -->
+          <div>
+            <label class="roadmap-field-label">Food Category & Diet (Kya khana hai)</label>
+            <div class="options-pill-grid cols-3" id="dietSelectorGrid">
+              <button type="button" class="option-pill active" data-diet="veg" onclick="selectRoadmapDiet('veg')">
+                <span class="pill-title">Vegetarian</span>
+                <span class="pill-desc">Paneer, Soya, Dal</span>
+              </button>
+              <button type="button" class="option-pill" data-diet="non-veg" onclick="selectRoadmapDiet('non-veg')">
+                <span class="pill-title">Non-Veg</span>
+                <span class="pill-desc">Eggs, Chicken, Fish</span>
+              </button>
+              <button type="button" class="option-pill" data-diet="eggetarian" onclick="selectRoadmapDiet('eggetarian')">
+                <span class="pill-title">Eggetarian</span>
+                <span class="pill-desc">Eggs + Dairy Veg</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Duration (Months / Days) -->
+          <div>
+            <label class="roadmap-field-label">Plan Duration (Kitne months / days ke liye)</label>
+            <div class="options-pill-grid cols-2" id="durationSelectorGrid">
+              <button type="button" class="option-pill active" data-days="30" onclick="selectRoadmapDuration(30)">
+                <span class="pill-title">1 Month (30 Days)</span>
+                <span class="pill-desc">Recommended Transformation</span>
+              </button>
+              <button type="button" class="option-pill" data-days="60" onclick="selectRoadmapDuration(60)">
+                <span class="pill-title">2 Months (60 Days)</span>
+                <span class="pill-desc">Athletic Peak Conditioning</span>
+              </button>
+              <button type="button" class="option-pill" data-days="90" onclick="selectRoadmapDuration(90)">
+                <span class="pill-title">3 Months (90 Days)</span>
+                <span class="pill-desc">Total Body Athletic Shred</span>
+              </button>
+              <button type="button" class="option-pill" data-days="14" onclick="selectRoadmapDuration(14)">
+                <span class="pill-title">14 Days (2 Weeks)</span>
+                <span class="pill-desc">Quick Kickstart Reset</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Goal / Purpose -->
+          <div>
+            <label class="roadmap-field-label">Training Purpose (Kis purpose ke liye)</label>
+            <div class="options-pill-grid cols-2" id="goalSelectorGrid">
+              <button type="button" class="option-pill active" data-goal="shred" onclick="selectRoadmapGoal('shred')">
+                <span class="pill-title">Athletic Lean Shred</span>
+                <span class="pill-desc">Virat Kohli Protocol • 6-Pack</span>
+              </button>
+              <button type="button" class="option-pill" data-goal="bulk" onclick="selectRoadmapGoal('bulk')">
+                <span class="pill-title">Clean Muscle Bulk</span>
+                <span class="pill-desc">Hypertrophy & V-Taper</span>
+              </button>
+              <button type="button" class="option-pill" data-goal="speed" onclick="selectRoadmapGoal('speed')">
+                <span class="pill-title">Speed & Agility</span>
+                <span class="pill-desc">Sports High Torque & Stamina</span>
+              </button>
+              <button type="button" class="option-pill" data-goal="fitness" onclick="selectRoadmapGoal('fitness')">
+                <span class="pill-title">Daily Fitness</span>
+                <span class="pill-desc">Core Health & Posture</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Daily Gym Time & Hours Commitment -->
+          <div>
+            <label class="roadmap-field-label">Daily Gym Hours & Split (Kitne ghante gym)</label>
+            <div class="options-pill-grid cols-1" id="hoursSelectorGrid">
+              <button type="button" class="option-pill active" data-hours="1.5-2" onclick="selectRoadmapHours('1.5-2')">
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                  <span class="pill-title">1.5 - 2 Hours / Day</span>
+                  <span class="pill-badge" style="background: rgba(52, 199, 89, 0.12); color: var(--apple-green-dark); font-weight: 700; font-size: 0.65rem; padding: 2px 7px; border-radius: 99px;">ELITE ATHLETE</span>
+                </div>
+                <span class="pill-desc">15m Warmup + 65m 7-12-15 Lifts + 15m Core/Grip + 10m Mobility</span>
+              </button>
+              <button type="button" class="option-pill" data-hours="1" onclick="selectRoadmapHours('1')">
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                  <span class="pill-title">60 - 75 Min / Day</span>
+                  <span class="pill-badge" style="background: rgba(0,0,0,0.06); color: var(--text-secondary); font-size: 0.65rem; padding: 2px 7px; border-radius: 99px;">SPORTSMAN</span>
+                </div>
+                <span class="pill-desc">10m Warmup + 45m 7-12-15 Hypertrophy + 10m Core & Stretch</span>
+              </button>
+              <button type="button" class="option-pill" data-hours="0.75" onclick="selectRoadmapHours('0.75')">
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                  <span class="pill-title">45 Min / Day</span>
+                  <span class="pill-badge" style="background: rgba(0,0,0,0.06); color: var(--text-secondary); font-size: 0.65rem; padding: 2px 7px; border-radius: 99px;">EXPRESS</span>
+                </div>
+                <span class="pill-desc">5m Warmup + 35m High-Torque Compound Sets + 5m Stretch</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="modal-footer" style="flex-shrink: 0;">
+          <button type="button" class="btn btn-outline" onclick="closeModal('roadmapModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="background: var(--apple-green-dark); color: #ffffff;">Generate Roadmap ⚡</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       13. MODAL: FULL ROADMAP DETAILS (Diet Chart & Gym Schedule)
+       =================================================== -->
+  <div id="roadmapDetailsModal" class="modal-backdrop">
+    <div class="modal-box" style="max-width: 520px; max-height: 88vh; display: flex; flex-direction: column;">
+      <div class="modal-header" style="flex-shrink: 0;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <h3 id="detailsModalTitle" style="font-size: 1.05rem; font-weight: 600;">Personalized Roadmap</h3>
+            <span id="detailsModalBadge" class="pill-badge" style="background: rgba(52, 199, 89, 0.12); color: var(--apple-green-dark); font-weight: 700; font-size: 0.68rem; padding: 2px 8px; border-radius: 99px;">30-DAY VEG</span>
+          </div>
+          <span id="detailsModalSub" style="font-size: 0.72rem; color: var(--text-tertiary); font-weight: 500;">TUSHU • 1.5 - 2 HOURS / DAY • ATHLETIC SHRED</span>
+        </div>
+        <button class="icon-btn" onclick="closeModal('roadmapDetailsModal')" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <!-- Segmented Navigation Inside Modal -->
+      <div class="roadmap-segmented-wrap" style="flex-shrink: 0; padding: 4px 16px 10px;">
+        <div class="segmented-control">
+          <button type="button" id="btnDetailsTabDiet" class="segmented-btn active" onclick="switchRoadmapDetailsTab('diet')">Daily Diet Chart</button>
+          <button type="button" id="btnDetailsTabGym" class="segmented-btn" onclick="switchRoadmapDetailsTab('gym')">Gym Workout Schedule</button>
+        </div>
+      </div>
+
+      <div class="modal-body" id="roadmapDetailsBody" style="overflow-y: auto; flex: 1; padding: 4px 16px 16px;">
+        <!-- Injected via renderRoadmapDetailsContent() -->
+      </div>
+
+      <div class="modal-footer" style="flex-shrink: 0; display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.95); border-top: 0.5px solid rgba(0, 0, 0, 0.08);">
+        <button type="button" class="btn btn-outline" onclick="openRoadmapModal()" style="font-size: 0.8rem;">Change / Switch</button>
+        <button type="button" class="btn btn-primary" onclick="applyRoadmapToToday()" style="background: var(--apple-green-dark); color: #ffffff; display: inline-flex; align-items: center; gap: 5px;">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Apply to Today's Tracker
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts with Cache Busting for Instant Updates -->
+  <script>
+    function openModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('open');
+    }
+    function closeModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('open');
+    }
+  </script>
+  <script src="./visual-guides.js?v=0.01"></script>
+  <script src="./app.js?v=0.01"></script>
+</body>
+</html>
