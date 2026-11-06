@@ -58,8 +58,16 @@ public class MainActivity extends AppCompatActivity {
         settings.setMediaPlaybackRequiresUserGesture(false);
         settings.setCacheMode(WebSettings.LOAD_DEFAULT);
 
-        // Prevent external browser from opening
+        // Prevent external browser from opening and ensure 100% offline security
         webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if (url != null && url.startsWith("file:///android_asset/")) {
+                    return false;
+                }
+                return true; // Strict offline boundary: block external web leaks
+            }
+
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);

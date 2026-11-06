@@ -458,10 +458,37 @@ const STORAGE_PLAN_CONFIGURED = 'tushu_user_plan_configured_v1';
 const STORAGE_USER_PIN = 'tushu_gym_user_pin_v1';
 const STORAGE_LOGGED_OUT = 'tushu_gym_logged_out_v1';
 
-function saveUserPin(pin) {
+async function hashPin(pin) {
+  if (!pin || !String(pin).trim()) return '';
+  const clean = String(pin).trim();
+  const salt = 'gym_athlete_security_salt_2026';
+  try {
+    if (window.crypto && window.crypto.subtle) {
+      const msgBuffer = new TextEncoder().encode(salt + clean + salt);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+  } catch (err) {
+    console.warn("SubtleCrypto unavailable, using fallback hash", err);
+  }
+  let h1 = 0xdeadbeef, h2 = 0x41c64e6d;
+  const str = salt + clean + salt;
+  for (let i = 0; i < str.length; i++) {
+    const ch = str.charCodeAt(i);
+    h1 = Math.imul(h1 ^ ch, 2654435761);
+    h2 = Math.imul(h2 ^ ch, 1597334677);
+  }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return 'h_' + (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(16);
+}
+
+async function saveUserPin(pin) {
   try {
     if (pin && String(pin).trim()) {
-      localStorage.setItem(STORAGE_USER_PIN, String(pin).trim());
+      const hashed = await hashPin(pin);
+      localStorage.setItem(STORAGE_USER_PIN, hashed);
     } else {
       localStorage.removeItem(STORAGE_USER_PIN);
     }
@@ -480,6 +507,20 @@ function getUserPin() {
 
 function hasUserPin() {
   return Boolean(getUserPin());
+}
+
+async function verifyUserPin(inputPin) {
+  const saved = getUserPin();
+  if (!saved) return true;
+  if (!inputPin) return false;
+  const hashedInput = await hashPin(inputPin);
+  if (hashedInput === saved || inputPin.trim() === saved) {
+    if (inputPin.trim() === saved) {
+      await saveUserPin(inputPin);
+    }
+    return true;
+  }
+  return false;
 }
 
 function getTodayDateStr() {
@@ -875,7 +916,7 @@ function resetOnboardingView() {
   if (btnBack) btnBack.style.display = 'none';
 }
 
-function goToOnboardingStep2() {
+async function goToOnboardingStep2() {
   const inputEl = document.getElementById('onboardingUserNameInput');
   let name = (inputEl && inputEl.value.trim()) ? inputEl.value.trim() : '';
   if (!name) name = 'Athlete';
@@ -884,7 +925,7 @@ function goToOnboardingStep2() {
 
   const pinEl = document.getElementById('onboardingUserPinInput');
   if (pinEl && pinEl.value.trim()) {
-    saveUserPin(pinEl.value.trim());
+    await saveUserPin(pinEl.value.trim());
   }
 
   const welcomeNameEl = document.getElementById('onboardingWelcomeName');
@@ -904,7 +945,7 @@ function goToOnboardingStep2() {
   if (screen) screen.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function handleOnboardingContinue() {
+async function handleOnboardingContinue() {
   const isLoggedOut = localStorage.getItem(STORAGE_LOGGED_OUT) === 'true';
   const nameInput = document.getElementById('onboardingUserNameInput');
   const pinInput = document.getElementById('onboardingUserPinInput');
@@ -914,7 +955,8 @@ function handleOnboardingContinue() {
   // If user is currently logged out
   if (isLoggedOut) {
     if (savedPin) {
-      if (enteredPin !== savedPin) {
+      const isMatch = await verifyUserPin(enteredPin);
+      if (!isMatch) {
         alert("Galat PIN / Password! Kripya apna sahi password dalein.");
         if (pinInput) {
           pinInput.focus();
@@ -925,7 +967,7 @@ function handleOnboardingContinue() {
     } else {
       // If no PIN was previously set, but user entered one now, save it
       if (enteredPin) {
-        saveUserPin(enteredPin);
+        await saveUserPin(enteredPin);
       }
     }
 
@@ -956,7 +998,7 @@ function handleOnboardingContinue() {
   saveUserName(name);
 
   if (enteredPin) {
-    saveUserPin(enteredPin);
+    await saveUserPin(enteredPin);
   }
 
   goToOnboardingStep2();
@@ -1132,7 +1174,17 @@ function showOnboardingScreen() {
   }
 }
 
-function resetForNewUser() {
+async function resetForNewUser() {
+  if (hasUserPin()) {
+    const entered = prompt("Security check: Device reset karne ke liye apna PIN / Password enter karein:");
+    if (!entered) return;
+    const okPin = await verifyUserPin(entered);
+    if (!okPin) {
+      alert("Galat PIN! App reset cancel kar diya gaya hai.");
+      return;
+    }
+  }
+
   const ok = confirm("Kya aap device ka sara data clear karke naye sire se app start karna chahte hain?");
   if (!ok) return;
 
@@ -2990,6 +3042,8 @@ function submitAddExercise(event) {
 // Export & Import Data
 function exportWorkoutData() {
   const data = {
+    app: "GymPlan",
+    version: "0.04",
     userName: getUserName(),
     plan: workoutPlan,
     history: workoutHistory,
@@ -3001,47 +3055,64 @@ function exportWorkoutData() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `TushuGymPlanBackup_${new Date().toISOString().split('T')[0]}.json`;
+  a.download = `GymPlan_Backup_${new Date().toISOString().split('T')[0]}.json`;
   a.click();
   URL.revokeObjectURL(url);
 }
 
-function importWorkoutData(event) {
+async function importWorkoutData(event) {
   const file = event.target.files[0];
   if (!file) return;
+
+  if (hasUserPin()) {
+    const entered = prompt("Security check: Backup restore karne ke liye apna PIN / Password dalein:");
+    if (!entered) {
+      event.target.value = '';
+      return;
+    }
+    const okPin = await verifyUserPin(entered);
+    if (!okPin) {
+      alert("Galat PIN! Restore cancel kar diya gaya.");
+      event.target.value = '';
+      return;
+    }
+  }
 
   const reader = new FileReader();
   reader.onload = (e) => {
     try {
       const data = JSON.parse(e.target.result);
-      if (data.userName) {
-        saveUserName(data.userName);
-      }
-      if (data.plan) {
-        workoutPlan = data.plan;
-        savePlan();
-      }
-      if (data.history) {
-        workoutHistory = data.history;
-        saveHistory();
-      }
-      if (data.meals) {
-        nutritionMeals = data.meals;
-        saveMeals();
-      }
-      if (data.roadmap) {
-        athleteRoadmap = data.roadmap;
-        saveRoadmap();
+      if (data && typeof data === 'object') {
+        if (data.userName && typeof data.userName === 'string') {
+          saveUserName(data.userName);
+        }
+        if (data.plan && typeof data.plan === 'object') {
+          workoutPlan = data.plan;
+          savePlan();
+        }
+        if (Array.isArray(data.history)) {
+          workoutHistory = data.history;
+          saveHistory();
+        }
+        if (Array.isArray(data.meals)) {
+          nutritionMeals = data.meals;
+          saveMeals();
+        }
+        if (data.roadmap && typeof data.roadmap === 'object') {
+          athleteRoadmap = data.roadmap;
+          saveRoadmap();
+          renderRoadmapHero();
+        }
+        alert("Data successfully restore ho gaya.");
+        updateUserGreeting();
+        renderHomeStats();
+        renderWorkoutView();
+        renderMeals();
         renderRoadmapHero();
+        closeModal('backupModal');
       }
-      alert("Data successfully restore ho gaya.");
-      updateUserGreeting();
-      renderHomeStats();
-      renderWorkoutView();
-      renderMeals();
-      renderRoadmapHero();
     } catch (err) {
-      alert("Invalid backup file.");
+      alert("Invalid backup file format.");
     }
   };
   reader.readAsText(file);
