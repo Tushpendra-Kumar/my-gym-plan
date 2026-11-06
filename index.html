@@ -21,14 +21,19 @@
 
   <!-- ===================================================
        1. WELCOME ONBOARDING SCREEN (Apple Fitness Style)
+       Step 1: Goku Ultra Instinct Hero & Name Entry
+       Step 2: Food Category, Months Duration & Purpose Setup
        =================================================== -->
   <div id="viewOnboarding" class="onboarding-screen">
     <div class="onboarding-top-bar">
       <div class="onboarding-brand">
+        <button id="btnOnboardingBack" class="icon-btn" onclick="prevOnboardingStep()" style="display: none; width: 28px; height: 28px; margin-right: 4px;" aria-label="Back">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
         <span class="brand-accent-pill"></span>
-        <span class="brand-title">Tushu Gym Plan</span>
+        <span class="brand-title" id="onboardingBrandTitle">Tushu Gym Plan</span>
       </div>
-      <button class="btn-skip-pill" onclick="submitOnboardingName(true)" aria-label="Skip to Dashboard">
+      <button class="btn-skip-pill" onclick="skipOnboarding()" aria-label="Skip to Dashboard">
         <span>Skip</span>
         <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="9 18 15 12 9 6" />
@@ -36,48 +41,177 @@
       </button>
     </div>
 
-    <!-- Cinematic Phone-Mode Athlete Animation Frame -->
-    <div class="onboarding-hero-wrapper">
-      <div class="onboarding-hero-aura"></div>
-      <div class="onboarding-hero">
-        <img src="./images/hero-athlete.jpg" alt="Athletic Mindset" class="onboarding-hero-img">
-        <div class="onboarding-hero-overlay"></div>
-        <div class="onboarding-hero-badge">
-          <span class="hero-badge-dot"></span>
-          <span>Personalized Athlete Plan • v0.01</span>
-        </div>
-      </div>
-    </div>
-
-    <div style="max-width: 360px; margin: 0 auto; width: 100%; text-align: center;">
-      <h1 style="font-size: 1.55rem; font-weight: 600; line-height: 1.22; color: var(--text-primary); letter-spacing: -0.02em; margin-bottom: 6px;">
-        Athletic Performance Starts Here
-      </h1>
-      <p style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 16px; font-weight: 400;">
-        Personalized 7-12-15 reverse pyramid scheme, tailored athlete nutrition & 100% offline precision tracking.
-      </p>
-
-      <!-- Athlete Name Input Field -->
-      <div class="onboarding-input-wrap">
-        <label for="onboardingUserNameInput" class="onboarding-input-label">WHAT SHOULD WE CALL YOU?</label>
-        <div class="onboarding-name-field">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-tertiary); margin-left: 12px; flex-shrink: 0;">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-            <circle cx="12" cy="7" r="4"/>
-          </svg>
-          <input type="text" id="onboardingUserNameInput" placeholder="Enter your name (e.g. Aman, Tushar, Rohit)" maxlength="24" autocomplete="name" onkeydown="if(event.key==='Enter') submitOnboardingName();">
-        </div>
-      </div>
+    <!-- ==============================================
+         STEP 1: WELCOME SCREEN (GOKU ANIMATION + NAME)
+         ============================================== -->
+    <div id="onboardingStep1" class="onboarding-step-content active">
       
-      <button class="btn-get-started" onclick="submitOnboardingName()">
-        <span>Continue to My Plan</span>
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </button>
+      <!-- Cinematic Goku Warrior Animation Frame -->
+      <div class="onboarding-hero-wrapper">
+        <div class="onboarding-hero-aura"></div>
+        <div class="onboarding-hero">
+          <img src="./images/hero-goku.jpg" alt="Ultra Instinct Goku Mindset" class="onboarding-hero-img">
+          <div class="onboarding-hero-overlay"></div>
+          <div class="onboarding-hero-badge">
+            <span class="hero-badge-dot" style="background: #a0d2ff; box-shadow: 0 0 8px #a0d2ff;"></span>
+            <span>Ultra Instinct Mindset • v0.01</span>
+          </div>
+        </div>
+      </div>
 
-      <div style="text-align: center; margin-top: 14px;">
-        <span style="font-size: 0.72rem; color: var(--text-tertiary); font-weight: 500;">Multi-User Athlete Edition • 100% Offline</span>
+      <div style="max-width: 360px; margin: 0 auto; width: 100%; text-align: center;">
+        <h1 style="font-size: 1.55rem; font-weight: 600; line-height: 1.22; color: var(--text-primary); letter-spacing: -0.02em; margin-bottom: 6px;">
+          Athletic Performance Starts Here
+        </h1>
+        <p style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 16px; font-weight: 400;">
+          Reverse pyramid 7-12-15 strength lifts, customized athlete nutrition & 100% offline precision tracking.
+        </p>
+
+        <!-- Athlete Name Input Field -->
+        <div class="onboarding-input-wrap">
+          <label for="onboardingUserNameInput" class="onboarding-input-label">WHAT SHOULD WE CALL YOU?</label>
+          <div class="onboarding-name-field">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-tertiary); margin-left: 12px; flex-shrink: 0;">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <input type="text" id="onboardingUserNameInput" placeholder="Enter your name (e.g. Aman, Tushar, Rohit)" maxlength="24" autocomplete="name" onkeydown="if(event.key==='Enter') goToOnboardingStep2();">
+          </div>
+        </div>
+        
+        <button class="btn-get-started" onclick="goToOnboardingStep2()">
+          <span>Continue to Plan Setup</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+
+        <div style="text-align: center; margin-top: 14px;">
+          <span style="font-size: 0.72rem; color: var(--text-tertiary); font-weight: 500;">Multi-User Athlete Edition • 100% Offline</span>
+        </div>
       </div>
     </div>
+
+    <!-- ==============================================
+         STEP 2: PLAN CUSTOMIZATION SCREEN
+         (FOOD CATEGORY, MONTHS, PURPOSE, GYM HOURS)
+         ============================================== -->
+    <div id="onboardingStep2" class="onboarding-step-content" style="display: none; max-width: 440px; margin: 0 auto; width: 100%; padding-bottom: 24px;">
+      
+      <div style="text-align: center; margin-bottom: 16px;">
+        <span class="step-counter-pill">STEP 2 OF 2 • PLAN SETUP</span>
+        <h2 style="font-size: 1.45rem; font-weight: 600; color: var(--text-primary); margin-top: 6px; margin-bottom: 4px;">
+          Welcome, <span id="onboardingWelcomeName" style="color: var(--apple-green-dark);">Athlete</span>!
+        </h2>
+        <p style="font-size: 0.8rem; color: var(--text-secondary);">
+          Choose your food category, duration & training purpose to generate your customized gym roadmap.
+        </p>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        
+        <!-- Food Category -->
+        <div>
+          <label class="roadmap-field-label">Food Category & Diet (Kya khana hai)</label>
+          <div class="options-pill-grid cols-3" id="onboardingDietGrid">
+            <button type="button" class="option-pill active" data-diet="veg" onclick="selectOnboardingDiet('veg')">
+              <span class="pill-title">Vegetarian</span>
+              <span class="pill-desc">Paneer, Soya, Dal</span>
+            </button>
+            <button type="button" class="option-pill" data-diet="non-veg" onclick="selectOnboardingDiet('non-veg')">
+              <span class="pill-title">Non-Veg</span>
+              <span class="pill-desc">Eggs, Chicken, Fish</span>
+            </button>
+            <button type="button" class="option-pill" data-diet="eggetarian" onclick="selectOnboardingDiet('eggetarian')">
+              <span class="pill-title">Eggetarian</span>
+              <span class="pill-desc">Eggs + Dairy Veg</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Plan Duration -->
+        <div>
+          <label class="roadmap-field-label">Plan Duration (Kitne months / days)</label>
+          <div class="options-pill-grid cols-2" id="onboardingDurationGrid">
+            <button type="button" class="option-pill active" data-days="30" onclick="selectOnboardingDuration(30)">
+              <span class="pill-title">1 Month (30 Days)</span>
+              <span class="pill-desc">Recommended Transformation</span>
+            </button>
+            <button type="button" class="option-pill" data-days="60" onclick="selectOnboardingDuration(60)">
+              <span class="pill-title">2 Months (60 Days)</span>
+              <span class="pill-desc">Athletic Peak Conditioning</span>
+            </button>
+            <button type="button" class="option-pill" data-days="90" onclick="selectOnboardingDuration(90)">
+              <span class="pill-title">3 Months (90 Days)</span>
+              <span class="pill-desc">Total Body Athletic Shred</span>
+            </button>
+            <button type="button" class="option-pill" data-days="14" onclick="selectOnboardingDuration(14)">
+              <span class="pill-title">14 Days (2 Weeks)</span>
+              <span class="pill-desc">Quick Kickstart Reset</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Training Purpose -->
+        <div>
+          <label class="roadmap-field-label">Training Purpose (Kis purpose ke liye)</label>
+          <div class="options-pill-grid cols-2" id="onboardingGoalGrid">
+            <button type="button" class="option-pill active" data-goal="shred" onclick="selectOnboardingGoal('shred')">
+              <span class="pill-title">Athletic Lean Shred</span>
+              <span class="pill-desc">Virat Kohli Protocol • 6-Pack</span>
+            </button>
+            <button type="button" class="option-pill" data-goal="bulk" onclick="selectOnboardingGoal('bulk')">
+              <span class="pill-title">Clean Muscle Bulk</span>
+              <span class="pill-desc">Hypertrophy & V-Taper</span>
+            </button>
+            <button type="button" class="option-pill" data-goal="speed" onclick="selectOnboardingGoal('speed')">
+              <span class="pill-title">Speed & Agility</span>
+              <span class="pill-desc">Sports Torque & Stamina</span>
+            </button>
+            <button type="button" class="option-pill" data-goal="fitness" onclick="selectOnboardingGoal('fitness')">
+              <span class="pill-title">Daily Fitness</span>
+              <span class="pill-desc">Core Health & Posture</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Daily Gym Hours -->
+        <div>
+          <label class="roadmap-field-label">Daily Gym Hours & Split (Kitne ghante gym)</label>
+          <div class="options-pill-grid cols-1" id="onboardingHoursGrid">
+            <button type="button" class="option-pill active" data-hours="1.5-2" onclick="selectOnboardingHours('1.5-2')">
+              <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <span class="pill-title">1.5 - 2 Hours / Day</span>
+                <span class="pill-badge" style="background: rgba(52, 199, 89, 0.12); color: var(--apple-green-dark); font-weight: 700; font-size: 0.65rem; padding: 2px 7px; border-radius: 99px;">ELITE ATHLETE</span>
+              </div>
+              <span class="pill-desc">15m Warmup + 65m 7-12-15 Lifts + 15m Core/Grip + 10m Mobility</span>
+            </button>
+            <button type="button" class="option-pill" data-hours="1" onclick="selectOnboardingHours('1')">
+              <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <span class="pill-title">60 - 75 Min / Day</span>
+                <span class="pill-badge" style="background: rgba(0,0,0,0.06); color: var(--text-secondary); font-size: 0.65rem; padding: 2px 7px; border-radius: 99px;">SPORTSMAN</span>
+              </div>
+              <span class="pill-desc">10m Warmup + 45m 7-12-15 Hypertrophy + 10m Core & Stretch</span>
+            </button>
+            <button type="button" class="option-pill" data-hours="0.75" onclick="selectOnboardingHours('0.75')">
+              <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <span class="pill-title">45 Min / Day</span>
+                <span class="pill-badge" style="background: rgba(0,0,0,0.06); color: var(--text-secondary); font-size: 0.65rem; padding: 2px 7px; border-radius: 99px;">EXPRESS</span>
+              </div>
+              <span class="pill-desc">5m Warmup + 35m High-Torque Compound Sets + 5m Stretch</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="margin-top: 18px; margin-bottom: 10px;">
+        <button class="btn-get-started" onclick="finishOnboardingSetup()" style="background: var(--apple-green-dark);">
+          <span>Launch My Dashboard ⚡</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+
+    </div>
+
   </div>
 
   <!-- ===================================================

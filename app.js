@@ -676,7 +676,18 @@ function initApp() {
   checkPwaInstall();
 }
 
-// Onboarding Logic (Screen 1 in Reference)
+// ==============================================
+// Onboarding State & 2-Step Flow Logic
+// Step 1: Goku Ultra Instinct Hero & Athlete Name
+// Step 2: Food Category, Duration & Training Purpose
+// ==============================================
+let onboardingPlanState = {
+  diet: 'veg',
+  duration: 30,
+  goal: 'shred',
+  hours: '1.5-2'
+};
+
 function checkOnboarding() {
   const isDone = localStorage.getItem(STORAGE_ONBOARDED);
   const screen = document.getElementById('viewOnboarding');
@@ -685,6 +696,7 @@ function checkOnboarding() {
       screen.classList.add('hidden');
     } else {
       screen.classList.remove('hidden');
+      resetOnboardingView();
       const input = document.getElementById('onboardingUserNameInput');
       if (input) {
         const saved = localStorage.getItem(STORAGE_USER_NAME);
@@ -695,15 +707,148 @@ function checkOnboarding() {
   }
 }
 
-function submitOnboardingName(isSkip = false) {
+function resetOnboardingView() {
+  const step1 = document.getElementById('onboardingStep1');
+  const step2 = document.getElementById('onboardingStep2');
+  const btnBack = document.getElementById('btnOnboardingBack');
+  if (step1) step1.style.display = 'block';
+  if (step2) step2.style.display = 'none';
+  if (btnBack) btnBack.style.display = 'none';
+}
+
+function goToOnboardingStep2() {
   const inputEl = document.getElementById('onboardingUserNameInput');
   let name = (inputEl && inputEl.value.trim()) ? inputEl.value.trim() : '';
-
-  if (!name) {
-    name = isSkip ? 'Athlete' : 'Athlete';
-  }
+  if (!name) name = 'Athlete';
 
   saveUserName(name);
+
+  const welcomeNameEl = document.getElementById('onboardingWelcomeName');
+  if (welcomeNameEl) welcomeNameEl.textContent = name;
+
+  const step1 = document.getElementById('onboardingStep1');
+  const step2 = document.getElementById('onboardingStep2');
+  const btnBack = document.getElementById('btnOnboardingBack');
+  const screen = document.getElementById('viewOnboarding');
+
+  if (step1) step1.style.display = 'none';
+  if (step2) {
+    step2.style.display = 'block';
+    step2.classList.add('onboarding-step-content');
+  }
+  if (btnBack) btnBack.style.display = 'inline-flex';
+  if (screen) screen.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function prevOnboardingStep() {
+  const step1 = document.getElementById('onboardingStep1');
+  const step2 = document.getElementById('onboardingStep2');
+  const btnBack = document.getElementById('btnOnboardingBack');
+  const screen = document.getElementById('viewOnboarding');
+
+  if (step2) step2.style.display = 'none';
+  if (step1) step1.style.display = 'block';
+  if (btnBack) btnBack.style.display = 'none';
+  if (screen) screen.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function selectOnboardingDiet(diet) {
+  onboardingPlanState.diet = diet;
+  const grid = document.getElementById('onboardingDietGrid');
+  if (!grid) return;
+  grid.querySelectorAll('.option-pill').forEach(btn => {
+    if (btn.getAttribute('data-diet') === diet) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+}
+
+function selectOnboardingDuration(days) {
+  onboardingPlanState.duration = Number(days);
+  const grid = document.getElementById('onboardingDurationGrid');
+  if (!grid) return;
+  grid.querySelectorAll('.option-pill').forEach(btn => {
+    if (Number(btn.getAttribute('data-days')) === Number(days)) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+}
+
+function selectOnboardingGoal(goal) {
+  onboardingPlanState.goal = goal;
+  const grid = document.getElementById('onboardingGoalGrid');
+  if (!grid) return;
+  grid.querySelectorAll('.option-pill').forEach(btn => {
+    if (btn.getAttribute('data-goal') === goal) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+}
+
+function selectOnboardingHours(hours) {
+  onboardingPlanState.hours = hours;
+  const grid = document.getElementById('onboardingHoursGrid');
+  if (!grid) return;
+  grid.querySelectorAll('.option-pill').forEach(btn => {
+    if (btn.getAttribute('data-hours') === String(hours)) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+}
+
+function finishOnboardingSetup() {
+  const currentName = getUserName();
+  roadmapFormState = {
+    userName: currentName,
+    duration: onboardingPlanState.duration,
+    diet: onboardingPlanState.diet,
+    hours: onboardingPlanState.hours,
+    goal: onboardingPlanState.goal
+  };
+
+  athleteRoadmap = generateRoadmapPlan(roadmapFormState);
+  saveRoadmap();
+
+  localStorage.setItem(STORAGE_ONBOARDED, 'true');
+  localStorage.setItem(STORAGE_PLAN_CONFIGURED, 'true');
+
+  // Automatically apply meals to Today's tracker
+  if (athleteRoadmap && athleteRoadmap.meals) {
+    nutritionMeals = athleteRoadmap.meals.map((meal, idx) => ({
+      id: 'rm_' + Date.now() + '_' + idx,
+      name: meal.name,
+      desc: `${meal.timing} • ${meal.calories} kcal • ${meal.desc}`,
+      type: meal.type,
+      calories: meal.calories,
+      done: false
+    }));
+    saveMeals();
+    renderMeals();
+  }
+
+  const screen = document.getElementById('viewOnboarding');
+  if (screen) screen.classList.add('hidden');
+
+  updateUserGreeting();
+  renderHomeStats();
+  renderRoadmapHero();
+  switchView('home');
+}
+
+function skipOnboarding() {
+  const inputEl = document.getElementById('onboardingUserNameInput');
+  let name = (inputEl && inputEl.value.trim()) ? inputEl.value.trim() : '';
+  if (!name) name = 'Athlete';
+  saveUserName(name);
+
   localStorage.setItem(STORAGE_ONBOARDED, 'true');
 
   const screen = document.getElementById('viewOnboarding');
@@ -713,23 +858,24 @@ function submitOnboardingName(isSkip = false) {
   renderHomeStats();
   renderRoadmapHero();
   switchView('home');
+}
 
-  // If user hasn't configured plan yet, open customization modal directly
-  const isConfigured = localStorage.getItem(STORAGE_PLAN_CONFIGURED);
-  if (!isConfigured) {
-    setTimeout(() => {
-      openRoadmapModal();
-    }, 350);
+function submitOnboardingName(isSkip = false) {
+  if (isSkip) {
+    skipOnboarding();
+  } else {
+    goToOnboardingStep2();
   }
 }
 
 function completeOnboarding() {
-  submitOnboardingName(true);
+  skipOnboarding();
 }
 
 function showOnboardingScreen() {
   const screen = document.getElementById('viewOnboarding');
   if (screen) {
+    resetOnboardingView();
     screen.classList.remove('hidden');
     const input = document.getElementById('onboardingUserNameInput');
     if (input) input.value = getUserName() === 'Athlete' ? '' : getUserName();
@@ -749,6 +895,8 @@ function resetForNewUser() {
   
   const inputEl = document.getElementById('onboardingUserNameInput');
   if (inputEl) inputEl.value = '';
+
+  resetOnboardingView();
 
   const screen = document.getElementById('viewOnboarding');
   if (screen) screen.classList.remove('hidden');
