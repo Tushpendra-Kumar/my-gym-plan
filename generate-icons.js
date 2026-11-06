@@ -2,9 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const zlib = require('zlib');
 
-// Create PNG without external dependencies using pure Node.js and zlib
-function createSolidPng(width, height, r, g, b) {
-  // Signature
+// Ultra-Premium Luxury Black & White Gym Icon Generator (Apple / Nike Aesthetic)
+function createMonochromeGymIcon(width, height) {
   const signature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
 
   // IHDR chunk
@@ -25,12 +24,13 @@ function createSolidPng(width, height, r, g, b) {
 
   const cx = width / 2;
   const cy = height / 2;
-  const radius = width * 0.45;
-  const innerRadius = width * 0.38;
+  const outerRadius = width * 0.46;
+  const ringRadius = width * 0.42;
+  const innerRadius = width * 0.40;
 
   for (let y = 0; y < height; y++) {
     const lineOffset = y * lineLength;
-    rawData[lineOffset] = 0; // Filter type 0 (None)
+    rawData[lineOffset] = 0; // Filter None
 
     for (let x = 0; x < width; x++) {
       const pixelOffset = lineOffset + 1 + x * 4;
@@ -38,42 +38,71 @@ function createSolidPng(width, height, r, g, b) {
       const dy = y - cy;
       const dist = Math.sqrt(dx * dx + dy * dy);
 
-      // Gradient background + dumbbell design
-      if (dist <= innerRadius) {
-        // Inner circle
-        // Dumbbell bar or lightning center
-        const isCenterBar = Math.abs(dy) < height * 0.06 && Math.abs(dx) < width * 0.28;
-        const isLeftPlate1 = Math.abs(dx + width * 0.22) < width * 0.05 && Math.abs(dy) < height * 0.22;
-        const isLeftPlate2 = Math.abs(dx + width * 0.3) < width * 0.035 && Math.abs(dy) < height * 0.16;
-        const isRightPlate1 = Math.abs(dx - width * 0.22) < width * 0.05 && Math.abs(dy) < height * 0.22;
-        const isRightPlate2 = Math.abs(dx - width * 0.3) < width * 0.035 && Math.abs(dy) < height * 0.16;
+      // Default: Deep Matte Onyx Background (#0b0c10)
+      let r = 11, g = 12, b = 16, a = 255;
 
-        if (isCenterBar || isLeftPlate1 || isLeftPlate2 || isRightPlate1 || isRightPlate2) {
-          // Emerald glow
-          rawData[pixelOffset] = 16;     // R
-          rawData[pixelOffset + 1] = 185; // G
-          rawData[pixelOffset + 2] = 129; // B
-          rawData[pixelOffset + 3] = 255; // Alpha
-        } else {
-          // Dark background inside
-          rawData[pixelOffset] = 15;
-          rawData[pixelOffset + 1] = 23;
-          rawData[pixelOffset + 2] = 42;
-          rawData[pixelOffset + 3] = 255;
+      // Outer delicate silver highlight ring
+      if (dist >= innerRadius && dist <= ringRadius) {
+        // Brushed Silver border
+        r = 210; g = 215; b = 225; a = 255;
+      } else if (dist < innerRadius) {
+        // Dark metallic interior (#121318 with subtle gradient)
+        const v = Math.floor(18 + (y / height) * 12);
+        r = v; g = v; b = v + 3; a = 255;
+
+        // Dumbbell / Gym Emblem Geometry
+        // Center Grip Bar
+        const isCenterBar = Math.abs(dy) <= height * 0.048 && Math.abs(dx) <= width * 0.22;
+        
+        // Inner Plate Collars
+        const isLeftCollar = Math.abs(dx + width * 0.14) <= width * 0.02 && Math.abs(dy) <= height * 0.09;
+        const isRightCollar = Math.abs(dx - width * 0.14) <= width * 0.02 && Math.abs(dy) <= height * 0.09;
+
+        // Big Primary Plates
+        const isLeftPlatePrimary = Math.abs(dx + width * 0.21) <= width * 0.045 && Math.abs(dy) <= height * 0.22;
+        const isRightPlatePrimary = Math.abs(dx - width * 0.21) <= width * 0.045 && Math.abs(dy) <= height * 0.22;
+
+        // Secondary Outer Plates
+        const isLeftPlateSec = Math.abs(dx + width * 0.285) <= width * 0.032 && Math.abs(dy) <= height * 0.165;
+        const isRightPlateSec = Math.abs(dx - width * 0.285) <= width * 0.032 && Math.abs(dy) <= height * 0.165;
+
+        // End Lock Nut
+        const isLeftNut = Math.abs(dx + width * 0.33) <= width * 0.018 && Math.abs(dy) <= height * 0.06;
+        const isRightNut = Math.abs(dx - width * 0.33) <= width * 0.018 && Math.abs(dy) <= height * 0.06;
+
+        if (isCenterBar) {
+          // Titanium White Bar with subtle knurl grip highlight
+          const isKnurl = (Math.floor(x / 4) % 2 === 0);
+          const c = isKnurl ? 245 : 255;
+          r = c; g = c; b = c;
+        } else if (isLeftCollar || isRightCollar) {
+          // Brushed Platinum collar
+          r = 230; g = 232; b = 238;
+        } else if (isLeftPlatePrimary || isRightPlatePrimary) {
+          // Crisp Pure White Heavy Plates with beveled edges
+          const edgeY = Math.abs(dy) > height * 0.20;
+          r = edgeY ? 220 : 255;
+          g = edgeY ? 222 : 255;
+          b = edgeY ? 228 : 255;
+        } else if (isLeftPlateSec || isRightPlateSec) {
+          // Sleek Silver Outer Plates
+          const edgeY = Math.abs(dy) > height * 0.15;
+          r = edgeY ? 210 : 242;
+          g = edgeY ? 212 : 245;
+          b = edgeY ? 218 : 250;
+        } else if (isLeftNut || isRightNut) {
+          // End Lock
+          r = 200; g = 205; b = 215;
         }
-      } else if (dist <= radius) {
-        // Border ring
-        rawData[pixelOffset] = 16;
-        rawData[pixelOffset + 1] = 185;
-        rawData[pixelOffset + 2] = 129;
-        rawData[pixelOffset + 3] = 255;
       } else {
-        // Outside rounded corners
-        rawData[pixelOffset] = 9;
-        rawData[pixelOffset + 1] = 13;
-        rawData[pixelOffset + 2] = 22;
-        rawData[pixelOffset + 3] = 255;
+        // Outside squircle background (Onyx black for smooth edge blending)
+        r = 10; g = 11; b = 14; a = 255;
       }
+
+      rawData[pixelOffset] = r;
+      rawData[pixelOffset + 1] = g;
+      rawData[pixelOffset + 2] = b;
+      rawData[pixelOffset + 3] = a;
     }
   }
 
@@ -119,6 +148,6 @@ if (!fs.existsSync(iconsDir)) {
   fs.mkdirSync(iconsDir, { recursive: true });
 }
 
-fs.writeFileSync(path.join(iconsDir, 'icon-192.png'), createSolidPng(192, 192, 16, 185, 129));
-fs.writeFileSync(path.join(iconsDir, 'icon-512.png'), createSolidPng(512, 512, 16, 185, 129));
-console.log('Icons generated successfully!');
+fs.writeFileSync(path.join(iconsDir, 'icon-192.png'), createMonochromeGymIcon(192, 192));
+fs.writeFileSync(path.join(iconsDir, 'icon-512.png'), createMonochromeGymIcon(512, 512));
+console.log('✅ Ultra-Luxury Monochrome Black & White Gym Icons generated successfully!');

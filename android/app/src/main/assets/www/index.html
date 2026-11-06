@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Tushu Gym Plan</title>
+  <title>Gym Plan</title>
   
   <!-- Apple iOS & PWA Meta Tags -->
   <meta name="theme-color" content="#f2f2f7">
-  <meta name="description" content="Tushu Gym Plan - Apple-Inspired Athletic Workout & Nutrition Tracker. 100% Offline.">
+  <meta name="description" content="Gym Plan - Apple-Inspired Athletic Workout & Nutrition Tracker. 100% Offline.">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Tushu Gym Plan">
+  <meta name="apple-mobile-web-app-title" content="Gym Plan">
   <link rel="manifest" href="./manifest.json">
   <link rel="apple-touch-icon" href="./icons/icon-192.png">
   <link rel="icon" type="image/png" href="./icons/icon-192.png">
@@ -31,7 +31,7 @@
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
         <span class="brand-accent-pill"></span>
-        <span class="brand-title" id="onboardingBrandTitle">Tushu Gym Plan</span>
+        <span class="brand-title" id="onboardingBrandTitle">Gym Plan</span>
       </div>
       <button class="btn-skip-pill" onclick="skipOnboarding()" aria-label="Skip to Dashboard">
         <span>Skip</span>
@@ -53,8 +53,8 @@
           <img src="./images/hero-goku.jpg" alt="Ultra Instinct Goku Mindset" class="onboarding-hero-img">
           <div class="onboarding-hero-overlay"></div>
           <div class="onboarding-hero-badge">
-            <span class="hero-badge-dot" style="background: #a0d2ff; box-shadow: 0 0 8px #a0d2ff;"></span>
-            <span>Ultra Instinct Mindset • v0.01</span>
+            <span class="hero-badge-dot" style="background: #ffffff; box-shadow: 0 0 8px #ffffff;"></span>
+            <span>Ultra Instinct Mindset • v0.02</span>
           </div>
         </div>
       </div>
@@ -85,7 +85,7 @@
         </button>
 
         <div style="text-align: center; margin-top: 14px;">
-          <span style="font-size: 0.72rem; color: var(--text-tertiary); font-weight: 500;">Multi-User Athlete Edition • 100% Offline</span>
+          <span class="powered-by-tag">Powered by <strong>Tushpender</strong> • v0.02</span>
         </div>
       </div>
     </div>
@@ -99,7 +99,7 @@
       <div style="text-align: center; margin-bottom: 16px;">
         <span class="step-counter-pill">STEP 2 OF 2 • PLAN SETUP</span>
         <h2 style="font-size: 1.45rem; font-weight: 600; color: var(--text-primary); margin-top: 6px; margin-bottom: 4px;">
-          Welcome, <span id="onboardingWelcomeName" style="color: var(--apple-green-dark);">Athlete</span>!
+          Welcome, <span id="onboardingWelcomeName" style="color: var(--text-primary);">Athlete</span>!
         </h2>
         <p style="font-size: 0.8rem; color: var(--text-secondary);">
           Choose your food category, duration & training purpose to generate your customized gym roadmap.
@@ -180,7 +180,7 @@
             <button type="button" class="option-pill active" data-hours="1.5-2" onclick="selectOnboardingHours('1.5-2')">
               <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
                 <span class="pill-title">1.5 - 2 Hours / Day</span>
-                <span class="pill-badge" style="background: rgba(52, 199, 89, 0.12); color: var(--apple-green-dark); font-weight: 700; font-size: 0.65rem; padding: 2px 7px; border-radius: 99px;">ELITE ATHLETE</span>
+                <span class="pill-badge" style="background: rgba(0, 0, 0, 0.08); color: var(--text-primary); font-weight: 700; font-size: 0.65rem; padding: 2px 7px; border-radius: 99px;">ELITE ATHLETE</span>
               </div>
               <span class="pill-desc">15m Warmup + 65m 7-12-15 Lifts + 15m Core/Grip + 10m Mobility</span>
             </button>
@@ -204,10 +204,14 @@
       </div>
 
       <div style="margin-top: 18px; margin-bottom: 10px;">
-        <button class="btn-get-started" onclick="finishOnboardingSetup()" style="background: var(--apple-green-dark);">
+        <button class="btn-get-started" onclick="finishOnboardingSetup()" style="background: #000000; color: #ffffff;">
           <span>Launch My Dashboard ⚡</span>
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </button>
+      </div>
+
+      <div style="text-align: center; margin-top: 14px;">
+        <span class="powered-by-tag">Powered by <strong>Tushpender</strong> • v0.02</span>
       </div>
 
     </div>
@@ -232,7 +236,7 @@
       <!-- Center Greeting (Typography Only - Zero Emojis) -->
       <div class="header-greeting-wrap" onclick="switchView('home')">
         <span id="headerGreetingName" class="header-greeting">Hi, Athlete</span>
-        <span id="headerSubgreeting" class="header-subgreeting">Ready to train • v0.01</span>
+        <span id="headerSubgreeting" class="header-subgreeting">Ready to train • v0.02</span>
       </div>
 
       <!-- Minimalist Vector Bell Button -->
@@ -370,6 +374,11 @@
         </div>
       </div>
 
+      <!-- Page Footer -->
+      <div class="app-page-footer">
+        Powered by <strong>Tushpender</strong> • v0.02
+      </div>
+
     </div>
 
 
@@ -413,6 +422,11 @@
         <button class="btn btn-danger-subtle" style="flex: 1;" onclick="resetTodayWorkout()">
           Reset Today's Sets
         </button>
+      </div>
+
+      <!-- Page Footer -->
+      <div class="app-page-footer">
+        Powered by <strong>Tushpender</strong> • v0.02
       </div>
 
     </div>
@@ -473,6 +487,11 @@
         </div>
       </section>
 
+      <!-- Page Footer -->
+      <div class="app-page-footer">
+        Powered by <strong>Tushpender</strong> • v0.02
+      </div>
+
     </div>
 
 
@@ -528,7 +547,7 @@
 
         <div class="card-header-row" style="margin-bottom: 10px;">
           <h3 style="font-size: 0.94rem; font-weight: 600; color: var(--text-primary);">Today's Fuel</h3>
-          <span id="nutriDietBadge" style="font-size: 0.72rem; color: var(--apple-green-dark); font-weight: 600; background: rgba(52, 199, 89, 0.1); padding: 2px 8px; border-radius: var(--radius-full);">HIGH PROTEIN</span>
+          <span id="nutriDietBadge" style="font-size: 0.72rem; color: var(--text-primary); font-weight: 700; background: rgba(0, 0, 0, 0.06); border: 0.5px solid rgba(0, 0, 0, 0.1); padding: 2px 8px; border-radius: var(--radius-full);">HIGH PROTEIN</span>
         </div>
 
         <div class="meals-list" id="mealsListContainer">
@@ -539,6 +558,11 @@
           + Add Meal Log
         </button>
       </section>
+
+      <!-- Page Footer -->
+      <div class="app-page-footer">
+        Powered by <strong>Tushpender</strong> • v0.02
+      </div>
 
     </div>
 
@@ -661,19 +685,21 @@
         <a class="drawer-item" onclick="selectDayFromDrawer('sunday')">Sunday: Active Recovery</a>
 
         <div class="drawer-section-title">DATA & PERSONALIZATION</div>
-        <a class="drawer-item" onclick="closeSideDrawer(); openRoadmapModal();" style="color: var(--apple-green-dark); font-weight: 600;">Edit Profile & Plan Goals</a>
+        <a class="drawer-item" onclick="closeSideDrawer(); openRoadmapModal();" style="color: var(--text-primary); font-weight: 700;">Edit Profile & Plan Goals</a>
         <a class="drawer-item" onclick="closeSideDrawer(); openModal('backupModal');">Backup & Restore</a>
         <a class="drawer-item" onclick="closeSideDrawer(); resetTodayWorkout();">Reset Today's Sets</a>
         <a class="drawer-item" onclick="closeSideDrawer(); resetForNewUser();" style="color: #ff3b30;">Reset App for New User</a>
 
-        <div style="background: rgba(52, 199, 89, 0.08); border: 0.5px solid rgba(52, 199, 89, 0.2); border-radius: var(--radius-sm); padding: 10px 12px; margin: 12px 2px 6px; font-size: 0.74rem; color: var(--text-secondary); line-height: 1.4;">
-          <strong style="color: var(--apple-green-dark);">Personalized Device Storage</strong><br>
+        <div style="background: rgba(0, 0, 0, 0.04); border: 0.5px solid rgba(0, 0, 0, 0.1); border-radius: var(--radius-sm); padding: 10px 12px; margin: 12px 2px 6px; font-size: 0.74rem; color: var(--text-secondary); line-height: 1.4;">
+          <strong style="color: var(--text-primary);">Personalized Device Storage</strong><br>
           Har user ka naam, diet aur workout plan device ke local storage mein 100% offline aur safely save hota hai.
         </div>
       </div>
 
       <div class="drawer-footer">
-        <span>Tushu Gym Plan</span>
+        <span>Gym Plan</span>
+        <span>Powered by <strong>Tushpender</strong> • v0.02</span>
+      </div>
         <span>iOS Edition v0.01</span>
       </div>
     </nav>

@@ -1,7 +1,7 @@
 {
-  "name": "Tushu Gym Plan",
-  "short_name": "TushuGym",
-  "description": "Tushu Gym Plan - Personal Athletic Workout Planner & Tracker - 100% Offline PWA",
+  "name": "Gym Plan",
+  "short_name": "Gym Plan",
+  "description": "Gym Plan - Personal Athletic Workout Planner & Tracker - 100% Offline",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#FAF7F0",

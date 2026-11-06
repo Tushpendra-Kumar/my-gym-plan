@@ -1,5 +1,6 @@
 /**
- * Tushu Gym Plan - Ultra-Premium Glassmorphic Edition (v0.01)
+ * Gym Plan - Ultra-Premium Luxury Monochrome Edition (v0.02)
+ * Powered by Tushpender
  * 7 - 12 - 15 Reverse Pyramid Rep Scheme
  * 100% Offline with LocalStorage, IndexedDB & Service Worker
  */
@@ -11,7 +12,7 @@ const DEFAULT_PLAN = {
     title: "Chest & Athletic Core",
     focus: "Push Strength & Core Stability",
     description: "Build a broad athletic chest and solid core. 1-2 light dynamic warmup sets, then hit 7-12-15 Reverse Pyramid.",
-    color: "#10b981",
+    color: "#111111",
     exercises: [
       {
         id: "m1",
@@ -598,7 +599,7 @@ function updateUserGreeting() {
   }
   const subgreetingEl = document.getElementById('headerSubgreeting');
   if (subgreetingEl) {
-    const dietStr = athleteRoadmap && athleteRoadmap.dietType ? athleteRoadmap.dietType.toUpperCase() : 'v0.01';
+    const dietStr = athleteRoadmap && athleteRoadmap.dietType ? athleteRoadmap.dietType.toUpperCase() : 'v0.02';
     subgreetingEl.innerText = `Ready to train • ${dietStr}`;
   }
 }
@@ -2441,7 +2442,7 @@ function syncReminderWithAndroid(id, rem) {
         const [hStr, mStr] = (rem.time || '17:30').split(':');
         const hour = parseInt(hStr, 10) || 17;
         const min = parseInt(mStr, 10) || 30;
-        let title = 'Tushu Gym Plan';
+        let title = 'Gym Plan';
         let msg = 'Target pending hai. Tap to complete!';
         if (id === 'workout') {
           const dayData = workoutPlan[getTodayDayKey()] || {};
