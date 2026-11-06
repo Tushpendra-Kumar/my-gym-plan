@@ -282,6 +282,7 @@ body {
   justify-content: space-between;
   align-items: center;
   font-size: 0.84rem;
+  gap: 10px;
 }
 
 .metric-row-left {
@@ -290,17 +291,24 @@ body {
   gap: 8px;
   color: var(--text-secondary);
   font-weight: 500;
+  flex-shrink: 0;
 }
 
 .metric-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .metric-row-val {
   font-weight: 600;
   color: var(--text-primary);
+  text-align: right;
+  max-width: 58%;
+  line-height: 1.25;
+  white-space: normal;
+  word-break: normal;
 }
 
 /* Weekly Activity Bar Chart */
@@ -1650,6 +1658,55 @@ body {
 @keyframes badgeBlink {
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.5; transform: scale(0.85); }
+}
+
+.onboarding-input-wrap {
+  margin-bottom: 18px;
+  text-align: left;
+}
+
+.onboarding-input-label {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--text-tertiary);
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  padding-left: 4px;
+}
+
+.onboarding-name-field {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: var(--radius-full);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+.onboarding-name-field:focus-within {
+  border-color: var(--apple-green);
+  box-shadow: 0 0 0 3px rgba(52, 199, 89, 0.2);
+  background: #ffffff;
+}
+
+.onboarding-name-field input {
+  width: 100%;
+  padding: 12px 16px 12px 10px;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.onboarding-name-field input::placeholder {
+  color: var(--text-tertiary);
+  font-weight: 400;
 }
 
 .btn-get-started {

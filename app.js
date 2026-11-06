@@ -452,6 +452,8 @@ const STORAGE_MEALS = 'tushu_gym_meals_v1';
 const STORAGE_ONBOARDED = 'tushu_onboarded_v1';
 const STORAGE_REMINDERS = 'tushu_gym_reminders_v1';
 const STORAGE_ROADMAP = 'tushu_gym_roadmap_v1';
+const STORAGE_USER_NAME = 'tushu_gym_user_name_v1';
+const STORAGE_PLAN_CONFIGURED = 'tushu_user_plan_configured_v1';
 
 function getTodayDateStr() {
   const d = new Date();
@@ -564,6 +566,43 @@ function saveMeals() {
   }
 }
 
+function getUserName() {
+  const saved = localStorage.getItem(STORAGE_USER_NAME);
+  if (saved && saved.trim()) return saved.trim();
+  if (athleteRoadmap && athleteRoadmap.profileName && athleteRoadmap.profileName.trim()) {
+    return athleteRoadmap.profileName.trim();
+  }
+  return 'Athlete';
+}
+
+function saveUserName(name) {
+  const cleanName = (name && name.trim()) ? name.trim() : 'Athlete';
+  localStorage.setItem(STORAGE_USER_NAME, cleanName);
+  if (athleteRoadmap) {
+    athleteRoadmap.profileName = cleanName;
+    saveRoadmap();
+  }
+  updateUserGreeting();
+  return cleanName;
+}
+
+function updateUserGreeting() {
+  const name = getUserName();
+  const greetingEl = document.getElementById('headerGreetingName');
+  if (greetingEl) {
+    greetingEl.innerText = `Hi, ${name}`;
+  }
+  const drawerNameEl = document.getElementById('drawerUserName');
+  if (drawerNameEl) {
+    drawerNameEl.innerText = name;
+  }
+  const subgreetingEl = document.getElementById('headerSubgreeting');
+  if (subgreetingEl) {
+    const dietStr = athleteRoadmap && athleteRoadmap.dietType ? athleteRoadmap.dietType.toUpperCase() : 'v0.01';
+    subgreetingEl.innerText = `Ready to train • ${dietStr}`;
+  }
+}
+
 function loadRoadmap() {
   try {
     const saved = localStorage.getItem(STORAGE_ROADMAP);
@@ -572,8 +611,7 @@ function loadRoadmap() {
     console.error("Error loading roadmap", e);
   }
   return generateRoadmapPlan({
-    profile: 'tushu',
-    guestName: '',
+    userName: getUserName(),
     duration: 30,
     diet: 'veg',
     hours: '1.5-2',
@@ -623,6 +661,7 @@ function playTimerBeep() {
 // App Initialization
 function initApp() {
   athleteRoadmap = loadRoadmap();
+  updateUserGreeting();
   checkOnboarding();
   renderWeeklyBars();
   renderHomeStats();
@@ -646,20 +685,78 @@ function checkOnboarding() {
       screen.classList.add('hidden');
     } else {
       screen.classList.remove('hidden');
+      const input = document.getElementById('onboardingUserNameInput');
+      if (input) {
+        const saved = localStorage.getItem(STORAGE_USER_NAME);
+        if (saved && saved !== 'Athlete') input.value = saved;
+        setTimeout(() => input.focus(), 300);
+      }
     }
   }
 }
 
-function completeOnboarding() {
+function submitOnboardingName(isSkip = false) {
+  const inputEl = document.getElementById('onboardingUserNameInput');
+  let name = (inputEl && inputEl.value.trim()) ? inputEl.value.trim() : '';
+
+  if (!name) {
+    name = isSkip ? 'Athlete' : 'Athlete';
+  }
+
+  saveUserName(name);
   localStorage.setItem(STORAGE_ONBOARDED, 'true');
+
   const screen = document.getElementById('viewOnboarding');
   if (screen) screen.classList.add('hidden');
+
+  updateUserGreeting();
+  renderHomeStats();
+  renderRoadmapHero();
   switchView('home');
+
+  // If user hasn't configured plan yet, open customization modal directly
+  const isConfigured = localStorage.getItem(STORAGE_PLAN_CONFIGURED);
+  if (!isConfigured) {
+    setTimeout(() => {
+      openRoadmapModal();
+    }, 350);
+  }
+}
+
+function completeOnboarding() {
+  submitOnboardingName(true);
 }
 
 function showOnboardingScreen() {
   const screen = document.getElementById('viewOnboarding');
+  if (screen) {
+    screen.classList.remove('hidden');
+    const input = document.getElementById('onboardingUserNameInput');
+    if (input) input.value = getUserName() === 'Athlete' ? '' : getUserName();
+  }
+}
+
+function resetForNewUser() {
+  const ok = confirm("Kya aap naye user ke liye app reset karna chahte hain? Sabhi personalized settings naye sire se set hongi.");
+  if (!ok) return;
+
+  localStorage.removeItem(STORAGE_ONBOARDED);
+  localStorage.removeItem(STORAGE_USER_NAME);
+  localStorage.removeItem(STORAGE_PLAN_CONFIGURED);
+  localStorage.removeItem(STORAGE_ROADMAP);
+
+  athleteRoadmap = loadRoadmap();
+  
+  const inputEl = document.getElementById('onboardingUserNameInput');
+  if (inputEl) inputEl.value = '';
+
+  const screen = document.getElementById('viewOnboarding');
   if (screen) screen.classList.remove('hidden');
+
+  updateUserGreeting();
+  renderMeals();
+  renderRoadmapHero();
+  renderHomeStats();
 }
 
 // View Switcher (Home, Workouts, Activity, Nutrition)
@@ -1261,8 +1358,7 @@ function submitAddMeal(e) {
 // ATHLETE DIET & GYM ROADMAP ENGINE (Offline Generator)
 // ----------------------------------------------------
 let roadmapFormState = {
-  profile: 'tushu',
-  guestName: '',
+  userName: '',
   duration: 30,
   diet: 'veg',
   hours: '1.5-2',
@@ -1271,8 +1367,7 @@ let roadmapFormState = {
 let activeRoadmapDetailsTab = 'diet';
 
 function generateRoadmapPlan(options) {
-  const isGuest = options.profile === 'guest';
-  const profileName = isGuest ? (options.guestName && options.guestName.trim() ? options.guestName.trim() : 'Guest Athlete') : 'Tushu';
+  const profileName = (options.userName && options.userName.trim()) ? options.userName.trim() : ((options.profileName && options.profileName.trim()) ? options.profileName.trim() : getUserName());
   const duration = parseInt(options.duration) || 30;
   const diet = options.diet || 'veg';
   const hours = options.hours || '1.5-2';
@@ -1283,17 +1378,32 @@ function generateRoadmapPlan(options) {
   let carbsGrams = 220;
   let fatsGrams = 60;
   let dietLabel = 'High-Protein Vegetarian';
+  let goalLabel = 'Virat Kohli Athletic Lean Shred';
 
   if (goal === 'bulk') {
-    targetCalories = 2750;
-    proteinGrams = 175;
-    carbsGrams = 290;
-    fatsGrams = 70;
+    targetCalories = 2800;
+    proteinGrams = 180;
+    carbsGrams = 300;
+    fatsGrams = 75;
+    goalLabel = 'Clean Muscle Bulk & Hypertrophy';
   } else if (goal === 'shred') {
     targetCalories = 2250;
     proteinGrams = 165;
     carbsGrams = 195;
     fatsGrams = 52;
+    goalLabel = 'Virat Kohli Athletic Lean Shred';
+  } else if (goal === 'speed') {
+    targetCalories = 2450;
+    proteinGrams = 160;
+    carbsGrams = 240;
+    fatsGrams = 58;
+    goalLabel = 'Speed, Agility & Explosive Power';
+  } else if (goal === 'fitness') {
+    targetCalories = 2150;
+    proteinGrams = 145;
+    carbsGrams = 200;
+    fatsGrams = 50;
+    goalLabel = 'Daily Functional Fitness & Posture';
   }
 
   let meals = [];
@@ -1655,17 +1765,7 @@ function renderRoadmapHero() {
 
 // Modal Helpers & Pill Selectors
 function selectRoadmapProfile(p) {
-  roadmapFormState.profile = p;
-  const grid = document.getElementById('profileSelectorGrid');
-  if (grid) {
-    grid.querySelectorAll('.option-pill').forEach(btn => {
-      btn.classList.toggle('active', btn.getAttribute('data-profile') === p);
-    });
-  }
-  const inputWrap = document.getElementById('guestNameInputWrap');
-  if (inputWrap) {
-    inputWrap.style.display = p === 'guest' ? 'block' : 'none';
-  }
+  // Backwards compatibility stub
 }
 
 function selectRoadmapDuration(days) {
@@ -1709,18 +1809,22 @@ function selectRoadmapGoal(goal) {
 }
 
 function openRoadmapModal() {
-  if (athleteRoadmap) {
-    roadmapFormState.profile = athleteRoadmap.isGuest ? 'guest' : 'tushu';
-    roadmapFormState.guestName = athleteRoadmap.isGuest ? athleteRoadmap.profileName : '';
-    roadmapFormState.duration = athleteRoadmap.durationDays;
-    roadmapFormState.diet = athleteRoadmap.dietType;
-    roadmapFormState.hours = athleteRoadmap.gymHoursPerDay;
-    roadmapFormState.goal = athleteRoadmap.goal;
-
-    const guestInput = document.getElementById('roadmapGuestName');
-    if (guestInput) guestInput.value = roadmapFormState.guestName;
+  const currentName = getUserName();
+  const nameInput = document.getElementById('roadmapUserName');
+  if (nameInput) {
+    nameInput.value = (currentName === 'Athlete') ? '' : currentName;
   }
-  selectRoadmapProfile(roadmapFormState.profile);
+
+  if (athleteRoadmap) {
+    roadmapFormState.userName = currentName;
+    roadmapFormState.duration = athleteRoadmap.durationDays || 30;
+    roadmapFormState.diet = athleteRoadmap.dietType || 'veg';
+    roadmapFormState.hours = athleteRoadmap.gymHoursPerDay || '1.5-2';
+    roadmapFormState.goal = athleteRoadmap.goal || 'shred';
+  } else {
+    roadmapFormState.userName = currentName;
+  }
+
   selectRoadmapDuration(roadmapFormState.duration);
   selectRoadmapDiet(roadmapFormState.diet);
   selectRoadmapHours(roadmapFormState.hours);
@@ -1730,16 +1834,41 @@ function openRoadmapModal() {
 }
 
 function submitRoadmapGenerator(e) {
-  e.preventDefault();
-  if (roadmapFormState.profile === 'guest') {
-    const inputEl = document.getElementById('roadmapGuestName');
-    roadmapFormState.guestName = inputEl ? inputEl.value.trim() : '';
-  }
+  if (e) e.preventDefault();
+
+  const nameInput = document.getElementById('roadmapUserName');
+  const enteredName = (nameInput && nameInput.value.trim()) ? nameInput.value.trim() : getUserName();
+  saveUserName(enteredName);
+  roadmapFormState.userName = enteredName;
+
   athleteRoadmap = generateRoadmapPlan(roadmapFormState);
   saveRoadmap();
+
+  localStorage.setItem(STORAGE_PLAN_CONFIGURED, 'true');
+
+  // Automatically apply meals to Today's tracker
+  if (athleteRoadmap && athleteRoadmap.meals) {
+    nutritionMeals = athleteRoadmap.meals.map((meal, idx) => ({
+      id: 'rm_' + Date.now() + '_' + idx,
+      name: meal.name,
+      desc: `${meal.timing} • ${meal.calories} kcal • ${meal.desc}`,
+      type: meal.type,
+      calories: meal.calories,
+      done: false
+    }));
+    saveMeals();
+    renderMeals();
+  }
+
+  updateUserGreeting();
+  renderHomeStats();
   renderRoadmapHero();
   closeModal('roadmapModal');
   openRoadmapDetailsModal();
+
+  if (window.AndroidBridge && typeof window.AndroidBridge.vibratePhone === 'function') {
+    window.AndroidBridge.vibratePhone(50);
+  }
 }
 
 function openRoadmapDetailsModal() {
@@ -2453,6 +2582,7 @@ function submitAddExercise(event) {
 // Export & Import Data
 function exportWorkoutData() {
   const data = {
+    userName: getUserName(),
     plan: workoutPlan,
     history: workoutHistory,
     meals: nutritionMeals,
@@ -2476,6 +2606,9 @@ function importWorkoutData(event) {
   reader.onload = (e) => {
     try {
       const data = JSON.parse(e.target.result);
+      if (data.userName) {
+        saveUserName(data.userName);
+      }
       if (data.plan) {
         workoutPlan = data.plan;
         savePlan();
@@ -2494,6 +2627,7 @@ function importWorkoutData(event) {
         renderRoadmapHero();
       }
       alert("Data successfully restore ho gaya.");
+      updateUserGreeting();
       renderHomeStats();
       renderWorkoutView();
       renderMeals();
