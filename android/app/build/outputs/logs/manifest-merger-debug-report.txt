@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:2:1-44:12
-INJECTED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:2:1-44:12
-INJECTED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:2:1-44:12
-INJECTED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:2:1-44:12
+ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:2:1-45:12
+INJECTED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:2:1-45:12
+INJECTED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:2:1-45:12
+INJECTED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:2:1-45:12
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\hp\.gradle\caches\transforms-3\99dc24b8086e9e02f60cbc0643cdc897\transformed\material-1.11.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.appcompat:appcompat-resources:1.6.1] C:\Users\hp\.gradle\caches\transforms-3\6bb17d2c54c905aa7b0c5b5bfe3537f3\transformed\jetified-appcompat-resources-1.6.1\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] C:\Users\hp\.gradle\caches\transforms-3\8508f4cfef30ee3cf8a1041482846fac\transformed\constraintlayout-2.0.1\AndroidManifest.xml:2:1-11:12
@@ -85,8 +85,8 @@ ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:11:5-81
 	android:name
 		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:11:22-78
 application
-ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:13:5-42:19
-INJECTED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:13:5-42:19
+ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:13:5-43:19
+INJECTED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:13:5-43:19
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\hp\.gradle\caches\transforms-3\99dc24b8086e9e02f60cbc0643cdc897\transformed\material-1.11.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\hp\.gradle\caches\transforms-3\99dc24b8086e9e02f60cbc0643cdc897\transformed\material-1.11.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] C:\Users\hp\.gradle\caches\transforms-3\8508f4cfef30ee3cf8a1041482846fac\transformed\constraintlayout-2.0.1\AndroidManifest.xml:9:5-20
@@ -108,53 +108,55 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\hp\.gradle\caches\
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.9.0] C:\Users\hp\.gradle\caches\transforms-3\a309491863f1cad1388d82071cb60f8c\transformed\core-1.9.0\AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:18:9-35
+		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:19:9-35
 	android:label
-		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:16:9-41
+		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:17:9-41
 	android:hardwareAccelerated
-		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:19:9-43
+		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:20:9-43
 	android:roundIcon
-		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:17:9-48
+		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:18:9-48
 	android:icon
-		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:15:9-43
+		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:16:9-43
 	android:allowBackup
-		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:14:9-35
+		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:14:9-36
 	android:theme
-		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:20:9-56
+		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:21:9-56
+	android:usesCleartextTraffic
+		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:15:9-45
 activity#com.athletic.gymtracker.MainActivity
-ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:22:9-32:20
+ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:23:9-33:20
 	android:screenOrientation
-		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:27:13-49
+		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:28:13-49
 	android:launchMode
-		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:25:13-43
+		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:26:13-43
 	android:exported
-		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:24:13-36
+		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:25:13-36
 	android:configChanges
-		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:26:13-74
+		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:27:13-74
 	android:name
-		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:23:13-41
+		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:24:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:28:13-31:29
+ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:29:13-32:29
 action#android.intent.action.MAIN
-ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:29:17-69
+ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:30:17-69
 	android:name
-		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:29:25-66
+		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:30:25-66
 category#android.intent.category.LAUNCHER
-ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:30:17-77
+ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:31:17-77
 	android:name
-		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:30:27-74
+		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:31:27-74
 receiver#com.athletic.gymtracker.ReminderReceiver
-ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:34:9-40:20
+ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:35:9-41:20
 	android:exported
-		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:36:13-37
+		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:37:13-37
 	android:name
-		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:35:13-45
+		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:36:13-45
 intent-filter#action:name:com.athletic.gymtracker.ACTION_MARK_DONE
-ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:37:13-39:29
+ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:38:13-40:29
 action#com.athletic.gymtracker.ACTION_MARK_DONE
-ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:38:17-83
+ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:39:17-83
 	android:name
-		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:38:25-80
+		ADDED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml:39:25-80
 uses-sdk
 INJECTED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from E:\My GYM Plan\android\app\src\main\AndroidManifest.xml

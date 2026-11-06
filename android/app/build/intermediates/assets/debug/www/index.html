@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Gym Plan</title>
   
+  <!-- Security & Privacy: 100% Offline CSP (No Remote Network Leaks) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data: blob: file:; img-src 'self' data: blob: file:; media-src 'self' data: blob: file:;">
+
   <!-- Apple iOS & PWA Meta Tags -->
   <meta name="theme-color" content="#f2f2f7">
   <meta name="description" content="Gym Plan - Apple-Inspired Athletic Workout & Nutrition Tracker. 100% Offline.">
@@ -15,7 +18,7 @@
   <link rel="apple-touch-icon" href="./icons/icon-192.png">
   <link rel="icon" type="image/png" href="./icons/icon-192.png">
 
-  <link rel="stylesheet" href="./style.css?v=0.03">
+  <link rel="stylesheet" href="./style.css?v=0.04">
 </head>
 <body>
 
@@ -54,16 +57,16 @@
           <div class="onboarding-hero-overlay"></div>
           <div class="onboarding-hero-badge">
             <span class="hero-badge-dot" style="background: #ffffff; box-shadow: 0 0 8px #ffffff;"></span>
-            <span>Ultra Instinct Mindset • v0.02</span>
+            <span>Ultra Instinct Mindset • v0.04</span>
           </div>
         </div>
       </div>
 
       <div style="max-width: 360px; margin: 0 auto; width: 100%; text-align: center;">
-        <h1 style="font-size: 1.55rem; font-weight: 600; line-height: 1.22; color: var(--text-primary); letter-spacing: -0.02em; margin-bottom: 6px;">
+        <h1 id="onboardingHeroTitle" style="font-size: 1.55rem; font-weight: 600; line-height: 1.22; color: var(--text-primary); letter-spacing: -0.02em; margin-bottom: 6px;">
           Athletic Performance Starts Here
         </h1>
-        <p style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 16px; font-weight: 400;">
+        <p id="onboardingHeroSubtitle" style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 16px; font-weight: 400;">
           Reverse pyramid 7-12-15 strength lifts, customized athlete nutrition & 100% offline precision tracking.
         </p>
 
@@ -75,17 +78,34 @@
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
               <circle cx="12" cy="7" r="4"/>
             </svg>
-            <input type="text" id="onboardingUserNameInput" placeholder="Enter your name (e.g. Virat, Rohit)" maxlength="24" autocomplete="name" onkeydown="if(event.key==='Enter') goToOnboardingStep2();">
+            <input type="text" id="onboardingUserNameInput" placeholder="Enter your name (e.g. Virat, Rohit)" maxlength="24" autocomplete="name" onkeydown="if(event.key==='Enter') handleOnboardingContinue();">
           </div>
         </div>
+
+        <!-- Security PIN / Password Field (Free & Offline) -->
+        <div class="onboarding-input-wrap" style="margin-top: -4px;">
+          <label id="onboardingPinLabel" for="onboardingUserPinInput" class="onboarding-input-label">LOGIN PIN / PASSWORD (OPTIONAL • FREE)</label>
+          <div class="onboarding-name-field">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-tertiary); margin-left: 12px; flex-shrink: 0;">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            <input type="password" id="onboardingUserPinInput" placeholder="Set PIN or Password (e.g. 1234 or leave blank)" maxlength="20" autocomplete="current-password" onkeydown="if(event.key==='Enter') handleOnboardingContinue();">
+          </div>
+          <span id="onboardingPinHint" style="display: block; font-size: 0.67rem; color: var(--text-tertiary); margin-top: 4px; padding-left: 4px; text-align: left;">Free offline login • Apne data ko secure rakhein</span>
+        </div>
         
-        <button class="btn-get-started" onclick="goToOnboardingStep2()">
-          <span>Continue to Plan Setup</span>
+        <button id="btnOnboardingContinue" class="btn-get-started" onclick="handleOnboardingContinue()">
+          <span id="btnOnboardingContinueText">Continue to Plan Setup</span>
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </button>
 
+        <button id="btnSwitchAthlete" type="button" onclick="switchAthleteLogin()" style="display: none; width: 100%; margin-top: 10px; background: transparent; border: none; color: var(--text-secondary); font-size: 0.78rem; text-decoration: underline; cursor: pointer; padding: 6px;">
+          Switch Athlete / Log In as Different User
+        </button>
+
         <div style="text-align: center; margin-top: 14px;">
-          <span class="powered-by-tag">Powered by <strong>Tushpender</strong> • v0.02</span>
+          <span class="powered-by-tag">Powered by <strong>Tushpender</strong> • v0.04</span>
         </div>
       </div>
     </div>
@@ -211,7 +231,7 @@
       </div>
 
       <div style="text-align: center; margin-top: 14px;">
-        <span class="powered-by-tag">Powered by <strong>Tushpender</strong> • v0.02</span>
+        <span class="powered-by-tag">Powered by <strong>Tushpender</strong> • v0.04</span>
       </div>
 
     </div>
@@ -236,7 +256,7 @@
       <!-- Center Greeting (Typography Only - Zero Emojis) -->
       <div class="header-greeting-wrap" onclick="switchView('home')">
         <span id="headerGreetingName" class="header-greeting">Hi, Athlete</span>
-        <span id="headerSubgreeting" class="header-subgreeting">Ready to train • v0.02</span>
+        <span id="headerSubgreeting" class="header-subgreeting">Ready to train • v0.04</span>
       </div>
 
       <!-- Minimalist Vector Bell Button -->
@@ -376,7 +396,7 @@
 
       <!-- Page Footer -->
       <div class="app-page-footer">
-        Powered by <strong>Tushpender</strong> • v0.02
+        Powered by <strong>Tushpender</strong> • v0.04
       </div>
 
     </div>
@@ -426,7 +446,7 @@
 
       <!-- Page Footer -->
       <div class="app-page-footer">
-        Powered by <strong>Tushpender</strong> • v0.02
+        Powered by <strong>Tushpender</strong> • v0.04
       </div>
 
     </div>
@@ -489,7 +509,7 @@
 
       <!-- Page Footer -->
       <div class="app-page-footer">
-        Powered by <strong>Tushpender</strong> • v0.02
+        Powered by <strong>Tushpender</strong> • v0.04
       </div>
 
     </div>
@@ -561,7 +581,7 @@
 
       <!-- Page Footer -->
       <div class="app-page-footer">
-        Powered by <strong>Tushpender</strong> • v0.02
+        Powered by <strong>Tushpender</strong> • v0.04
       </div>
 
     </div>
@@ -688,7 +708,17 @@
         <a class="drawer-item" onclick="closeSideDrawer(); openRoadmapModal();" style="color: var(--text-primary); font-weight: 700;">Edit Profile & Plan Goals</a>
         <a class="drawer-item" onclick="closeSideDrawer(); openModal('backupModal');">Backup & Restore</a>
         <a class="drawer-item" onclick="closeSideDrawer(); resetTodayWorkout();">Reset Today's Sets</a>
-        <a class="drawer-item" onclick="closeSideDrawer(); resetForNewUser();" style="color: #ff3b30;">Reset App for New User</a>
+        <a class="drawer-item" onclick="closeSideDrawer(); handleUserLogout();" style="color: var(--text-primary); font-weight: 600; display: flex; align-items: center; gap: 8px;">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          Log Out (Free Login / Switch)
+        </a>
+        <a class="drawer-item" onclick="closeSideDrawer(); resetForNewUser();" style="color: #ff3b30; font-size: 0.78rem; opacity: 0.85;">
+          Clear Device Data (Hard Reset)
+        </a>
 
         <div style="background: rgba(0, 0, 0, 0.04); border: 0.5px solid rgba(0, 0, 0, 0.1); border-radius: var(--radius-sm); padding: 10px 12px; margin: 12px 2px 6px; font-size: 0.74rem; color: var(--text-secondary); line-height: 1.4;">
           <strong style="color: var(--text-primary);">Personalized Device Storage</strong><br>
@@ -698,9 +728,7 @@
 
       <div class="drawer-footer">
         <span>Gym Plan</span>
-        <span>Powered by <strong>Tushpender</strong> • v0.02</span>
-      </div>
-        <span>iOS Edition v0.01</span>
+        <span>Powered by <strong>Tushpender</strong> • v0.04</span>
       </div>
     </nav>
   </div>
@@ -770,32 +798,32 @@
 
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 14px 0;">
           <div style="background: rgba(0, 0, 0, 0.03); padding: 8px 10px; border-radius: var(--radius-xs);">
-            <span style="font-size: 0.65rem; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase;">Primary Focus</span>
-            <div id="demoExPrimary" style="font-size: 0.82rem; font-weight: 600; color: var(--apple-green-dark); margin-top: 1px;">-</div>
+            <span style="font-size: 0.65rem; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase;">TARGET MUSCLE (KIS MUSCLE KO HIT KARTA HAI)</span>
+            <div id="demoExPrimary" style="font-size: 0.82rem; font-weight: 600; color: var(--text-primary); margin-top: 1px;">-</div>
           </div>
           <div style="background: rgba(0, 0, 0, 0.03); padding: 8px 10px; border-radius: var(--radius-xs);">
-            <span style="font-size: 0.65rem; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase;">Tempo</span>
+            <span style="font-size: 0.65rem; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase;">SPEED & TEMPO (SPEED GUIDE)</span>
             <div id="demoExTempo" style="font-size: 0.82rem; font-weight: 600; color: var(--text-primary); margin-top: 1px;">-</div>
           </div>
         </div>
 
-        <div style="background: rgba(0, 0, 0, 0.02); border-left: 2px solid var(--apple-green); padding: 8px 10px; margin-bottom: 8px; font-size: 0.8rem; line-height: 1.4;">
-          <strong>Setup:</strong>
+        <div style="background: rgba(0, 0, 0, 0.02); border-left: 2px solid var(--text-primary); padding: 8px 10px; margin-bottom: 8px; font-size: 0.8rem; line-height: 1.4;">
+          <strong>Setup (Position Kaise Banayein):</strong>
           <div id="demoExSetup">-</div>
         </div>
 
-        <div style="background: rgba(0, 0, 0, 0.02); border-left: 2px solid var(--apple-green); padding: 8px 10px; margin-bottom: 8px; font-size: 0.8rem; line-height: 1.4;">
-          <strong>Execution:</strong>
+        <div style="background: rgba(0, 0, 0, 0.02); border-left: 2px solid var(--text-primary); padding: 8px 10px; margin-bottom: 8px; font-size: 0.8rem; line-height: 1.4;">
+          <strong>Execution (Sahi Technique & Movement):</strong>
           <div id="demoExExecution">-</div>
         </div>
 
-        <div style="background: var(--apple-red-subtle); border-left: 2px solid var(--apple-red); padding: 8px 10px; margin-bottom: 12px; font-size: 0.78rem; color: var(--apple-red); line-height: 1.4;">
-          <strong>Avoid:</strong>
+        <div style="background: rgba(255, 59, 48, 0.08); border-left: 2px solid #ff3b30; padding: 8px 10px; margin-bottom: 12px; font-size: 0.78rem; color: #ff3b30; line-height: 1.4;">
+          <strong>Avoid (Yeh Galati Mat Karein):</strong>
           <div id="demoExMistakes">-</div>
         </div>
 
         <div style="background: rgba(0, 0, 0, 0.02); border-radius: var(--radius-sm); padding: 12px; text-align: center;">
-          <p style="font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 8px;">Upload a personal 5-10 second video from your device:</p>
+          <p style="font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 8px;">Upload a personal 5-10 second video from your device (100% Offline):</p>
           <input type="file" id="mediaUploadInput" style="display: none;" accept="video/*,image/gif" onchange="handleMediaUpload(event)">
           <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
             <button class="btn btn-outline" style="font-size: 0.78rem; padding: 6px 12px;" onclick="document.getElementById('mediaUploadInput').click()">
