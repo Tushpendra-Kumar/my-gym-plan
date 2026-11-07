@@ -105,7 +105,7 @@
         </button>
 
         <div style="text-align: center; margin-top: 14px;">
-          <span class="powered-by-tag">Powered by <strong>Tushpender</strong> • v0.04</span>
+          <span class="powered-by-tag" onclick="openCodeByTushuModal()" style="cursor: pointer;" title="CodeByTushu Studio">Powered by <strong>CodeByTushu</strong> • v0.04</span>
         </div>
       </div>
     </div>
@@ -231,7 +231,7 @@
       </div>
 
       <div style="text-align: center; margin-top: 14px;">
-        <span class="powered-by-tag">Powered by <strong>Tushpender</strong> • v0.04</span>
+        <span class="powered-by-tag" onclick="openCodeByTushuModal()" style="cursor: pointer;" title="CodeByTushu Studio">Powered by <strong>CodeByTushu</strong> • v0.04</span>
       </div>
 
     </div>
@@ -392,11 +392,37 @@
             <span class="action-tile-sub">Stopwatch (60s)</span>
           </div>
         </div>
+
+        <div class="action-tile" onclick="openPersonalDashboard()">
+          <div class="action-tile-icon" style="background: rgba(0, 0, 0, 0.05); color: var(--text-primary);">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <div>
+            <span class="action-tile-title">Personal Dashboard</span>
+            <span class="action-tile-sub">Account & Settings</span>
+          </div>
+        </div>
+
+        <div class="action-tile" onclick="openCodeByTushuModal()">
+          <div class="action-tile-icon" style="background: #111111; color: #ffffff;">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 18 22 12 16 6"/>
+              <polyline points="8 6 2 12 8 18"/>
+            </svg>
+          </div>
+          <div>
+            <span class="action-tile-title">CodeByTushu</span>
+            <span class="action-tile-sub">Studio & Services</span>
+          </div>
+        </div>
       </div>
 
       <!-- Page Footer -->
-      <div class="app-page-footer">
-        Powered by <strong>Tushpender</strong> • v0.04
+      <div class="app-page-footer" onclick="openCodeByTushuModal()" style="cursor: pointer;" title="CodeByTushu Studio">
+        Powered by <strong>CodeByTushu</strong> • v0.04
       </div>
 
     </div>
@@ -445,8 +471,8 @@
       </div>
 
       <!-- Page Footer -->
-      <div class="app-page-footer">
-        Powered by <strong>Tushpender</strong> • v0.04
+      <div class="app-page-footer" onclick="openCodeByTushuModal()" style="cursor: pointer;" title="CodeByTushu Studio">
+        Powered by <strong>CodeByTushu</strong> • v0.04
       </div>
 
     </div>
@@ -508,8 +534,8 @@
       </section>
 
       <!-- Page Footer -->
-      <div class="app-page-footer">
-        Powered by <strong>Tushpender</strong> • v0.04
+      <div class="app-page-footer" onclick="openCodeByTushuModal()" style="cursor: pointer;" title="CodeByTushu Studio">
+        Powered by <strong>CodeByTushu</strong> • v0.04
       </div>
 
     </div>
@@ -580,8 +606,8 @@
       </section>
 
       <!-- Page Footer -->
-      <div class="app-page-footer">
-        Powered by <strong>Tushpender</strong> • v0.04
+      <div class="app-page-footer" onclick="openCodeByTushuModal()" style="cursor: pointer;" title="CodeByTushu Studio">
+        Powered by <strong>CodeByTushu</strong> • v0.04
       </div>
 
     </div>
@@ -704,20 +730,20 @@
         <a class="drawer-item" onclick="selectDayFromDrawer('saturday')">Saturday: Legs & Power</a>
         <a class="drawer-item" onclick="selectDayFromDrawer('sunday')">Sunday: Active Recovery</a>
 
-        <div class="drawer-section-title">DATA & PERSONALIZATION</div>
-        <a class="drawer-item" onclick="closeSideDrawer(); openRoadmapModal();" style="color: var(--text-primary); font-weight: 700;">Edit Profile & Plan Goals</a>
-        <a class="drawer-item" onclick="closeSideDrawer(); openModal('backupModal');">Backup & Restore</a>
-        <a class="drawer-item" onclick="closeSideDrawer(); resetTodayWorkout();">Reset Today's Sets</a>
-        <a class="drawer-item" onclick="closeSideDrawer(); handleUserLogout();" style="color: var(--text-primary); font-weight: 600; display: flex; align-items: center; gap: 8px;">
+        <div class="drawer-section-title">ACCOUNT & STUDIO</div>
+        <a class="drawer-item" onclick="closeSideDrawer(); openPersonalDashboard();" style="color: var(--text-primary); font-weight: 600; display: flex; align-items: center; gap: 8px;">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-            <polyline points="16 17 21 12 16 7"/>
-            <line x1="21" y1="12" x2="9" y2="12"/>
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
           </svg>
-          Log Out (Free Login / Switch)
+          Personal Dashboard (Account & Security)
         </a>
-        <a class="drawer-item" onclick="closeSideDrawer(); resetForNewUser();" style="color: #ff3b30; font-size: 0.78rem; opacity: 0.85;">
-          Clear Device Data (Hard Reset)
+        <a class="drawer-item" onclick="closeSideDrawer(); openCodeByTushuModal();" style="color: var(--text-primary); font-weight: 600; display: flex; align-items: center; gap: 8px;">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 18 22 12 16 6"/>
+            <polyline points="8 6 2 12 8 18"/>
+          </svg>
+          About CodeByTushu (Studio & Services)
         </a>
 
         <div style="background: rgba(0, 0, 0, 0.04); border: 0.5px solid rgba(0, 0, 0, 0.1); border-radius: var(--radius-sm); padding: 10px 12px; margin: 12px 2px 6px; font-size: 0.74rem; color: var(--text-secondary); line-height: 1.4;">
@@ -726,9 +752,9 @@
         </div>
       </div>
 
-      <div class="drawer-footer">
+      <div class="drawer-footer" onclick="closeSideDrawer(); openCodeByTushuModal();" style="cursor: pointer;" title="CodeByTushu Studio">
         <span>Gym Plan</span>
-        <span>Powered by <strong>Tushpender</strong> • v0.04</span>
+        <span>Powered by <strong>CodeByTushu</strong> • v0.04</span>
       </div>
     </nav>
   </div>
@@ -1115,6 +1141,278 @@
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
           Apply to Today's Tracker
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       14. MODAL: PERSONAL DASHBOARD (Athlete Account & System Settings)
+       =================================================== -->
+  <div id="personalDashboardModal" class="modal-backdrop">
+    <div class="modal-box" style="max-width: 500px;">
+      <div class="modal-header">
+        <div>
+          <h3>Personal Dashboard</h3>
+          <span style="font-size: 0.7rem; color: var(--text-tertiary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;">Athlete Account & Security</span>
+        </div>
+        <button class="icon-btn" onclick="closeModal('personalDashboardModal')" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-body" style="padding: 16px 18px;">
+        <!-- Athlete Profile Card -->
+        <div class="dash-profile-card">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div class="dash-avatar-circle">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </div>
+            <div style="flex: 1;">
+              <div id="personalDashName" style="font-size: 1.05rem; font-weight: 700; color: #ffffff; letter-spacing: -0.01em;">Athlete</div>
+              <div id="personalDashRole" style="font-size: 0.72rem; color: rgba(255, 255, 255, 0.75);">Personalized Athlete Plan</div>
+            </div>
+          </div>
+          <div style="margin-top: 10px; padding-top: 8px; border-top: 0.5px solid rgba(255, 255, 255, 0.12); display: flex; justify-content: space-between; align-items: center;">
+            <span id="personalDashSecBadge" style="font-size: 0.65rem; color: #ffffff; font-weight: 600; letter-spacing: 0.04em;">ID & PASSWORD PROTECTED (OFFLINE)</span>
+            <span style="font-size: 0.65rem; color: rgba(255, 255, 255, 0.6);">100% PRIVATE</span>
+          </div>
+        </div>
+
+        <!-- Section: Profile & Roadmap -->
+        <div class="dash-section-label">PROFILE & TRAINING PLAN</div>
+        <div class="dash-options-list">
+          <div class="dash-option-row" onclick="closeModal('personalDashboardModal'); openRoadmapModal();">
+            <div class="dash-option-icon">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </div>
+            <div class="dash-option-content">
+              <div class="dash-option-title">Edit Profile & Plan Goals</div>
+              <div class="dash-option-desc">Apna naam, fitness purpose, diet category aur gym duration customize karein</div>
+            </div>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-tertiary);"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+
+          <div class="dash-option-row" onclick="promptChangeUserPin();">
+            <div class="dash-option-icon">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <div class="dash-option-content">
+              <div class="dash-option-title">Change PIN / Password</div>
+              <div class="dash-option-desc">Apna private login password update karein (SHA-256 encrypted & offline)</div>
+            </div>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-tertiary);"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+        </div>
+
+        <!-- Section: Workout Routine Controls -->
+        <div class="dash-section-label">DAILY WORKOUT CONTROL</div>
+        <div class="dash-options-list">
+          <div class="dash-option-row" onclick="closeModal('personalDashboardModal'); resetTodayWorkout();">
+            <div class="dash-option-icon">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            </div>
+            <div class="dash-option-content">
+              <div class="dash-option-title">Reset Today's Sets</div>
+              <div class="dash-option-desc">Aaj ke sabhi sets ke checkmarks ko clear karke dobara shuru karein</div>
+            </div>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-tertiary);"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+        </div>
+
+        <!-- Section: Data Backup & Isolation -->
+        <div class="dash-section-label">DATA MANAGEMENT & BACKUP</div>
+        <div class="dash-options-list">
+          <div class="dash-option-row" onclick="closeModal('personalDashboardModal'); openModal('backupModal');">
+            <div class="dash-option-icon">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            </div>
+            <div class="dash-option-content">
+              <div class="dash-option-title">Backup & Restore</div>
+              <div class="dash-option-desc">Apna workout aur diet data JSON file me export karein ya restore karein</div>
+            </div>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-tertiary);"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+        </div>
+
+        <!-- Section: Account & Device Controls -->
+        <div class="dash-section-label">ACCOUNT & DEVICE CONTROLS</div>
+        <div class="dash-options-list">
+          <div class="dash-option-row" onclick="closeModal('personalDashboardModal'); handleUserLogout();">
+            <div class="dash-option-icon">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            </div>
+            <div class="dash-option-content">
+              <div class="dash-option-title">Log Out (Switch Athlete)</div>
+              <div class="dash-option-desc">Safe logout. Data device me safe rahega aur PIN se dobara unlock ho sakega</div>
+            </div>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-tertiary);"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+
+          <div class="dash-option-row" onclick="closeModal('personalDashboardModal'); resetForNewUser();" style="border-left: 2px solid #ff3b30;">
+            <div class="dash-option-icon" style="color: #ff3b30;">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            </div>
+            <div class="dash-option-content">
+              <div class="dash-option-title" style="color: #ff3b30;">Clear Device Data (Hard Reset)</div>
+              <div class="dash-option-desc">Device ka sara workout aur account data permanently clear karein (Requires PIN)</div>
+            </div>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #ff3b30;"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+        </div>
+
+        <!-- Section: CodeByTushu Studio Promo Card at the Bottom -->
+        <div class="codebytushu-banner-card" onclick="closeModal('personalDashboardModal'); openCodeByTushuModal();">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
+            <span style="font-size: 0.65rem; font-weight: 700; color: #ffffff; letter-spacing: 0.08em; background: rgba(255, 255, 255, 0.15); padding: 2px 7px; border-radius: 4px;">POWERED BY CODEBYTUSHU</span>
+            <span style="font-size: 0.72rem; color: rgba(255, 255, 255, 0.7); font-weight: 600;">Explore Services ➔</span>
+          </div>
+          <h4 style="font-size: 0.95rem; font-weight: 700; color: #ffffff; margin-bottom: 4px;">CodeByTushu Studio</h4>
+          <p style="font-size: 0.75rem; color: rgba(255, 255, 255, 0.8); line-height: 1.4; margin: 0;">
+            Android Apps, iOS Apps & Modern Web Development. Click to see what we do and how to collaborate.
+          </p>
+        </div>
+      </div>
+
+      <div class="modal-footer" style="justify-content: flex-end;">
+        <button class="btn btn-primary" onclick="closeModal('personalDashboardModal')">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       15. MODAL: CODEBYTUSHU STUDIO SHOWCASE & SERVICES
+       =================================================== -->
+  <div id="codeByTushuModal" class="modal-backdrop">
+    <div class="modal-box" style="max-width: 520px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div class="studio-logo-badge">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 18 22 12 16 6"/>
+              <polyline points="8 6 2 12 8 18"/>
+            </svg>
+          </div>
+          <div>
+            <h3 style="margin: 0; font-size: 1.12rem;">CodeByTushu</h3>
+            <span style="font-size: 0.68rem; color: var(--text-tertiary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Software & Digital Product Studio</span>
+          </div>
+        </div>
+        <button class="icon-btn" onclick="closeModal('codeByTushuModal')" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-body" style="padding: 18px 20px;">
+        <!-- Studio Hero Statement -->
+        <div class="studio-hero-card">
+          <span class="studio-tag">FOUNDED BY TUSHPENDER</span>
+          <h2 style="font-size: 1.25rem; font-weight: 700; color: #ffffff; letter-spacing: -0.02em; margin: 8px 0 6px;">
+            Crafting High-Performance Apps & Digital Products
+          </h2>
+          <p style="font-size: 0.8rem; color: rgba(255, 255, 255, 0.82); line-height: 1.45; margin: 0;">
+            CodeByTushu ek modern independent software development studio hai. Hum startups, businesses aur individual creators ke liye production-ready <strong>Android Apps</strong>, modern <strong>iOS Apps</strong>, aur high-speed <strong>Web Platforms</strong> develop karte hain.
+          </p>
+        </div>
+
+        <!-- Services Section Header -->
+        <div style="display: flex; align-items: center; justify-content: space-between; margin: 18px 2px 10px;">
+          <span style="font-size: 0.72rem; font-weight: 700; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em;">SERVICES WE PROVIDE</span>
+          <span style="font-size: 0.68rem; color: var(--text-secondary); font-weight: 500;">End-to-End Development</span>
+        </div>
+
+        <!-- 4 Services Grid -->
+        <div class="studio-services-grid">
+          <!-- Service 1: Android Apps -->
+          <div class="studio-service-card">
+            <div class="service-icon-wrap">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                <line x1="12" y1="18" x2="12.01" y2="18"/>
+              </svg>
+            </div>
+            <h4 class="service-title">Android App Development</h4>
+            <p class="service-desc">
+              100% Offline-first native architectures, local encrypted databases, background alarms, smooth 60fps animations, aur Google Play Store ready APK/AAB builds.
+            </p>
+          </div>
+
+          <!-- Service 2: iOS Apps -->
+          <div class="studio-service-card">
+            <div class="service-icon-wrap">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10S2 17.523 2 12A10 10 0 0 1 12 2z"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+            </div>
+            <h4 class="service-title">iOS App Development</h4>
+            <p class="service-desc">
+              Apple Human Interface Guidelines (HIG) standards par bane fluid, typography-driven, minimalist experiences jo performance aur elegance deliver karte hain.
+            </p>
+          </div>
+
+          <!-- Service 3: Web Platforms & PWAs -->
+          <div class="studio-service-card">
+            <div class="service-icon-wrap">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="2" y1="12" x2="22" y2="12"/>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+            </div>
+            <h4 class="service-title">Modern Web Development</h4>
+            <p class="service-desc">
+              High-speed, SEO-friendly responsive websites, progressive web applications (PWA), modern portfolio portals aur custom business dashboards.
+            </p>
+          </div>
+
+          <!-- Service 4: UI/UX & Architecture -->
+          <div class="studio-service-card">
+            <div class="service-icon-wrap">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 19l7-7 3 3-7 7-3-3z"/>
+                <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
+                <path d="M2 2l7.586 7.586"/>
+                <circle cx="11" cy="11" r="2"/>
+              </svg>
+            </div>
+            <h4 class="service-title">UI/UX & Product Design</h4>
+            <p class="service-desc">
+              Apple-inspired monochromatic luxury aesthetic, zero visual bloat, intuitive user journey, aur clean dark/light themes.
+            </p>
+          </div>
+        </div>
+
+        <!-- Principles -->
+        <div style="background: rgba(0, 0, 0, 0.03); border: 0.5px solid rgba(0, 0, 0, 0.08); border-radius: var(--radius-sm); padding: 12px 14px; margin: 14px 0 16px;">
+          <div style="font-size: 0.72rem; font-weight: 700; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px;">CODEBYTUSHU CORE PRINCIPLES</div>
+          <ul style="margin: 0; padding-left: 16px; font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5;">
+            <li><strong>Zero Bloat:</strong> No unnecessary libraries or heavy frameworks that slow down user devices.</li>
+            <li><strong>100% Privacy & Security:</strong> Local-first storage, SHA-256 encrypted authentication, zero data leaks.</li>
+            <li><strong>Direct Collaboration:</strong> Transparent development process with rapid milestone deliveries.</li>
+          </ul>
+        </div>
+
+        <!-- Contact & Collaboration Box -->
+        <div style="background: #000000; color: #ffffff; border-radius: var(--radius-sm); padding: 14px 16px; text-align: center;">
+          <h4 style="font-size: 0.95rem; font-weight: 700; margin: 0 0 4px; color: #ffffff;">Have a Project or App Idea?</h4>
+          <p style="font-size: 0.76rem; color: rgba(255, 255, 255, 0.78); line-height: 1.4; margin: 0 0 12px;">
+            Agar aapko koi Android App, iOS App ya Website develop karwani hai, toh CodeByTushu ke sath connect karein.
+          </p>
+          <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+            <a href="mailto:codebytushu@gmail.com?subject=Project%20Inquiry%20-%20CodeByTushu" class="btn" style="background: #ffffff; color: #000000; font-size: 0.78rem; font-weight: 600; padding: 7px 14px; border-radius: var(--radius-xs); text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <span>Email: codebytushu@gmail.com</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 0.7rem; color: var(--text-tertiary);">CodeByTushu • Modern Software Studio</span>
+        <button class="btn btn-primary" onclick="closeModal('codeByTushuModal')">Done</button>
       </div>
     </div>
   </div>

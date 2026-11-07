@@ -1,6 +1,6 @@
 /**
  * Gym Plan - Ultra-Premium Luxury Monochrome Edition (v0.04)
- * Powered by Tushpender
+ * Powered by CodeByTushu
  * 7 - 12 - 15 Reverse Pyramid Rep Scheme
  * 100% Offline with LocalStorage, IndexedDB & Service Worker
  */
@@ -1217,6 +1217,57 @@ async function resetForNewUser() {
   renderMeals();
   renderRoadmapHero();
   renderHomeStats();
+}
+
+// ==============================================
+// Personal Dashboard & CodeByTushu Studio Controller
+// ==============================================
+function openPersonalDashboard() {
+  updatePersonalDashboardUI();
+  openModal('personalDashboardModal');
+}
+
+function updatePersonalDashboardUI() {
+  const nameEl = document.getElementById('personalDashName');
+  const roleEl = document.getElementById('personalDashRole');
+  const secEl = document.getElementById('personalDashSecBadge');
+  const name = getUserName();
+  if (nameEl) nameEl.textContent = name;
+  if (roleEl) {
+    const goal = athleteRoadmap && athleteRoadmap.goalTitle ? athleteRoadmap.goalTitle : 'Personalized Athlete Protocol';
+    roleEl.textContent = goal;
+  }
+  if (secEl) {
+    secEl.textContent = hasUserPin() ? "ID & PASSWORD PROTECTED (OFFLINE)" : "DIRECT LOCAL ACCESS (NO PIN SET)";
+  }
+}
+
+async function promptChangeUserPin() {
+  if (hasUserPin()) {
+    const current = prompt("Security check: Pehle apna CURRENT (purana) PIN / Password dalein:");
+    if (current === null) return;
+    const ok = await verifyUserPin(current);
+    if (!ok) {
+      alert("Galat current PIN! Password change cancel kar diya gaya.");
+      return;
+    }
+  }
+
+  const newPin = prompt("Naya PIN ya Password dalein (Khali chhodne par PIN remove ho jayega):");
+  if (newPin === null) return;
+  
+  if (newPin.trim()) {
+    await saveUserPin(newPin.trim());
+    alert("Naya PIN / Password successfully set ho gaya hai! (SHA-256 Encrypted & Offline Safe)");
+  } else {
+    await saveUserPin('');
+    alert("PIN / Password remove kar diya gaya hai. Free direct login active hai.");
+  }
+  updatePersonalDashboardUI();
+}
+
+function openCodeByTushuModal() {
+  openModal('codeByTushuModal');
 }
 
 // View Switcher (Home, Workouts, Activity, Nutrition)
