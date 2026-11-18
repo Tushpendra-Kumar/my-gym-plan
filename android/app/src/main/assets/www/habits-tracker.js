@@ -35,6 +35,7 @@
   var selectedMonth = new Date().getMonth(); // 0-indexed
   var activeSubTab = 'cards'; // Default to 100% Mobile Vertical Weekly Feed (Zero Horizontal Scroll!)
   var selectedWeekStart = getMondayOfWeek(new Date());
+  var manageMode = false;
 
   function getTodayIsoDate() {
     var d = new Date();
@@ -281,6 +282,17 @@
 
     var itemsHtml = habits.map(function (h) {
       var done = isHabitDone(state, todayKey, h.id);
+      if (manageMode) {
+        return '' +
+          '<div class="habit-quick-item habit-manage-item">' +
+            '<span class="habit-quick-icon">' + safeEscape(h.icon || '✓') + '</span>' +
+            '<span class="habit-quick-name">' + safeEscape(h.name) + '</span>' +
+            '<div class="habit-manage-actions">' +
+              '<button type="button" class="habit-act-btn habit-act-edit" onclick="openEditHabitModal(\'' + h.id + '\')" aria-label="Edit Habit" title="Edit">✎</button>' +
+              '<button type="button" class="habit-act-btn habit-act-del" onclick="removeHabitDirect(\'' + h.id + '\')" aria-label="Delete Habit" title="Delete">✕</button>' +
+            '</div>' +
+          '</div>';
+      }
       return '' +
         '<label class="habit-quick-item' + (done ? ' checked' : '') + '">' +
           '<input type="checkbox" ' + (done ? 'checked' : '') + ' onchange="toggleHabit(\'' + todayKey + '\', \'' + h.id + '\')">' +
@@ -294,13 +306,18 @@
         '<div class="habits-today-header">' +
           '<div>' +
             '<h3 class="habits-today-title">Today\'s Check-in</h3>' +
-            '<span class="habits-today-sub">' + safeEscape(dayFormatted) + ' • Review &amp; tick before bed</span>' +
+            '<span class="habits-today-sub">' + (manageMode ? 'Tap ✎ to edit or ✕ to delete any habit' : (safeEscape(dayFormatted) + ' • Review &amp; tick before bed')) + '</span>' +
           '</div>' +
-          '<div class="habits-today-badge' + (prog.pct === 100 ? ' completed' : '') + '">' +
-            prog.done + ' / ' + prog.total + ' (' + prog.pct + '%)' +
+          '<div style="display: flex; align-items: center; gap: 6px; flex-shrink: 0;">' +
+            '<button type="button" class="habits-manage-toggle' + (manageMode ? ' active' : '') + '" onclick="toggleHabitsManageMode()">' +
+              (manageMode ? '✓ Done' : '✎ Manage') +
+            '</button>' +
+            '<div class="habits-today-badge' + (prog.pct === 100 ? ' completed' : '') + '">' +
+              prog.done + ' / ' + prog.total + ' (' + prog.pct + '%)' +
+            '</div>' +
           '</div>' +
         '</div>' +
-        '<div class="habits-quick-grid">' + itemsHtml + '</div>' +
+        '<div class="habits-quick-grid' + (manageMode ? ' manage-mode' : '') + '">' + itemsHtml + '</div>' +
       '</div>';
   }
 
@@ -491,7 +508,10 @@
           '</div>' +
           '<div class="analysis-meta-row">' +
             '<span>Current Streak: <strong>' + cons.streak + ' Day' + (cons.streak === 1 ? '' : 's') + '</strong></span>' +
-            '<button type="button" class="btn-text-danger" onclick="removeHabitDirect(\'' + h.id + '\')">Remove</button>' +
+            '<div style="display: flex; align-items: center; gap: 10px;">' +
+              '<button type="button" class="btn-text-edit" onclick="openEditHabitModal(\'' + h.id + '\')">Edit</button>' +
+              '<button type="button" class="btn-text-danger" onclick="removeHabitDirect(\'' + h.id + '\')">Delete</button>' +
+            '</div>' +
           '</div>' +
         '</div>';
     }).join('');
@@ -575,20 +595,68 @@
   global.toggleHabit = toggleHabit;
   global.renderHabitsView = renderHabitsView;
 
+  global.toggleHabitsManageMode = function () {
+    manageMode = !manageMode;
+    renderHabitsView();
+  };
+
   global.openAddHabitModal = function () {
     if (typeof global.openModal === 'function') {
+      var editIdInput = document.getElementById('habitEditId');
+      var titleEl = document.getElementById('habitModalTitle');
+      var submitBtn = document.getElementById('habitSubmitBtn');
+      var deleteBtn = document.getElementById('habitDeleteInModalBtn');
       var nameInput = document.getElementById('habitInputName');
       var iconInput = document.getElementById('habitInputIcon');
       var targetInput = document.getElementById('habitInputTarget');
+      var catInput = document.getElementById('habitInputCategory');
+
+      if (editIdInput) editIdInput.value = '';
+      if (titleEl) titleEl.textContent = 'Add Custom Habit';
+      if (submitBtn) submitBtn.textContent = 'Add to Tracker';
+      if (deleteBtn) deleteBtn.style.display = 'none';
       if (nameInput) nameInput.value = '';
       if (iconInput) iconInput.value = '⚡';
       if (targetInput) targetInput.value = '30';
+      if (catInput) catInput.value = 'Discipline';
+      global.openModal('addHabitModal');
+    }
+  };
+
+  global.openEditHabitModal = function (habitId) {
+    var state = loadHabitsState();
+    var habit = state.habits.find(function (h) { return h.id === habitId; });
+    if (!habit) return;
+
+    var editIdInput = document.getElementById('habitEditId');
+    var titleEl = document.getElementById('habitModalTitle');
+    var submitBtn = document.getElementById('habitSubmitBtn');
+    var deleteBtn = document.getElementById('habitDeleteInModalBtn');
+    var nameInput = document.getElementById('habitInputName');
+    var iconInput = document.getElementById('habitInputIcon');
+    var targetInput = document.getElementById('habitInputTarget');
+    var catInput = document.getElementById('habitInputCategory');
+
+    if (editIdInput) editIdInput.value = habit.id;
+    if (titleEl) titleEl.textContent = 'Edit Habit';
+    if (submitBtn) submitBtn.textContent = 'Save Changes';
+    if (deleteBtn) deleteBtn.style.display = 'block';
+    if (nameInput) nameInput.value = habit.name || '';
+    if (iconInput) iconInput.value = habit.icon || '⚡';
+    if (targetInput) targetInput.value = String(habit.targetDays || 30);
+    if (catInput) {
+      var opts = Array.from(catInput.options).map(function (o) { return o.value; });
+      catInput.value = opts.indexOf(habit.category) >= 0 ? habit.category : 'Discipline';
+    }
+
+    if (typeof global.openModal === 'function') {
       global.openModal('addHabitModal');
     }
   };
 
   global.submitAddHabit = function (event) {
     if (event) event.preventDefault();
+    var editId = document.getElementById('habitEditId') ? document.getElementById('habitEditId').value.trim() : '';
     var name = document.getElementById('habitInputName') ? document.getElementById('habitInputName').value.trim() : '';
     var icon = document.getElementById('habitInputIcon') ? document.getElementById('habitInputIcon').value.trim() : '⚡';
     var cat = document.getElementById('habitInputCategory') ? document.getElementById('habitInputCategory').value : 'Discipline';
@@ -597,20 +665,39 @@
     if (!name) return;
 
     var state = loadHabitsState();
-    var newId = 'h_' + Date.now().toString(36);
-    state.habits.push({
-      id: newId,
-      name: name,
-      icon: icon || '⚡',
-      category: cat || 'Discipline',
-      targetDays: target || 30
-    });
+    if (editId) {
+      var existing = state.habits.find(function (h) { return h.id === editId; });
+      if (existing) {
+        existing.name = name;
+        existing.icon = icon || '⚡';
+        existing.category = cat || 'Discipline';
+        existing.targetDays = target || 30;
+      }
+    } else {
+      var newId = 'h_' + Date.now().toString(36);
+      state.habits.push({
+        id: newId,
+        name: name,
+        icon: icon || '⚡',
+        category: cat || 'Discipline',
+        targetDays: target || 30
+      });
+    }
     saveHabitsState(state);
 
     if (typeof global.closeModal === 'function') {
       global.closeModal('addHabitModal');
     }
     renderHabitsView();
+  };
+
+  global.deleteHabitFromModal = async function () {
+    var editId = document.getElementById('habitEditId') ? document.getElementById('habitEditId').value.trim() : '';
+    if (!editId) return;
+    if (typeof global.closeModal === 'function') {
+      global.closeModal('addHabitModal');
+    }
+    await global.removeHabitDirect(editId);
   };
 
   global.removeHabitDirect = async function (habitId) {

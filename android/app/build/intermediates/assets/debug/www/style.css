@@ -5869,3 +5869,249 @@ body {
   0%, 100% { transform: translateY(4px); }
   50% { transform: translateY(-14px); }
 }
+
+
+/* ============================================================
+   APP UPDATES CARD (LIVE OTA & GITHUB RELEASES — MONOCHROME)
+   ============================================================ */
+.ota-card {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+.ota-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.ota-card-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ota-icon-circle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.06);
+  color: #111111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ota-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #111111;
+  line-height: 1.2;
+}
+
+.ota-subtitle {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.ota-version-pill {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #111111;
+  background: #f1f5f9;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+
+.ota-check-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: #ffffff;
+  color: #111111;
+  border: 1.2px solid #111111;
+  border-radius: var(--radius-full);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.ota-check-btn:active {
+  transform: scale(0.98);
+  background: #f4f4f5;
+}
+
+.ota-check-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.ota-status-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 9px 11px;
+  border-radius: var(--radius-sm);
+  line-height: 1.35;
+}
+
+.ota-status-neutral {
+  background: #f8fafc;
+  color: #475569;
+  border: 0.5px solid rgba(0, 0, 0, 0.06);
+}
+
+.ota-status-ok {
+  background: rgba(16, 185, 129, 0.1);
+  color: #065f46;
+  border: 0.5px solid rgba(16, 185, 129, 0.25);
+}
+
+.ota-status-info {
+  background: #f4f4f5;
+  color: #18181b;
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
+}
+
+.ota-status-warn {
+  background: rgba(245, 158, 11, 0.1);
+  color: #92400e;
+  border: 0.5px solid rgba(245, 158, 11, 0.28);
+}
+
+.ota-status-error {
+  background: rgba(239, 68, 68, 0.08);
+  color: #991b1b;
+  border: 0.5px solid rgba(239, 68, 68, 0.24);
+}
+
+.ota-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(0, 0, 0, 0.15);
+  border-top-color: #111111;
+  border-radius: 50%;
+  animation: otaSpin 0.8s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes otaSpin {
+  to { transform: rotate(360deg); }
+}
+
+.ota-update-box {
+  background: rgba(16, 185, 129, 0.07);
+  border: 1px solid rgba(16, 185, 129, 0.28);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+}
+
+.ota-update-box-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.ota-new-tag {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #065f46;
+}
+
+.ota-date-tag {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #047857;
+}
+
+.ota-notes-card {
+  background: #ffffff;
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  padding: 9px 11px;
+  margin-bottom: 10px;
+}
+
+.ota-notes-card strong {
+  display: block;
+  font-size: 0.72rem;
+  color: #111111;
+  margin-bottom: 3px;
+}
+
+.ota-notes-card p {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #374151;
+  line-height: 1.4;
+}
+
+.ota-install-btn {
+  width: 100%;
+  background: #111111;
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 10px 14px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.ota-install-btn:active {
+  transform: scale(0.98);
+  opacity: 0.9;
+}
+
+.ota-apk-link-btn {
+  width: 100%;
+  background: transparent;
+  color: #374151;
+  border: none;
+  padding: 7px 6px 2px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.ota-progress-track {
+  width: 100%;
+  height: 7px;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.ota-progress-fill {
+  height: 100%;
+  background: #111111;
+  border-radius: var(--radius-full);
+  transition: width 0.25s ease;
+}
+
+.ota-progress-caption {
+  font-size: 0.7rem;
+  color: #374151;
+  font-weight: 600;
+}

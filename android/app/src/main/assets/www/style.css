@@ -6115,3 +6115,91 @@ body {
   color: #374151;
   font-weight: 600;
 }
+
+
+/* ============================================================
+   HABITS MANAGE MODE (INLINE EDIT & DELETE CONTROLS)
+   ============================================================ */
+.habits-manage-toggle {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border: 0.5px solid rgba(255, 255, 255, 0.22);
+  border-radius: var(--radius-full);
+  padding: 5px 10px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.habits-manage-toggle.active {
+  background: #ffffff;
+  color: #111111;
+  border-color: #ffffff;
+}
+
+.habits-quick-grid.manage-mode {
+  grid-template-columns: 1fr;
+}
+
+.habit-manage-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  cursor: default;
+}
+
+.habit-manage-item .habit-quick-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.habit-manage-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.habit-act-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.78rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+
+.habit-act-btn:active {
+  transform: scale(0.92);
+}
+
+.habit-act-edit {
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+}
+
+.habit-act-del {
+  background: rgba(239, 68, 68, 0.22);
+  color: #fca5a5;
+}
+
+.btn-text-edit {
+  background: transparent;
+  border: none;
+  color: #111111;
+  font-size: 0.74rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 2px 4px;
+}

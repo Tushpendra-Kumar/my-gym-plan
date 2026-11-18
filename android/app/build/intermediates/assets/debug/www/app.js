@@ -1416,6 +1416,7 @@ async function resetForNewUser() {
 // ==============================================
 function openPersonalDashboard() {
   updatePersonalDashboardUI();
+  if (typeof renderOtaUpdateCard === 'function') renderOtaUpdateCard();
   openModal('personalDashboardModal');
 }
 

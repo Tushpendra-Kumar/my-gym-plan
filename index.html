@@ -1902,7 +1902,7 @@
     <div class="modal-box" style="max-width: 420px;">
       <div class="modal-header">
         <div>
-          <h3 style="margin: 0;">Add Custom Habit</h3>
+          <h3 id="habitModalTitle" style="margin: 0;">Add Custom Habit</h3>
           <span style="font-size: 0.72rem; color: var(--text-tertiary); font-weight: 500;">DAILY DISCIPLINE TARGET</span>
         </div>
         <button class="icon-btn" onclick="closeModal('addHabitModal')" aria-label="Close">
@@ -1911,6 +1911,7 @@
       </div>
       <form onsubmit="submitAddHabit(event)">
         <div class="modal-body" style="padding: 16px;">
+          <input type="hidden" id="habitEditId" value="">
           <div class="form-group" style="margin-bottom: 12px;">
             <label for="habitInputName" style="display: block; font-size: 0.73rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 5px;">Habit Name / Activity *</label>
             <input type="text" id="habitInputName" placeholder="e.g. 15 Min Mobility &amp; Stretching" required style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(0,0,0,0.15); font-size: 0.88rem; outline: none;">
@@ -1936,7 +1937,8 @@
               <option value="Recovery">Sleep &amp; Health</option>
             </select>
           </div>
-          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-weight: 600; border-radius: 12px;">Add to Tracker</button>
+          <button id="habitSubmitBtn" type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-weight: 600; border-radius: 12px;">Add to Tracker</button>
+          <button id="habitDeleteInModalBtn" type="button" class="btn btn-danger-subtle" onclick="deleteHabitFromModal()" style="display: none; width: 100%; margin-top: 8px; padding: 10px; font-weight: 600; border-radius: 12px;">Delete This Habit</button>
         </div>
       </form>
     </div>
