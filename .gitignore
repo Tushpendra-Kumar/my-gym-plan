@@ -4,6 +4,7 @@ Thumbs.db
 *.log
 scratch/
 *.keystore
+CodeByTushu-License-Generator.html
 GymPlan.apk
 Build
 android/.gradle/
