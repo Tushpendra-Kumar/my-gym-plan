@@ -4,8 +4,8 @@
   "description": "Gym Plan - Personal Athletic Workout Planner & Tracker - 100% Offline",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#FAF7F0",
-  "theme_color": "#FAF7F0",
+  "background_color": "#FFFFFF",
+  "theme_color": "#FFFFFF",
   "orientation": "portrait",
   "icons": [
     {

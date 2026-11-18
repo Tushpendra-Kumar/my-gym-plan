@@ -2,35 +2,42 @@ const fs = require('fs');
 const path = require('path');
 const zlib = require('zlib');
 
-// Ultra-Premium Luxury Black & White Gym Icon Generator (Apple / Nike Aesthetic)
+// Helper: Signed Distance Function for a Rounded Rectangle (crisp smooth edges)
+function inRoundedRect(dx, dy, cx, cy, halfW, halfH, radius) {
+  const qx = Math.abs(dx - cx) - (halfW - radius);
+  const qy = Math.abs(dy - cy) - (halfH - radius);
+  const outside = Math.sqrt(Math.max(qx, 0) ** 2 + Math.max(qy, 0) ** 2);
+  const inside = Math.min(Math.max(qx, qy), 0);
+  return (outside + inside - radius) <= 0;
+}
+
+// Ultra-Premium Circular Black & White Gym Logo Generator (Zero Square Corners)
 function createMonochromeGymIcon(width, height) {
   const signature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
 
-  // IHDR chunk
   const ihdr = Buffer.alloc(13);
   ihdr.writeUInt32BE(width, 0);
   ihdr.writeUInt32BE(height, 4);
-  ihdr.writeUInt8(8, 8); // 8-bit depth
-  ihdr.writeUInt8(6, 9); // RGBA color type
-  ihdr.writeUInt8(0, 10); // compression
-  ihdr.writeUInt8(0, 11); // filter
-  ihdr.writeUInt8(0, 12); // interlace
+  ihdr.writeUInt8(8, 8);
+  ihdr.writeUInt8(6, 9); // RGBA
+  ihdr.writeUInt8(0, 10);
+  ihdr.writeUInt8(0, 11);
+  ihdr.writeUInt8(0, 12);
 
   const ihdrChunk = makeChunk('IHDR', ihdr);
 
-  // Raw image data with scanlines
   const lineLength = width * 4 + 1;
   const rawData = Buffer.alloc(lineLength * height);
 
   const cx = width / 2;
   const cy = height / 2;
-  const outerRadius = width * 0.46;
-  const ringRadius = width * 0.42;
-  const innerRadius = width * 0.40;
+  const outerCircleRadius = width * 0.485;
+  const ringOuter = width * 0.435;
+  const ringInner = width * 0.415;
 
   for (let y = 0; y < height; y++) {
     const lineOffset = y * lineLength;
-    rawData[lineOffset] = 0; // Filter None
+    rawData[lineOffset] = 0;
 
     for (let x = 0; x < width; x++) {
       const pixelOffset = lineOffset + 1 + x * 4;
@@ -38,65 +45,39 @@ function createMonochromeGymIcon(width, height) {
       const dy = y - cy;
       const dist = Math.sqrt(dx * dx + dy * dy);
 
-      // Default: Deep Matte Onyx Background (#0b0c10)
-      let r = 11, g = 12, b = 16, a = 255;
+      let r = 0, g = 0, b = 0, a = 0;
 
-      // Outer delicate silver highlight ring
-      if (dist >= innerRadius && dist <= ringRadius) {
-        // Brushed Silver border
-        r = 210; g = 215; b = 225; a = 255;
-      } else if (dist < innerRadius) {
-        // Dark metallic interior (#121318 with subtle gradient)
-        const v = Math.floor(18 + (y / height) * 12);
-        r = v; g = v; b = v + 3; a = 255;
+      if (dist <= outerCircleRadius + 1.2) {
+        // Smooth anti-aliased circular edge (100% transparent outside circle)
+        const edgeAlpha = dist <= outerCircleRadius
+          ? 255
+          : Math.max(0, Math.round(255 * (1 - (dist - outerCircleRadius) / 1.2)));
 
-        // Dumbbell / Gym Emblem Geometry
-        // Center Grip Bar
-        const isCenterBar = Math.abs(dy) <= height * 0.048 && Math.abs(dx) <= width * 0.22;
-        
-        // Inner Plate Collars
-        const isLeftCollar = Math.abs(dx + width * 0.14) <= width * 0.02 && Math.abs(dy) <= height * 0.09;
-        const isRightCollar = Math.abs(dx - width * 0.14) <= width * 0.02 && Math.abs(dy) <= height * 0.09;
+        // Matte obsidian black disc with soft radial center sheen
+        const sheen = Math.max(0, 1 - dist / outerCircleRadius);
+        const baseV = Math.floor(10 + sheen * 16);
+        r = baseV; g = baseV; b = baseV; a = edgeAlpha;
 
-        // Big Primary Plates
-        const isLeftPlatePrimary = Math.abs(dx + width * 0.21) <= width * 0.045 && Math.abs(dy) <= height * 0.22;
-        const isRightPlatePrimary = Math.abs(dx - width * 0.21) <= width * 0.045 && Math.abs(dy) <= height * 0.22;
+        // Crisp pure-white inner precision circle ring
+        if (dist >= ringInner && dist <= ringOuter) {
+          r = 248; g = 248; b = 250; a = edgeAlpha;
+        } else if (dist < ringInner) {
+          const isBar = inRoundedRect(dx, dy, 0, 0, width * 0.16, height * 0.036, width * 0.018);
+          const isLeftPrimary = inRoundedRect(dx, dy, -width * 0.175, 0, width * 0.044, height * 0.185, width * 0.02);
+          const isRightPrimary = inRoundedRect(dx, dy, width * 0.175, 0, width * 0.044, height * 0.185, width * 0.02);
+          const isLeftSec = inRoundedRect(dx, dy, -width * 0.255, 0, width * 0.032, height * 0.135, width * 0.016);
+          const isRightSec = inRoundedRect(dx, dy, width * 0.255, 0, width * 0.032, height * 0.135, width * 0.016);
+          const isLeftEnd = inRoundedRect(dx, dy, -width * 0.305, 0, width * 0.018, height * 0.048, width * 0.01);
+          const isRightEnd = inRoundedRect(dx, dy, width * 0.305, 0, width * 0.018, height * 0.048, width * 0.01);
 
-        // Secondary Outer Plates
-        const isLeftPlateSec = Math.abs(dx + width * 0.285) <= width * 0.032 && Math.abs(dy) <= height * 0.165;
-        const isRightPlateSec = Math.abs(dx - width * 0.285) <= width * 0.032 && Math.abs(dy) <= height * 0.165;
-
-        // End Lock Nut
-        const isLeftNut = Math.abs(dx + width * 0.33) <= width * 0.018 && Math.abs(dy) <= height * 0.06;
-        const isRightNut = Math.abs(dx - width * 0.33) <= width * 0.018 && Math.abs(dy) <= height * 0.06;
-
-        if (isCenterBar) {
-          // Titanium White Bar with subtle knurl grip highlight
-          const isKnurl = (Math.floor(x / 4) % 2 === 0);
-          const c = isKnurl ? 245 : 255;
-          r = c; g = c; b = c;
-        } else if (isLeftCollar || isRightCollar) {
-          // Brushed Platinum collar
-          r = 230; g = 232; b = 238;
-        } else if (isLeftPlatePrimary || isRightPlatePrimary) {
-          // Crisp Pure White Heavy Plates with beveled edges
-          const edgeY = Math.abs(dy) > height * 0.20;
-          r = edgeY ? 220 : 255;
-          g = edgeY ? 222 : 255;
-          b = edgeY ? 228 : 255;
-        } else if (isLeftPlateSec || isRightPlateSec) {
-          // Sleek Silver Outer Plates
-          const edgeY = Math.abs(dy) > height * 0.15;
-          r = edgeY ? 210 : 242;
-          g = edgeY ? 212 : 245;
-          b = edgeY ? 218 : 250;
-        } else if (isLeftNut || isRightNut) {
-          // End Lock
-          r = 200; g = 205; b = 215;
+          if (isBar || isLeftPrimary || isRightPrimary) {
+            r = 255; g = 255; b = 255;
+          } else if (isLeftSec || isRightSec) {
+            r = 232; g = 234; b = 238;
+          } else if (isLeftEnd || isRightEnd) {
+            r = 205; g = 208; b = 214;
+          }
         }
-      } else {
-        // Outside squircle background (Onyx black for smooth edge blending)
-        r = 10; g = 11; b = 14; a = 255;
       }
 
       rawData[pixelOffset] = r;
@@ -150,4 +131,4 @@ if (!fs.existsSync(iconsDir)) {
 
 fs.writeFileSync(path.join(iconsDir, 'icon-192.png'), createMonochromeGymIcon(192, 192));
 fs.writeFileSync(path.join(iconsDir, 'icon-512.png'), createMonochromeGymIcon(512, 512));
-console.log('✅ Ultra-Luxury Monochrome Black & White Gym Icons generated successfully!');
+console.log('✅ Circular Monochrome Black & White Gym Logos generated successfully!');

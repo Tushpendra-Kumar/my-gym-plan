@@ -1,11 +1,14 @@
 // Service Worker for 100% Offline Gym Tracker
-const CACHE_NAME = 'tushu-gym-v0.04';
+const CACHE_NAME = 'tushu-gym-v0.05-rev3';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './style.css',
+  './qr-offline.js',
   './visual-guides.js',
   './app.js',
+  './pro-coach.js',
+  './habits-tracker.js',
   './manifest.json',
   './images/hero-goku.jpg',
   './icons/icon-192.png',

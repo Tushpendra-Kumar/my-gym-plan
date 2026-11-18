@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="bg_cream">#FAF7F0</color>
-    <color name="primary_emerald">#059669</color>
-    <color name="text_black">#111827</color>
+    <color name="bg_cream">#FFFFFF</color>
+    <color name="bg_white">#FFFFFF</color>
+    <color name="ic_launcher_background">#000000</color>
+    <color name="primary_emerald">#111111</color>
+    <color name="pure_black">#000000</color>
+    <color name="surface_dark">#111111</color>
+    <color name="text_black">#111111</color>
     <string name="app_name">Gym Plan</string>
     <style name="Theme.AthleticGymTracker" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/bg_cream</item>
+        
+        <item name="colorPrimary">@color/pure_black</item>
+        <item name="colorPrimaryVariant">@color/pure_black</item>
+        <item name="colorOnPrimary">@color/bg_white</item>
+        <item name="colorSecondary">@color/surface_dark</item>
+        <item name="colorSecondaryVariant">@color/pure_black</item>
+        <item name="colorOnSecondary">@color/bg_white</item>
+        <item name="android:colorPrimary">@color/pure_black</item>
+        <item name="android:colorPrimaryDark">@color/pure_black</item>
+        <item name="android:colorAccent">@color/pure_black</item>
+
+        
+        <item name="android:statusBarColor">@color/bg_white</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="android:navigationBarColor">@color/bg_cream</item>
+        <item name="android:navigationBarColor">@color/bg_white</item>
         <item name="android:windowLightNavigationBar">true</item>
-        <item name="android:windowBackground">@color/bg_cream</item>
+        <item name="android:windowBackground">@color/bg_white</item>
     </style>
 </resources>

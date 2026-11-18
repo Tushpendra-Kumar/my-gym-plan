@@ -9,7 +9,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data: blob: file:; img-src 'self' data: blob: file:; media-src 'self' data: blob: file:;">
 
   <!-- Apple iOS & PWA Meta Tags -->
-  <meta name="theme-color" content="#f2f2f7">
+  <meta name="theme-color" content="#FFFFFF">
   <meta name="description" content="Gym Plan - Apple-Inspired Athletic Workout & Nutrition Tracker. 100% Offline.">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -18,14 +18,14 @@
   <link rel="apple-touch-icon" href="./icons/icon-192.png">
   <link rel="icon" type="image/png" href="./icons/icon-192.png">
 
-  <link rel="stylesheet" href="./style.css?v=0.04">
+  <link rel="stylesheet" href="./style.css?v=0.05">
 </head>
 <body>
 
   <!-- ===================================================
        1. WELCOME ONBOARDING SCREEN (Apple Fitness Style)
-       Step 1: Goku Ultra Instinct Hero & Name Entry
-       Step 2: Food Category, Months Duration & Purpose Setup
+       Step 1: Hero & Profile Sign-In
+       Step 2: Food Category, Duration & Purpose Setup
        =================================================== -->
   <div id="viewOnboarding" class="onboarding-screen">
     <div class="onboarding-top-bar">
@@ -36,7 +36,7 @@
         <span class="brand-accent-pill"></span>
         <span class="brand-title" id="onboardingBrandTitle">Gym Plan</span>
       </div>
-      <button class="btn-skip-pill" onclick="skipOnboarding()" aria-label="Skip to Dashboard">
+      <button id="btnOnboardingSkip" class="btn-skip-pill" onclick="skipOnboarding()" aria-label="Skip to Dashboard">
         <span>Skip</span>
         <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="9 18 15 12 9 6" />
@@ -45,20 +45,16 @@
     </div>
 
     <!-- ==============================================
-         STEP 1: WELCOME SCREEN (GOKU ANIMATION + NAME)
+         STEP 1: WELCOME & SIGN-IN SCREEN
          ============================================== -->
     <div id="onboardingStep1" class="onboarding-step-content active">
       
-      <!-- Cinematic Goku Warrior Animation Frame -->
+      <!-- Hero Artwork Frame -->
       <div class="onboarding-hero-wrapper">
         <div class="onboarding-hero-aura"></div>
         <div class="onboarding-hero">
-          <img src="./images/hero-goku.jpg" alt="Ultra Instinct Goku Mindset" class="onboarding-hero-img">
+          <img src="./images/hero-goku.jpg" alt="Athletic Training" class="onboarding-hero-img">
           <div class="onboarding-hero-overlay"></div>
-          <div class="onboarding-hero-badge">
-            <span class="hero-badge-dot" style="background: #ffffff; box-shadow: 0 0 8px #ffffff;"></span>
-            <span>Ultra Instinct Mindset • v0.04</span>
-          </div>
         </div>
       </div>
 
@@ -67,7 +63,7 @@
           Athletic Performance Starts Here
         </h1>
         <p id="onboardingHeroSubtitle" style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 16px; font-weight: 400;">
-          Reverse pyramid 7-12-15 strength lifts, customized athlete nutrition & 100% offline precision tracking.
+          Reverse pyramid 7-12-15 strength lifts, customized athlete nutrition &amp; 100% offline precision tracking.
         </p>
 
         <!-- Athlete Name Input Field -->
@@ -78,21 +74,22 @@
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
               <circle cx="12" cy="7" r="4"/>
             </svg>
-            <input type="text" id="onboardingUserNameInput" placeholder="Enter your name (e.g. Virat, Rohit)" maxlength="24" autocomplete="name" onkeydown="if(event.key==='Enter') handleOnboardingContinue();">
+            <input type="text" id="onboardingUserNameInput" placeholder="Enter your name (e.g. Alex, Jordan)" maxlength="24" autocomplete="name" onkeydown="if(event.key==='Enter') handleOnboardingContinue();">
           </div>
         </div>
 
         <!-- Security PIN / Password Field (Free & Offline) -->
         <div class="onboarding-input-wrap" style="margin-top: -4px;">
           <label id="onboardingPinLabel" for="onboardingUserPinInput" class="onboarding-input-label">LOGIN PIN / PASSWORD (OPTIONAL • FREE)</label>
-          <div class="onboarding-name-field">
+          <div class="onboarding-name-field" id="onboardingPinFieldWrap">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-tertiary); margin-left: 12px; flex-shrink: 0;">
               <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
               <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
             </svg>
-            <input type="password" id="onboardingUserPinInput" placeholder="Set PIN or Password (e.g. 1234 or leave blank)" maxlength="20" autocomplete="current-password" onkeydown="if(event.key==='Enter') handleOnboardingContinue();">
+            <input type="password" id="onboardingUserPinInput" placeholder="Set PIN or Password (optional)" maxlength="20" autocomplete="current-password" oninput="clearOnboardingPinError()" onkeydown="if(event.key==='Enter') handleOnboardingContinue();">
           </div>
-          <span id="onboardingPinHint" style="display: block; font-size: 0.67rem; color: var(--text-tertiary); margin-top: 4px; padding-left: 4px; text-align: left;">Free offline login • Apne data ko secure rakhein</span>
+          <span id="onboardingPinError" class="inline-error-text"></span>
+          <span id="onboardingPinHint" style="display: block; font-size: 0.67rem; color: var(--text-tertiary); margin-top: 4px; padding-left: 4px; text-align: left;">Free offline login • Keep your profile private and secure</span>
         </div>
         
         <button id="btnOnboardingContinue" class="btn-get-started" onclick="handleOnboardingContinue()">
@@ -105,7 +102,7 @@
         </button>
 
         <div style="text-align: center; margin-top: 14px;">
-          <span class="powered-by-tag">Powered by <strong>Tushpender</strong> • v0.04</span>
+          <span class="powered-by-tag" onclick="openCodeByTushuModal()" style="cursor: pointer;" title="CodeByTushu Studio">Powered by <strong>CodeByTushu</strong> • v0.05</span>
         </div>
       </div>
     </div>
@@ -130,11 +127,11 @@
         
         <!-- Food Category -->
         <div>
-          <label class="roadmap-field-label">Food Category & Diet (Kya khana hai)</label>
+          <label class="roadmap-field-label">Food Category &amp; Diet</label>
           <div class="options-pill-grid cols-3" id="onboardingDietGrid">
             <button type="button" class="option-pill active" data-diet="veg" onclick="selectOnboardingDiet('veg')">
               <span class="pill-title">Vegetarian</span>
-              <span class="pill-desc">Paneer, Soya, Dal</span>
+              <span class="pill-desc">Paneer, Soy, Lentils</span>
             </button>
             <button type="button" class="option-pill" data-diet="non-veg" onclick="selectOnboardingDiet('non-veg')">
               <span class="pill-title">Non-Veg</span>
@@ -149,7 +146,7 @@
 
         <!-- Plan Duration -->
         <div>
-          <label class="roadmap-field-label">Plan Duration (Kitne months / days)</label>
+          <label class="roadmap-field-label">Plan Duration</label>
           <div class="options-pill-grid cols-2" id="onboardingDurationGrid">
             <button type="button" class="option-pill active" data-days="30" onclick="selectOnboardingDuration(30)">
               <span class="pill-title">1 Month (30 Days)</span>
@@ -172,30 +169,30 @@
 
         <!-- Training Purpose -->
         <div>
-          <label class="roadmap-field-label">Training Purpose (Kis purpose ke liye)</label>
+          <label class="roadmap-field-label">Training Purpose</label>
           <div class="options-pill-grid cols-2" id="onboardingGoalGrid">
             <button type="button" class="option-pill active" data-goal="shred" onclick="selectOnboardingGoal('shred')">
               <span class="pill-title">Athletic Lean Shred</span>
-              <span class="pill-desc">Virat Kohli Protocol • 6-Pack</span>
+              <span class="pill-desc">Lean Definition &amp; Conditioning</span>
             </button>
             <button type="button" class="option-pill" data-goal="bulk" onclick="selectOnboardingGoal('bulk')">
               <span class="pill-title">Clean Muscle Bulk</span>
-              <span class="pill-desc">Hypertrophy & V-Taper</span>
+              <span class="pill-desc">Hypertrophy &amp; Strength</span>
             </button>
             <button type="button" class="option-pill" data-goal="speed" onclick="selectOnboardingGoal('speed')">
-              <span class="pill-title">Speed & Agility</span>
-              <span class="pill-desc">Sports Torque & Stamina</span>
+              <span class="pill-title">Speed &amp; Agility</span>
+              <span class="pill-desc">Explosive Torque &amp; Stamina</span>
             </button>
             <button type="button" class="option-pill" data-goal="fitness" onclick="selectOnboardingGoal('fitness')">
               <span class="pill-title">Daily Fitness</span>
-              <span class="pill-desc">Core Health & Posture</span>
+              <span class="pill-desc">Core Health &amp; Posture</span>
             </button>
           </div>
         </div>
 
         <!-- Daily Gym Hours -->
         <div>
-          <label class="roadmap-field-label">Daily Gym Hours & Split (Kitne ghante gym)</label>
+          <label class="roadmap-field-label">Daily Gym Hours &amp; Split</label>
           <div class="options-pill-grid cols-1" id="onboardingHoursGrid">
             <button type="button" class="option-pill active" data-hours="1.5-2" onclick="selectOnboardingHours('1.5-2')">
               <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
@@ -209,7 +206,7 @@
                 <span class="pill-title">60 - 75 Min / Day</span>
                 <span class="pill-badge" style="background: rgba(0,0,0,0.06); color: var(--text-secondary); font-size: 0.65rem; padding: 2px 7px; border-radius: 99px;">SPORTSMAN</span>
               </div>
-              <span class="pill-desc">10m Warmup + 45m 7-12-15 Hypertrophy + 10m Core & Stretch</span>
+              <span class="pill-desc">10m Warmup + 45m 7-12-15 Hypertrophy + 10m Core &amp; Stretch</span>
             </button>
             <button type="button" class="option-pill" data-hours="0.75" onclick="selectOnboardingHours('0.75')">
               <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
@@ -225,13 +222,13 @@
 
       <div style="margin-top: 18px; margin-bottom: 10px;">
         <button class="btn-get-started" onclick="finishOnboardingSetup()" style="background: #000000; color: #ffffff;">
-          <span>Launch My Dashboard ⚡</span>
+          <span>Launch My Dashboard</span>
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </button>
       </div>
 
       <div style="text-align: center; margin-top: 14px;">
-        <span class="powered-by-tag">Powered by <strong>Tushpender</strong> • v0.04</span>
+        <span class="powered-by-tag" onclick="openCodeByTushuModal()" style="cursor: pointer;" title="CodeByTushu Studio">Powered by <strong>CodeByTushu</strong> • v0.05</span>
       </div>
 
     </div>
@@ -256,7 +253,7 @@
       <!-- Center Greeting (Typography Only - Zero Emojis) -->
       <div class="header-greeting-wrap" onclick="switchView('home')">
         <span id="headerGreetingName" class="header-greeting">Hi, Athlete</span>
-        <span id="headerSubgreeting" class="header-subgreeting">Ready to train • v0.04</span>
+        <span id="headerSubgreeting" class="header-subgreeting">Ready to train • v0.05</span>
       </div>
 
       <!-- Minimalist Vector Bell Button -->
@@ -347,6 +344,23 @@
         </div>
       </section>
 
+      <!-- Room Fitness & Calisthenics Card (100% Free • No Equipment) -->
+      <section id="roomFitnessHomeCard" class="room-fitness-home-card" onclick="openRoomFitnessView()">
+        <!-- Dynamic card injected via renderRoomFitnessHomeCard() -->
+      </section>
+
+      <!-- Featured Gym Plan Pro Card (₹499 Lifetime) -->
+      <section id="proHomeBanner" class="pro-home-banner" onclick="openProModal()">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span id="proHomeBadge" class="pro-badge-pill">GYM PLAN PRO • LIFETIME</span>
+          <span id="proHomePricePill" class="pro-price-tag">₹499 One-Time</span>
+        </div>
+        <h3 id="proHomeTitle" style="font-size: 1.02rem; font-weight: 700; margin: 0 0 4px;">Unlock Personalized Pro Coaching</h3>
+        <p id="proHomeDesc" style="font-size: 0.76rem; opacity: 0.82; line-height: 1.4; margin: 0;">
+          Custom diet &amp; calorie targets, water intake tracker, daily activity plan, and goal-specific workouts tailored to your body type.
+        </p>
+      </section>
+
       <!-- Quick Actions Grid -->
       <div class="card-header-row" style="margin: 8px 2px 8px;">
         <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em;">Quick Access</span>
@@ -383,6 +397,32 @@
           </div>
         </div>
 
+        <div class="action-tile" onclick="switchView('habits')">
+          <div class="action-tile-icon" style="background: rgba(52, 199, 89, 0.12); color: var(--apple-green-dark);">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 11l3 3L22 4"/>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+            </svg>
+          </div>
+          <div>
+            <span class="action-tile-title">Habit Tracker</span>
+            <span class="action-tile-sub">Daily Discipline &amp; Sheet</span>
+          </div>
+        </div>
+
+        <div class="action-tile" onclick="openRoomFitnessView()">
+          <div class="action-tile-icon" style="background: rgba(255, 45, 85, 0.12); color: #ff2d55;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 14.5L9 9.5l4 4L20 6"/>
+              <path d="M15 6h5v5"/>
+            </svg>
+          </div>
+          <div>
+            <span class="action-tile-title">Room Fitness</span>
+            <span class="action-tile-sub">No-Equipment Bodyweight</span>
+          </div>
+        </div>
+
         <div class="action-tile" onclick="toggleRestTimerQuick()">
           <div class="action-tile-icon" style="background: rgba(175, 82, 222, 0.08); color: var(--apple-purple);">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M10 2h4M12 2v3"/></svg>
@@ -392,11 +432,37 @@
             <span class="action-tile-sub">Stopwatch (60s)</span>
           </div>
         </div>
+
+        <div class="action-tile" onclick="openPersonalDashboard()">
+          <div class="action-tile-icon" style="background: rgba(0, 0, 0, 0.05); color: var(--text-primary);">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <div>
+            <span class="action-tile-title">Personal Dashboard</span>
+            <span class="action-tile-sub">Account & Settings</span>
+          </div>
+        </div>
+
+        <div class="action-tile" onclick="openCodeByTushuModal()">
+          <div class="action-tile-icon" style="background: #111111; color: #ffffff;">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 18 22 12 16 6"/>
+              <polyline points="8 6 2 12 8 18"/>
+            </svg>
+          </div>
+          <div>
+            <span class="action-tile-title">CodeByTushu</span>
+            <span class="action-tile-sub">Studio & Services</span>
+          </div>
+        </div>
       </div>
 
       <!-- Page Footer -->
-      <div class="app-page-footer">
-        Powered by <strong>Tushpender</strong> • v0.04
+      <div class="app-page-footer" onclick="openCodeByTushuModal()" style="cursor: pointer;" title="CodeByTushu Studio">
+        Powered by <strong>CodeByTushu</strong> • v0.05
       </div>
 
     </div>
@@ -421,11 +487,19 @@
 
       <!-- Workout Day Header Banner -->
       <section class="glass-card workout-today-banner">
-        <span id="workoutTodayBadge" class="today-badge-pill">TODAY</span>
-        <h1 id="workoutDayTitle" class="banner-day-title">Chest & Athletic Core</h1>
-        <p id="workoutDayFocus" class="banner-day-focus">Push Strength & Core Stability</p>
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
+          <div>
+            <span id="workoutTodayBadge" class="today-badge-pill">TODAY</span>
+            <h1 id="workoutDayTitle" class="banner-day-title">Chest & Athletic Core</h1>
+            <p id="workoutDayFocus" class="banner-day-focus">Push Strength & Core Stability</p>
+          </div>
+          <button type="button" class="btn-chip" onclick="openSwitchDayModal(currentDay)" style="margin-top: 4px; display: inline-flex; align-items: center; gap: 5px; font-size: 0.76rem; padding: 6px 11px; flex-shrink: 0;" title="Tap or hold day pill to switch">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8.1 8.1 0 0 0-15.5-2m-.5-5v5h5M4 13a8.1 8.1 0 0 0 15.5 2m.5 5v-5h-5"/></svg>
+            Switch / Rest
+          </button>
+        </div>
         
-        <div class="scheme-pill-box">
+        <div id="workoutSchemeBox" class="scheme-pill-box">
           <span>Reverse Pyramid: Set 1 (7 Reps) · Set 2 (12 Reps) · Set 3 (15 Reps)</span>
         </div>
       </section>
@@ -445,8 +519,8 @@
       </div>
 
       <!-- Page Footer -->
-      <div class="app-page-footer">
-        Powered by <strong>Tushpender</strong> • v0.04
+      <div class="app-page-footer" onclick="openCodeByTushuModal()" style="cursor: pointer;" title="CodeByTushu Studio">
+        Powered by <strong>CodeByTushu</strong> • v0.05
       </div>
 
     </div>
@@ -508,15 +582,23 @@
       </section>
 
       <!-- Page Footer -->
-      <div class="app-page-footer">
-        Powered by <strong>Tushpender</strong> • v0.04
+      <div class="app-page-footer" onclick="openCodeByTushuModal()" style="cursor: pointer;" title="CodeByTushu Studio">
+        Powered by <strong>CodeByTushu</strong> • v0.05
       </div>
 
     </div>
 
 
     <!-- -----------------------------------------------
-         VIEW 4: NUTRITION & DIET (Clean Apple Style)
+         VIEW 4: HABITS & DISCIPLINE TRACKER (Reel Style Sheet)
+         ----------------------------------------------- -->
+    <div id="viewHabits" class="app-view">
+      <div id="habitsContainer"></div>
+    </div>
+
+
+    <!-- -----------------------------------------------
+         VIEW 5: NUTRITION & DIET (Clean Apple Style)
          ----------------------------------------------- -->
     <div id="viewNutrition" class="app-view">
 
@@ -580,10 +662,17 @@
       </section>
 
       <!-- Page Footer -->
-      <div class="app-page-footer">
-        Powered by <strong>Tushpender</strong> • v0.04
+      <div class="app-page-footer" onclick="openCodeByTushuModal()" style="cursor: pointer;" title="CodeByTushu Studio">
+        Powered by <strong>CodeByTushu</strong> • v0.05
       </div>
 
+    </div>
+
+    <!-- -----------------------------------------------
+         VIEW 6: ROOM FITNESS & CALISTHENICS (100% Free • No Equipment)
+         ----------------------------------------------- -->
+    <div id="viewRoomFitness" class="app-view">
+      <!-- Dynamic Room Fitness View injected via renderRoomFitnessView() -->
     </div>
 
   </main>
@@ -619,6 +708,16 @@
         </svg>
       </div>
       <span class="bottom-nav-label">Activity</span>
+    </button>
+
+    <button id="tabHabits" class="bottom-nav-item" onclick="switchView('habits')" aria-label="Habits">
+      <div class="bottom-nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 11l3 3L22 4"/>
+          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+        </svg>
+      </div>
+      <span class="bottom-nav-label">Habits</span>
     </button>
 
     <button id="tabNutrition" class="bottom-nav-item" onclick="switchView('nutrition')" aria-label="Food">
@@ -692,7 +791,12 @@
         <div class="drawer-section-title">NAVIGATION</div>
         <a class="drawer-item" onclick="closeSideDrawer(); switchView('home');">Home Dashboard</a>
         <a class="drawer-item" onclick="closeSideDrawer(); switchView('workouts');">7-Day Workout Routine</a>
+        <a class="drawer-item" onclick="closeSideDrawer(); openRoomFitnessView();" style="display: flex; align-items: center; justify-content: space-between;">
+          <span>Room Fitness &amp; Calisthenics</span>
+          <span style="font-size: 0.65rem; font-weight: 700; background: #34c759; color: #fff; padding: 2px 7px; border-radius: 10px; letter-spacing: 0.04em;">FREE</span>
+        </a>
         <a class="drawer-item" onclick="closeSideDrawer(); switchView('activity');">Activity & Volume Trends</a>
+        <a class="drawer-item" onclick="closeSideDrawer(); switchView('habits');">Habits &amp; Discipline Tracker</a>
         <a class="drawer-item" onclick="closeSideDrawer(); switchView('nutrition');">Nutrition & Diet Plan</a>
 
         <div class="drawer-section-title">SCHEDULE JUMP</div>
@@ -704,31 +808,37 @@
         <a class="drawer-item" onclick="selectDayFromDrawer('saturday')">Saturday: Legs & Power</a>
         <a class="drawer-item" onclick="selectDayFromDrawer('sunday')">Sunday: Active Recovery</a>
 
-        <div class="drawer-section-title">DATA & PERSONALIZATION</div>
-        <a class="drawer-item" onclick="closeSideDrawer(); openRoadmapModal();" style="color: var(--text-primary); font-weight: 700;">Edit Profile & Plan Goals</a>
-        <a class="drawer-item" onclick="closeSideDrawer(); openModal('backupModal');">Backup & Restore</a>
-        <a class="drawer-item" onclick="closeSideDrawer(); resetTodayWorkout();">Reset Today's Sets</a>
-        <a class="drawer-item" onclick="closeSideDrawer(); handleUserLogout();" style="color: var(--text-primary); font-weight: 600; display: flex; align-items: center; gap: 8px;">
+        <div class="drawer-section-title">ACCOUNT &amp; STUDIO</div>
+        <a class="drawer-item" onclick="closeSideDrawer(); openProModal();" style="color: var(--text-primary); font-weight: 700; display: flex; align-items: center; gap: 8px;">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-            <polyline points="16 17 21 12 16 7"/>
-            <line x1="21" y1="12" x2="9" y2="12"/>
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
           </svg>
-          Log Out (Free Login / Switch)
+          Gym Plan Pro (₹499 Lifetime)
         </a>
-        <a class="drawer-item" onclick="closeSideDrawer(); resetForNewUser();" style="color: #ff3b30; font-size: 0.78rem; opacity: 0.85;">
-          Clear Device Data (Hard Reset)
+        <a class="drawer-item" onclick="closeSideDrawer(); openPersonalDashboard();" style="color: var(--text-primary); font-weight: 600; display: flex; align-items: center; gap: 8px;">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          Personal Dashboard (Account &amp; Security)
+        </a>
+        <a class="drawer-item" onclick="closeSideDrawer(); openCodeByTushuModal();" style="color: var(--text-primary); font-weight: 600; display: flex; align-items: center; gap: 8px;">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 18 22 12 16 6"/>
+            <polyline points="8 6 2 12 8 18"/>
+          </svg>
+          About CodeByTushu (Studio &amp; Services)
         </a>
 
         <div style="background: rgba(0, 0, 0, 0.04); border: 0.5px solid rgba(0, 0, 0, 0.1); border-radius: var(--radius-sm); padding: 10px 12px; margin: 12px 2px 6px; font-size: 0.74rem; color: var(--text-secondary); line-height: 1.4;">
-          <strong style="color: var(--text-primary);">Personalized Device Storage</strong><br>
-          Har user ka naam, diet aur workout plan device ke local storage mein 100% offline aur safely save hota hai.
+          <strong style="color: var(--text-primary);">Private On-Device Storage</strong><br>
+          Your profile, nutrition plan, and workout progress are stored 100% offline and securely encrypted on this device.
         </div>
       </div>
 
-      <div class="drawer-footer">
+      <div class="drawer-footer" onclick="closeSideDrawer(); openCodeByTushuModal();" style="cursor: pointer;" title="CodeByTushu Studio">
         <span>Gym Plan</span>
-        <span>Powered by <strong>Tushpender</strong> • v0.04</span>
+        <span>Powered by <strong>CodeByTushu</strong> • v0.05</span>
       </div>
     </nav>
   </div>
@@ -777,67 +887,175 @@
   </div>
 
   <!-- ===================================================
-       8. EXERCISE FORM & VIDEO GUIDE MODAL
+       8. EXERCISE FORM & VIDEO GUIDE MODAL (MuscleWiki Grade)
        =================================================== -->
   <div id="exerciseDemoModal" class="modal-backdrop">
-    <div class="modal-box" style="max-width: 520px;">
-      <div class="modal-header">
-        <div>
-          <h3 id="demoExTitle">Form Guide</h3>
-          <span style="font-size: 0.72rem; color: var(--text-tertiary); font-weight: 500;">BIOMECHANICAL MOTION</span>
+    <div class="modal-box mw-modal-box" style="max-width: 560px; max-height: 92vh; display: flex; flex-direction: column;">
+      <!-- Header with Badges (Screenshot 3 style) -->
+      <div class="modal-header" style="flex-shrink: 0; padding: 14px 18px 10px;">
+        <div style="flex: 1; min-width: 0;">
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px;">
+            <h3 id="demoExTitle" style="margin: 0; font-size: 1.15rem; font-weight: 700; color: var(--text-primary);">Exercise Demo</h3>
+            <span id="demoExEquipment" class="mw-badge mw-badge-equipment">Barbell</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px; font-size: 0.72rem; color: var(--text-tertiary);">
+            <span id="demoExLevel" class="mw-badge-sub">Intermediate</span>
+            <span>•</span>
+            <span id="demoExType" class="mw-badge-sub">Compound</span>
+            <span>•</span>
+            <span style="color: #10b981; font-weight: 600;">100% Offline Guide</span>
+          </div>
         </div>
         <button class="icon-btn" onclick="closeModal('exerciseDemoModal')" aria-label="Close">
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
 
-      <div class="modal-body">
-        <div id="demoMediaContainer">
+      <div class="modal-body" style="overflow-y: auto; flex: 1; padding: 10px 18px 18px;">
+        <!-- DEMONSTRATIONS Section with Angle Switcher -->
+        <div class="mw-section-header">
+          <span class="mw-section-title">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 4px;"><rect x="2" y="4" width="15" height="16" rx="2"/><polygon points="22 7 17 10 17 14 22 17 22 7"/></svg>
+            DEMONSTRATIONS
+          </span>
+          <div class="mw-angle-tabs">
+            <button id="btnAngleFront" type="button" class="mw-angle-btn active" onclick="switchDemoAngle('front')">FRONT ANGLE</button>
+            <button id="btnAngleSide" type="button" class="mw-angle-btn" onclick="switchDemoAngle('side')">SIDE ANGLE</button>
+          </div>
+        </div>
+
+        <div id="demoMediaContainer" class="mw-demo-container">
           <!-- Dynamically Injected SVG or Video -->
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 14px 0;">
-          <div style="background: rgba(0, 0, 0, 0.03); padding: 8px 10px; border-radius: var(--radius-xs);">
-            <span style="font-size: 0.65rem; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase;">TARGET MUSCLE (KIS MUSCLE KO HIT KARTA HAI)</span>
-            <div id="demoExPrimary" style="font-size: 0.82rem; font-weight: 600; color: var(--text-primary); margin-top: 1px;">-</div>
+        <!-- EXERCISE DETAILS & MUSCLE ANATOMY Section (Screenshot 3 style) -->
+        <div class="mw-section-header" style="margin-top: 16px;">
+          <span class="mw-section-title">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 4px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            EXERCISE DETAILS &amp; ANATOMY
+          </span>
+        </div>
+
+        <!-- Muscle Anatomy Front/Back Visualizer -->
+        <div id="demoAnatomyContainer" class="mw-anatomy-card">
+          <!-- Dynamically Injected Muscle Silhouette Map -->
+        </div>
+
+        <!-- Parameters Table / Grid -->
+        <div class="mw-params-grid">
+          <div class="mw-param-card">
+            <span class="mw-param-label">PRIMARY MUSCLES</span>
+            <div id="demoExPrimary" class="mw-param-val" style="color: #ef4444;">-</div>
           </div>
-          <div style="background: rgba(0, 0, 0, 0.03); padding: 8px 10px; border-radius: var(--radius-xs);">
-            <span style="font-size: 0.65rem; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase;">SPEED & TEMPO (SPEED GUIDE)</span>
-            <div id="demoExTempo" style="font-size: 0.82rem; font-weight: 600; color: var(--text-primary); margin-top: 1px;">-</div>
+          <div class="mw-param-card">
+            <span class="mw-param-label">SECONDARY MUSCLES</span>
+            <div id="demoExSecondary" class="mw-param-val" style="color: #f59e0b;">-</div>
+          </div>
+          <div class="mw-param-card">
+            <span class="mw-param-label">GRIP TYPE</span>
+            <div id="demoExGrip" class="mw-param-val">-</div>
+          </div>
+          <div class="mw-param-card">
+            <span class="mw-param-label">FORCE TYPE</span>
+            <div id="demoExForce" class="mw-param-val">-</div>
+          </div>
+          <div class="mw-param-card" style="grid-column: span 2;">
+            <span class="mw-param-label">SPEED &amp; TEMPO (CADENCE)</span>
+            <div id="demoExTempo" class="mw-param-val">-</div>
           </div>
         </div>
 
-        <div style="background: rgba(0, 0, 0, 0.02); border-left: 2px solid var(--text-primary); padding: 8px 10px; margin-bottom: 8px; font-size: 0.8rem; line-height: 1.4;">
-          <strong>Setup (Position Kaise Banayein):</strong>
-          <div id="demoExSetup">-</div>
+        <!-- INSTRUCTIONS Section (Numbered List, Screenshot 3 style) -->
+        <div class="mw-section-header" style="margin-top: 16px;">
+          <span class="mw-section-title">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 4px;"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            INSTRUCTIONS
+          </span>
+        </div>
+        <div id="demoInstructionsContainer" class="mw-instructions-list">
+          <!-- Dynamically Injected Numbered Steps (1, 2, 3, 4) -->
         </div>
 
-        <div style="background: rgba(0, 0, 0, 0.02); border-left: 2px solid var(--text-primary); padding: 8px 10px; margin-bottom: 8px; font-size: 0.8rem; line-height: 1.4;">
-          <strong>Execution (Sahi Technique & Movement):</strong>
-          <div id="demoExExecution">-</div>
-        </div>
-
-        <div style="background: rgba(255, 59, 48, 0.08); border-left: 2px solid #ff3b30; padding: 8px 10px; margin-bottom: 12px; font-size: 0.78rem; color: #ff3b30; line-height: 1.4;">
-          <strong>Avoid (Yeh Galati Mat Karein):</strong>
+        <!-- Common Mistakes Warning -->
+        <div class="mw-mistake-box">
+          <div style="font-weight: 700; display: flex; align-items: center; gap: 5px; margin-bottom: 3px;">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            Common Mistakes to Avoid
+          </div>
           <div id="demoExMistakes">-</div>
         </div>
 
-        <div style="background: rgba(0, 0, 0, 0.02); border-radius: var(--radius-sm); padding: 12px; text-align: center;">
-          <p style="font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 8px;">Upload a personal 5-10 second video from your device (100% Offline):</p>
+        <!-- Pro Tip -->
+        <div class="mw-protip-box">
+          <div style="font-weight: 700; display: flex; align-items: center; gap: 5px; margin-bottom: 3px; color: #10b981;">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Athlete Biomechanical Pro Tip
+          </div>
+          <div id="demoExProTip" style="color: var(--text-secondary); font-size: 0.8rem;">-</div>
+        </div>
+
+        <!-- Video Upload & Offline Media Section -->
+        <div style="background: rgba(0, 0, 0, 0.02); border: 0.5px solid rgba(0, 0, 0, 0.08); border-radius: var(--radius-sm); padding: 12px; margin-top: 14px; text-align: center;">
+          <p style="font-size: 0.76rem; color: var(--text-secondary); margin-bottom: 8px;">Upload a personal 5-10s video from your device (100% Offline):</p>
           <input type="file" id="mediaUploadInput" style="display: none;" accept="video/*,image/gif" onchange="handleMediaUpload(event)">
           <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
-            <button class="btn btn-outline" style="font-size: 0.78rem; padding: 6px 12px;" onclick="document.getElementById('mediaUploadInput').click()">
-              Choose Video Clip
+            <button type="button" class="btn btn-outline" style="font-size: 0.78rem; padding: 6px 14px;" onclick="document.getElementById('mediaUploadInput').click()">
+              Upload Video
             </button>
-            <button id="btnRemoveCustomMedia" class="btn btn-danger-subtle" style="display: none;" onclick="removeActiveCustomMedia()">
-              Remove
+            <button id="btnRemoveCustomMedia" type="button" class="btn btn-danger-subtle" style="display: none; font-size: 0.78rem; padding: 6px 14px;" onclick="removeActiveCustomMedia()">
+              Restore Default
             </button>
           </div>
         </div>
       </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary" onclick="closeModal('exerciseDemoModal')">Done</button>
+
+      <!-- Footer with Edit & Delete Controls -->
+      <div class="modal-footer" style="flex-shrink: 0; display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.95); border-top: 0.5px solid rgba(0, 0, 0, 0.08);">
+        <div style="display: flex; gap: 8px;">
+          <button type="button" class="btn btn-outline" style="font-size: 0.78rem; padding: 7px 12px;" onclick="openEditExerciseFromDemo()">
+            Edit Details
+          </button>
+          <button id="btnDeleteDemoExercise" type="button" class="btn btn-danger-subtle" style="font-size: 0.78rem; padding: 7px 12px;" onclick="deleteExerciseFromDemo()">
+            Delete Exercise
+          </button>
+        </div>
+        <button type="button" class="btn btn-primary" style="padding: 7px 18px;" onclick="closeModal('exerciseDemoModal')">Done</button>
       </div>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       8B. MODAL: EDIT EXERCISE DETAILS
+       =================================================== -->
+  <div id="editExerciseModal" class="modal-backdrop" style="z-index: 10060;">
+    <div class="modal-box" style="max-width: 440px;">
+      <div class="modal-header">
+        <h3>Edit Exercise</h3>
+        <button class="icon-btn" onclick="closeModal('editExerciseModal')" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <form onsubmit="submitEditExercise(event)">
+        <div class="modal-body">
+          <input type="hidden" id="editExId">
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 4px;">Exercise Name</label>
+            <input type="text" id="editExName" required style="width: 100%; padding: 8px 10px; border-radius: var(--radius-xs); border: 0.5px solid rgba(0, 0, 0, 0.15); outline: none; font-size: 0.88rem;">
+          </div>
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 4px;">Muscle Focus</label>
+            <input type="text" id="editExTarget" style="width: 100%; padding: 8px 10px; border-radius: var(--radius-xs); border: 0.5px solid rgba(0, 0, 0, 0.15); outline: none; font-size: 0.88rem;">
+          </div>
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 4px;">Form Cue &amp; Execution Notes</label>
+            <textarea id="editExNotes" rows="3" style="width: 100%; padding: 8px 10px; border-radius: var(--radius-xs); border: 0.5px solid rgba(0, 0, 0, 0.15); outline: none; font-size: 0.88rem; resize: vertical;"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('editExerciseModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -858,9 +1076,15 @@
             <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 4px;">Meal Description</label>
             <input type="text" id="mealInputName" placeholder="e.g. Boiled Eggs with Sourdough" required style="width: 100%; padding: 8px 10px; border-radius: var(--radius-xs); border: 0.5px solid rgba(0, 0, 0, 0.15); outline: none; font-size: 0.88rem;">
           </div>
-          <div style="margin-bottom: 12px;">
-            <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 4px;">Calories (kcal)</label>
-            <input type="number" id="mealInputCalories" placeholder="450" style="width: 100%; padding: 8px 10px; border-radius: var(--radius-xs); border: 0.5px solid rgba(0, 0, 0, 0.15); outline: none; font-size: 0.88rem;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+            <div>
+              <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 4px;">Meal Timing</label>
+              <input type="text" id="mealInputTiming" placeholder="e.g. 05:00 PM" style="width: 100%; padding: 8px 10px; border-radius: var(--radius-xs); border: 0.5px solid rgba(0, 0, 0, 0.15); outline: none; font-size: 0.88rem;">
+            </div>
+            <div>
+              <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 4px;">Calories (kcal)</label>
+              <input type="number" id="mealInputCalories" placeholder="450" style="width: 100%; padding: 8px 10px; border-radius: var(--radius-xs); border: 0.5px solid rgba(0, 0, 0, 0.15); outline: none; font-size: 0.88rem;">
+            </div>
           </div>
           <div style="margin-bottom: 12px;">
             <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 4px;">Category</label>
@@ -875,6 +1099,62 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-outline" onclick="closeModal('addMealModal')">Cancel</button>
           <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       9B. MODAL: EDIT & DELETE MEAL
+       =================================================== -->
+  <div id="editMealModal" class="modal-backdrop">
+    <div class="modal-box" style="max-width: 420px;">
+      <div class="modal-header">
+        <div>
+          <h3 style="margin: 0;">Edit Meal</h3>
+          <span style="font-size: 0.72rem; color: var(--text-tertiary); font-weight: 500;">MODIFY OR REMOVE MEAL</span>
+        </div>
+        <button class="icon-btn" onclick="closeModal('editMealModal')" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <form onsubmit="submitEditMeal(event)">
+        <input type="hidden" id="editMealIndex" value="">
+        <div class="modal-body">
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 4px;">Meal Description</label>
+            <input type="text" id="editMealName" required style="width: 100%; padding: 8px 10px; border-radius: var(--radius-xs); border: 0.5px solid rgba(0, 0, 0, 0.15); outline: none; font-size: 0.88rem;">
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+            <div>
+              <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 4px;">Meal Timing</label>
+              <input type="text" id="editMealTiming" placeholder="e.g. 05:00 PM" style="width: 100%; padding: 8px 10px; border-radius: var(--radius-xs); border: 0.5px solid rgba(0, 0, 0, 0.15); outline: none; font-size: 0.88rem;">
+            </div>
+            <div>
+              <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 4px;">Calories (kcal)</label>
+              <input type="number" id="editMealCalories" style="width: 100%; padding: 8px 10px; border-radius: var(--radius-xs); border: 0.5px solid rgba(0, 0, 0, 0.15); outline: none; font-size: 0.88rem;">
+            </div>
+          </div>
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 4px;">Category</label>
+            <select id="editMealType" style="width: 100%; padding: 8px 10px; border-radius: var(--radius-xs); border: 0.5px solid rgba(0, 0, 0, 0.15); outline: none; background: #ffffff; font-size: 0.88rem;">
+              <option value="Breakfast">Breakfast</option>
+              <option value="Lunch">Lunch</option>
+              <option value="Dinner">Dinner</option>
+              <option value="Snacks">Snack / Shake</option>
+            </select>
+          </div>
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 4px;">Ingredients / Food Details</label>
+            <textarea id="editMealDesc" rows="2" style="width: 100%; padding: 8px 10px; border-radius: var(--radius-xs); border: 0.5px solid rgba(0, 0, 0, 0.15); outline: none; font-size: 0.84rem; resize: none; font-family: inherit;"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer" style="display: flex; justify-content: space-between;">
+          <button type="button" class="btn btn-outline" style="color: #ef4444; border-color: rgba(239, 68, 68, 0.35);" onclick="deleteMealFromModal()">Delete Meal</button>
+          <div style="display: flex; gap: 8px;">
+            <button type="button" class="btn btn-outline" onclick="closeModal('editMealModal')">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+          </div>
         </div>
       </form>
     </div>
@@ -909,6 +1189,85 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-outline" onclick="closeModal('addExerciseModal')">Cancel</button>
           <button type="submit" class="btn btn-primary">Add Exercise</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       10B. MODAL: SWITCH WORKOUT / REST / OFF DAY
+       =================================================== -->
+  <div id="switchWorkoutDayModal" class="modal-backdrop">
+    <div class="modal-box" style="max-width: 440px;">
+      <div class="modal-header">
+        <div>
+          <h3 id="switchDayModalTitle" style="margin: 0;">Manage Workout Day</h3>
+          <span id="switchDayModalSub" style="font-size: 0.72rem; color: var(--text-tertiary); font-weight: 500;">SWITCH FOCUS OR MARK REST/OFF</span>
+        </div>
+        <button class="icon-btn" onclick="closeModal('switchWorkoutDayModal')" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <form onsubmit="submitSwitchWorkoutDay(event)">
+        <input type="hidden" id="switchTargetDayKey" value="">
+        <div class="modal-body" style="padding: 16px;">
+          <!-- Day Status (Active vs Rest / Off / Absent) -->
+          <div style="margin-bottom: 16px;">
+            <label style="display: block; font-size: 0.72rem; font-weight: 700; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 8px;">Day Status &amp; Attendance</label>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <label class="switch-status-pill" id="statusPillActive" style="border: 1px solid rgba(0,0,0,0.12); padding: 10px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; gap: 8px; background: #fafafa;">
+                <input type="radio" name="dayStatusRadio" id="radioStatusActive" value="active" checked onchange="onDayStatusRadioChange('active')">
+                <span style="font-size: 0.82rem; font-weight: 600;">🏋️ Workout Day</span>
+              </label>
+              <label class="switch-status-pill" id="statusPillRest" style="border: 1px solid rgba(0,0,0,0.12); padding: 10px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; gap: 8px; background: #fafafa;">
+                <input type="radio" name="dayStatusRadio" id="radioStatusRest" value="rest" onchange="onDayStatusRadioChange('rest')">
+                <span style="font-size: 0.82rem; font-weight: 600;">🛌 Rest Day</span>
+              </label>
+              <label class="switch-status-pill" id="statusPillOff" style="border: 1px solid rgba(0,0,0,0.12); padding: 10px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; gap: 8px; background: #fafafa;">
+                <input type="radio" name="dayStatusRadio" id="radioStatusOff" value="off" onchange="onDayStatusRadioChange('off')">
+                <span style="font-size: 0.82rem; font-weight: 600;">⏸️ Gym Off / Holiday</span>
+              </label>
+              <label class="switch-status-pill" id="statusPillAbsent" style="border: 1px solid rgba(0,0,0,0.12); padding: 10px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; gap: 8px; background: #fafafa;">
+                <input type="radio" name="dayStatusRadio" id="radioStatusAbsent" value="absent" onchange="onDayStatusRadioChange('absent')">
+                <span style="font-size: 0.82rem; font-weight: 600;">❌ Absent / Missed</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Switch Focus (only shown when Workout Day is active) -->
+          <div id="switchFocusSection" style="margin-bottom: 16px;">
+            <label style="display: block; font-size: 0.72rem; font-weight: 700; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 6px;">Switch Muscle Focus</label>
+            <select id="switchMuscleFocusSelect" style="width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(0,0,0,0.15); font-size: 0.88rem; outline: none; background: #ffffff;">
+              <option value="chest">Chest &amp; Athletic Core (Push Focus)</option>
+              <option value="back">Back &amp; Biceps (Pull Hypertrophy)</option>
+              <option value="shoulders">Shoulders &amp; Traps (Boulder Delts)</option>
+              <option value="arms">Arms &amp; Core (Biceps &amp; Triceps Supersets)</option>
+              <option value="legs">Legs &amp; Explosive Glutes (Lower Body)</option>
+              <option value="hiit">HIIT &amp; Functional Core Conditioning</option>
+              <option value="recovery">Active Recovery &amp; Mobility Flow</option>
+            </select>
+          </div>
+
+          <!-- Swap with another day -->
+          <div id="swapDaySection" style="margin-bottom: 12px;">
+            <label style="display: block; font-size: 0.72rem; font-weight: 700; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 6px;">Or Swap With Another Day's Plan</label>
+            <div style="display: flex; gap: 8px;">
+              <select id="swapTargetDaySelect" style="flex: 1; padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.15); font-size: 0.84rem; outline: none; background: #ffffff;">
+                <option value="monday">Monday</option>
+                <option value="tuesday">Tuesday</option>
+                <option value="wednesday">Wednesday</option>
+                <option value="thursday">Thursday</option>
+                <option value="friday">Friday</option>
+                <option value="saturday">Saturday</option>
+                <option value="sunday">Sunday</option>
+              </select>
+              <button type="button" class="btn btn-outline" style="font-size: 0.8rem; padding: 8px 12px;" onclick="executeSwapDays()">Swap Plans</button>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('switchWorkoutDayModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Apply Changes</button>
         </div>
       </form>
     </div>
@@ -951,6 +1310,72 @@
   </div>
 
   <!-- ===================================================
+       11B. MODAL: DATA RETENTION & STORAGE LIFECYCLE
+       =================================================== -->
+  <div id="retentionPolicyModal" class="modal-backdrop">
+    <div class="modal-box" style="max-width: 460px;">
+      <div class="modal-header">
+        <div>
+          <h3 style="margin: 0;">Data Retention &amp; Storage</h3>
+          <span style="font-size: 0.72rem; color: var(--text-tertiary); font-weight: 500;">STORAGE LIFECYCLE &amp; AUTO-CLEANUP</span>
+        </div>
+        <button class="icon-btn" onclick="closeModal('retentionPolicyModal')" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body" style="padding: 16px;">
+        <p style="color: var(--text-secondary); font-size: 0.82rem; line-height: 1.45; margin-bottom: 14px;">
+          Choose how long daily workout logs and habit check-ins are preserved on your device.
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px;">
+          <label class="retention-radio-card" style="display: flex; align-items: flex-start; gap: 10px; background: #f8f8fa; border: 1px solid rgba(0,0,0,0.1); border-radius: 12px; padding: 12px; cursor: pointer;">
+            <input type="radio" name="retentionOption" id="retentionOptionForever" value="keep_forever" checked style="margin-top: 3px; accent-color: #111;">
+            <div>
+              <strong style="display: block; font-size: 0.86rem; color: var(--text-primary); margin-bottom: 2px;">Keep Forever (Recommended)</strong>
+              <span style="font-size: 0.74rem; color: var(--text-secondary); line-height: 1.4; display: block;">All your past workout history, personal records, and habit matrices are permanently saved.</span>
+            </div>
+          </label>
+
+          <label class="retention-radio-card" style="display: flex; align-items: flex-start; gap: 10px; background: #f8f8fa; border: 1px solid rgba(0,0,0,0.1); border-radius: 12px; padding: 12px; cursor: pointer;">
+            <input type="radio" name="retentionOption" id="retentionOption6Months" value="keep_6_months" style="margin-top: 3px; accent-color: #111;">
+            <div>
+              <strong style="display: block; font-size: 0.86rem; color: var(--text-primary); margin-bottom: 2px;">Auto-Delete Logs Older Than 6 Months (180 Days)</strong>
+              <span style="font-size: 0.74rem; color: var(--text-secondary); line-height: 1.4; display: block;">Automatically prunes daily workout sets and habit marks older than 180 days to keep the app ultra-lightweight.</span>
+            </div>
+          </label>
+
+          <label class="retention-radio-card" style="display: flex; align-items: flex-start; gap: 10px; background: #f8f8fa; border: 1px solid rgba(0,0,0,0.1); border-radius: 12px; padding: 12px; cursor: pointer;">
+            <input type="radio" name="retentionOption" id="retentionOption1Year" value="keep_1_year" style="margin-top: 3px; accent-color: #111;">
+            <div>
+              <strong style="display: block; font-size: 0.86rem; color: var(--text-primary); margin-bottom: 2px;">Auto-Delete Logs Older Than 1 Year (365 Days)</strong>
+              <span style="font-size: 0.74rem; color: var(--text-secondary); line-height: 1.4; display: block;">Retains 12 months of active progress and prunes older historical logs.</span>
+            </div>
+          </label>
+        </div>
+
+        <div style="background: rgba(52, 199, 89, 0.08); border-left: 2.5px solid #34c759; padding: 10px 12px; border-radius: 8px; margin-bottom: 14px;">
+          <span style="font-size: 0.74rem; color: #146929; line-height: 1.4; display: block;">
+            <strong>Safeguard:</strong> Your <strong>Personal Records (PRs)</strong>, <strong>Profile Goals</strong>, <strong>Custom Routine</strong>, and <strong>Gym Plan Pro License</strong> are <strong>NEVER</strong> deleted by retention cleanup.
+          </span>
+        </div>
+
+        <div style="border-top: 1px dashed rgba(0,0,0,0.12); padding-top: 12px; display: flex; flex-direction: column; gap: 8px;">
+          <button type="button" class="btn btn-outline" style="font-size: 0.78rem; padding: 9px 12px;" onclick="triggerManualPrune6Months()">
+            Clean Logs Older Than 6 Months Now
+          </button>
+          <button type="button" class="btn btn-primary" style="width: 100%; padding: 11px; border-radius: 12px;" onclick="saveRetentionPolicyFromModal()">
+            Save Retention Preference
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('retentionPolicyModal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================
        12. MODAL: ROADMAP GENERATOR
        =================================================== -->
   <div id="roadmapModal" class="modal-backdrop">
@@ -978,11 +1403,11 @@
 
           <!-- Diet Preference / Food Category -->
           <div>
-            <label class="roadmap-field-label">Food Category & Diet (Kya khana hai)</label>
+            <label class="roadmap-field-label">Food Category &amp; Diet</label>
             <div class="options-pill-grid cols-3" id="dietSelectorGrid">
               <button type="button" class="option-pill active" data-diet="veg" onclick="selectRoadmapDiet('veg')">
                 <span class="pill-title">Vegetarian</span>
-                <span class="pill-desc">Paneer, Soya, Dal</span>
+                <span class="pill-desc">Paneer, Soy, Lentils</span>
               </button>
               <button type="button" class="option-pill" data-diet="non-veg" onclick="selectRoadmapDiet('non-veg')">
                 <span class="pill-title">Non-Veg</span>
@@ -997,7 +1422,7 @@
 
           <!-- Duration (Months / Days) -->
           <div>
-            <label class="roadmap-field-label">Plan Duration (Kitne months / days ke liye)</label>
+            <label class="roadmap-field-label">Plan Duration</label>
             <div class="options-pill-grid cols-2" id="durationSelectorGrid">
               <button type="button" class="option-pill active" data-days="30" onclick="selectRoadmapDuration(30)">
                 <span class="pill-title">1 Month (30 Days)</span>
@@ -1020,30 +1445,30 @@
 
           <!-- Goal / Purpose -->
           <div>
-            <label class="roadmap-field-label">Training Purpose (Kis purpose ke liye)</label>
+            <label class="roadmap-field-label">Training Purpose</label>
             <div class="options-pill-grid cols-2" id="goalSelectorGrid">
               <button type="button" class="option-pill active" data-goal="shred" onclick="selectRoadmapGoal('shred')">
                 <span class="pill-title">Athletic Lean Shred</span>
-                <span class="pill-desc">Virat Kohli Protocol • 6-Pack</span>
+                <span class="pill-desc">Lean Definition &amp; Conditioning</span>
               </button>
               <button type="button" class="option-pill" data-goal="bulk" onclick="selectRoadmapGoal('bulk')">
                 <span class="pill-title">Clean Muscle Bulk</span>
-                <span class="pill-desc">Hypertrophy & V-Taper</span>
+                <span class="pill-desc">Hypertrophy &amp; V-Taper</span>
               </button>
               <button type="button" class="option-pill" data-goal="speed" onclick="selectRoadmapGoal('speed')">
-                <span class="pill-title">Speed & Agility</span>
-                <span class="pill-desc">Sports High Torque & Stamina</span>
+                <span class="pill-title">Speed &amp; Agility</span>
+                <span class="pill-desc">Sports High Torque &amp; Stamina</span>
               </button>
               <button type="button" class="option-pill" data-goal="fitness" onclick="selectRoadmapGoal('fitness')">
                 <span class="pill-title">Daily Fitness</span>
-                <span class="pill-desc">Core Health & Posture</span>
+                <span class="pill-desc">Core Health &amp; Posture</span>
               </button>
             </div>
           </div>
 
           <!-- Daily Gym Time & Hours Commitment -->
           <div>
-            <label class="roadmap-field-label">Daily Gym Hours & Split (Kitne ghante gym)</label>
+            <label class="roadmap-field-label">Daily Gym Hours &amp; Split</label>
             <div class="options-pill-grid cols-1" id="hoursSelectorGrid">
               <button type="button" class="option-pill active" data-hours="1.5-2" onclick="selectRoadmapHours('1.5-2')">
                 <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
@@ -1119,18 +1544,421 @@
     </div>
   </div>
 
+  <!-- ===================================================
+       14. MODAL: PERSONAL DASHBOARD (Athlete Account & System Settings)
+       =================================================== -->
+  <div id="personalDashboardModal" class="modal-backdrop">
+    <div class="modal-box" style="max-width: 500px;">
+      <div class="modal-header">
+        <div>
+          <h3>Personal Dashboard</h3>
+          <span style="font-size: 0.7rem; color: var(--text-tertiary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;">Athlete Account & Security</span>
+        </div>
+        <button class="icon-btn" onclick="closeModal('personalDashboardModal')" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-body" style="padding: 16px 18px;">
+        <!-- Athlete Profile Card -->
+        <div class="dash-profile-card">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div class="dash-avatar-circle">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </div>
+            <div style="flex: 1;">
+              <div id="personalDashName" style="font-size: 1.05rem; font-weight: 700; color: #ffffff; letter-spacing: -0.01em;">Athlete</div>
+              <div id="personalDashRole" style="font-size: 0.72rem; color: rgba(255, 255, 255, 0.75);">Personalized Athlete Plan</div>
+            </div>
+          </div>
+          <div style="margin-top: 10px; padding-top: 8px; border-top: 0.5px solid rgba(255, 255, 255, 0.12); display: flex; justify-content: space-between; align-items: center;">
+            <span id="personalDashSecBadge" style="font-size: 0.65rem; color: #ffffff; font-weight: 600; letter-spacing: 0.04em;">ID & PASSWORD PROTECTED (OFFLINE)</span>
+            <span style="font-size: 0.65rem; color: rgba(255, 255, 255, 0.6);">100% PRIVATE</span>
+          </div>
+        </div>
+
+        <!-- Section: Membership & Pro Status -->
+        <div class="dash-section-label">MEMBERSHIP &amp; PRO ACCESS</div>
+        <div class="dash-options-list">
+          <div class="dash-option-row" onclick="closeModal('personalDashboardModal'); openProModal();" style="border-left: 2.5px solid #111111;">
+            <div class="dash-option-icon" style="background: #111111; color: #ffffff;">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <div class="dash-option-content">
+              <div class="dash-option-title" id="personalDashProTitle">Gym Plan Pro (₹499 Lifetime)</div>
+              <div class="dash-option-desc" id="personalDashProDesc">Unlock personalized diet, water &amp; workout coaching for a one-time ₹499 fee.</div>
+            </div>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-tertiary);"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+        </div>
+
+        <!-- Section: Profile & Roadmap -->
+        <div class="dash-section-label">PROFILE &amp; TRAINING PLAN</div>
+        <div class="dash-options-list">
+          <div class="dash-option-row" onclick="closeModal('personalDashboardModal'); openRoadmapModal();">
+            <div class="dash-option-icon">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </div>
+            <div class="dash-option-content">
+              <div class="dash-option-title">Edit Profile &amp; Plan Goals</div>
+              <div class="dash-option-desc">Customize your name, training focus, diet category, and daily gym duration</div>
+            </div>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-tertiary);"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+
+          <div class="dash-option-row" onclick="promptChangeUserPin();">
+            <div class="dash-option-icon">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <div class="dash-option-content">
+              <div class="dash-option-title">Change PIN / Password</div>
+              <div class="dash-option-desc">Update your private offline login PIN (SHA-256 encrypted on device)</div>
+            </div>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-tertiary);"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+        </div>
+
+        <!-- Section: Workout Routine Controls -->
+        <div class="dash-section-label">DAILY WORKOUT CONTROL</div>
+        <div class="dash-options-list">
+          <div class="dash-option-row" onclick="closeModal('personalDashboardModal'); resetTodayWorkout();">
+            <div class="dash-option-icon">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            </div>
+            <div class="dash-option-content">
+              <div class="dash-option-title">Reset Today's Sets</div>
+              <div class="dash-option-desc">Clear today's completed set checkmarks while preserving logged weights</div>
+            </div>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-tertiary);"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+        </div>
+
+        <!-- Section: Data Backup & Isolation -->
+        <div class="dash-section-label">DATA MANAGEMENT &amp; BACKUP</div>
+        <div class="dash-options-list">
+          <div class="dash-option-row" onclick="closeModal('personalDashboardModal'); openModal('backupModal');">
+            <div class="dash-option-icon">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            </div>
+            <div class="dash-option-content">
+              <div class="dash-option-title">Backup &amp; Restore</div>
+              <div class="dash-option-desc">Export or restore your workout, nutrition, and membership data as JSON</div>
+            </div>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-tertiary);"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+
+          <div class="dash-option-row" onclick="closeModal('personalDashboardModal'); openRetentionPolicyModal();">
+            <div class="dash-option-icon">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="dash-option-content">
+              <div class="dash-option-title">Data Retention &amp; Auto-Cleanup</div>
+              <div class="dash-option-desc" id="personalDashRetentionDesc">Keep forever (Recommended) • 6-Month auto-cleanup available</div>
+            </div>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-tertiary);"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+        </div>
+
+        <!-- Section: Account & Device Controls -->
+        <div class="dash-section-label">ACCOUNT &amp; DEVICE CONTROLS</div>
+        <div class="dash-options-list">
+          <div class="dash-option-row" onclick="closeModal('personalDashboardModal'); handleUserLogout();">
+            <div class="dash-option-icon">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            </div>
+            <div class="dash-option-content">
+              <div class="dash-option-title">Log Out (Switch Athlete)</div>
+              <div class="dash-option-desc">Securely sign out while keeping your local workout and diet data safe</div>
+            </div>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-tertiary);"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+
+          <div class="dash-option-row" onclick="closeModal('personalDashboardModal'); resetForNewUser();" style="border-left: 2px solid #ff3b30;">
+            <div class="dash-option-icon" style="color: #ff3b30;">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            </div>
+            <div class="dash-option-content">
+              <div class="dash-option-title" style="color: #ff3b30;">Clear Device Data (Hard Reset)</div>
+              <div class="dash-option-desc">Permanently erase all local workout and account records (Requires PIN)</div>
+            </div>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #ff3b30;"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+        </div>
+
+        <!-- Section: CodeByTushu Studio Promo Card at the Bottom -->
+        <div class="codebytushu-banner-card" onclick="closeModal('personalDashboardModal'); openCodeByTushuModal();">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
+            <span style="font-size: 0.65rem; font-weight: 700; color: #ffffff; letter-spacing: 0.08em; background: rgba(255, 255, 255, 0.15); padding: 2px 7px; border-radius: 4px;">POWERED BY CODEBYTUSHU</span>
+            <span style="font-size: 0.72rem; color: rgba(255, 255, 255, 0.7); font-weight: 600;">Explore Services ➔</span>
+          </div>
+          <h4 style="font-size: 0.95rem; font-weight: 700; color: #ffffff; margin-bottom: 4px;">CodeByTushu Studio</h4>
+          <p style="font-size: 0.75rem; color: rgba(255, 255, 255, 0.8); line-height: 1.4; margin: 0;">
+            Android Apps, iOS Apps & Modern Web Development. Click to see what we do and how to collaborate.
+          </p>
+        </div>
+      </div>
+
+      <div class="modal-footer" style="justify-content: flex-end;">
+        <button class="btn btn-primary" onclick="closeModal('personalDashboardModal')">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       15. MODAL: CODEBYTUSHU STUDIO SHOWCASE & SERVICES
+       =================================================== -->
+  <div id="codeByTushuModal" class="modal-backdrop">
+    <div class="modal-box" style="max-width: 520px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div class="studio-logo-badge">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 18 22 12 16 6"/>
+              <polyline points="8 6 2 12 8 18"/>
+            </svg>
+          </div>
+          <div>
+            <h3 style="margin: 0; font-size: 1.12rem;">CodeByTushu</h3>
+            <span style="font-size: 0.68rem; color: var(--text-tertiary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Software & Digital Product Studio</span>
+          </div>
+        </div>
+        <button class="icon-btn" onclick="closeModal('codeByTushuModal')" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-body" style="padding: 18px 20px;">
+        <!-- Studio Hero Statement -->
+        <div class="studio-hero-card">
+          <span class="studio-tag">FOUNDED BY TUSHPENDER</span>
+          <h2 style="font-size: 1.25rem; font-weight: 700; color: #ffffff; letter-spacing: -0.02em; margin: 8px 0 6px;">
+            Crafting High-Performance Apps & Digital Products
+          </h2>
+          <p style="font-size: 0.8rem; color: rgba(255, 255, 255, 0.82); line-height: 1.45; margin: 0;">
+            CodeByTushu is an independent software studio crafting production-ready <strong>Android Apps</strong>, modern <strong>iOS Apps</strong>, and high-speed <strong>Web Platforms</strong> for startups, businesses, and creators.
+          </p>
+        </div>
+
+        <!-- Services Section Header -->
+        <div style="display: flex; align-items: center; justify-content: space-between; margin: 18px 2px 10px;">
+          <span style="font-size: 0.72rem; font-weight: 700; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em;">SERVICES WE PROVIDE</span>
+          <span style="font-size: 0.68rem; color: var(--text-secondary); font-weight: 500;">End-to-End Development</span>
+        </div>
+
+        <!-- 4 Services Grid -->
+        <div class="studio-services-grid">
+          <!-- Service 1: Android Apps -->
+          <div class="studio-service-card">
+            <div class="service-icon-wrap">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                <line x1="12" y1="18" x2="12.01" y2="18"/>
+              </svg>
+            </div>
+            <h4 class="service-title">Android App Development</h4>
+            <p class="service-desc">
+              Offline-first native architectures, locally encrypted databases, background alarms, fluid 60fps animations, and release-ready APK/AAB builds.
+            </p>
+          </div>
+
+          <!-- Service 2: iOS Apps -->
+          <div class="studio-service-card">
+            <div class="service-icon-wrap">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10S2 17.523 2 12A10 10 0 0 1 12 2z"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+            </div>
+            <h4 class="service-title">iOS App Development</h4>
+            <p class="service-desc">
+              Fluid, typography-driven minimalist experiences built on Apple Human Interface Guidelines (HIG) for peak responsiveness and polish.
+            </p>
+          </div>
+
+          <!-- Service 3: Web Platforms & PWAs -->
+          <div class="studio-service-card">
+            <div class="service-icon-wrap">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="2" y1="12" x2="22" y2="12"/>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+            </div>
+            <h4 class="service-title">Modern Web Development</h4>
+            <p class="service-desc">
+              High-speed responsive websites, Progressive Web Apps (PWAs), custom business dashboards, and clean product portals.
+            </p>
+          </div>
+
+          <!-- Service 4: UI/UX & Architecture -->
+          <div class="studio-service-card">
+            <div class="service-icon-wrap">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 19l7-7 3 3-7 7-3-3z"/>
+                <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
+                <path d="M2 2l7.586 7.586"/>
+                <circle cx="11" cy="11" r="2"/>
+              </svg>
+            </div>
+            <h4 class="service-title">UI/UX &amp; Product Design</h4>
+            <p class="service-desc">
+              Refined monochromatic visual systems, zero visual bloat, intuitive user journeys, and balanced dark and light themes.
+            </p>
+          </div>
+        </div>
+
+        <!-- Principles -->
+        <div style="background: rgba(0, 0, 0, 0.03); border: 0.5px solid rgba(0, 0, 0, 0.08); border-radius: var(--radius-sm); padding: 12px 14px; margin: 14px 0 16px;">
+          <div style="font-size: 0.72rem; font-weight: 700; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px;">CODEBYTUSHU CORE PRINCIPLES</div>
+          <ul style="margin: 0; padding-left: 16px; font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5;">
+            <li><strong>Zero Bloat:</strong> No unnecessary libraries or heavy frameworks that slow down user devices.</li>
+            <li><strong>100% Privacy &amp; Security:</strong> Local-first storage, SHA-256 encrypted authentication, zero data leaks.</li>
+            <li><strong>Direct Collaboration:</strong> Transparent development process with rapid milestone deliveries.</li>
+          </ul>
+        </div>
+
+        <!-- Contact & Collaboration Box -->
+        <div style="background: #000000; color: #ffffff; border-radius: var(--radius-sm); padding: 14px 16px; text-align: center;">
+          <h4 style="font-size: 0.95rem; font-weight: 700; margin: 0 0 4px; color: #ffffff;">Have a Project or App Idea?</h4>
+          <p style="font-size: 0.76rem; color: rgba(255, 255, 255, 0.78); line-height: 1.4; margin: 0 0 12px;">
+            Looking to build a custom Android App, iOS App, or Website? Connect directly with CodeByTushu to get started.
+          </p>
+          <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+            <a href="mailto:codebytushu@gmail.com?subject=Project%20Inquiry%20-%20CodeByTushu" class="btn" style="background: #ffffff; color: #000000; font-size: 0.78rem; font-weight: 600; padding: 7px 14px; border-radius: var(--radius-xs); text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <span>Email: codebytushu@gmail.com</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 0.7rem; color: var(--text-tertiary);">CodeByTushu • Modern Software Studio</span>
+        <button class="btn btn-primary" onclick="closeModal('codeByTushuModal')">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       16. MODAL: GYM PLAN PRO (₹499 LIFETIME PERSONAL COACH)
+       =================================================== -->
+  <div id="proModal" class="modal-backdrop">
+    <div class="modal-box" style="max-width: 520px; max-height: 90vh; display: flex; flex-direction: column;">
+      <div class="modal-header" style="flex-shrink: 0;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <h3 style="margin: 0;">Gym Plan Pro</h3>
+            <span id="proHeaderBadge" class="pro-badge-pill" style="background: #111111; color: #ffffff;">LIFETIME • ₹499</span>
+          </div>
+          <span id="proHeaderSub" style="font-size: 0.7rem; color: var(--text-tertiary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;">Personalized Coaching &amp; Verification</span>
+        </div>
+        <button class="icon-btn" onclick="closeModal('proModal')" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-body" id="proModalBody" style="overflow-y: auto; flex: 1; padding: 16px 18px;">
+        <!-- Rendered dynamically by pro-coach.js -->
+      </div>
+
+      <div class="modal-footer" style="flex-shrink: 0; display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 0.7rem; color: var(--text-tertiary);">Powered by <strong>CodeByTushu</strong> • v0.05</span>
+        <button class="btn btn-outline" onclick="closeModal('proModal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       17. MODAL: IN-APP DIALOG (Replaces browser alert/confirm/prompt)
+       =================================================== -->
+  <div id="appDialogModal" class="modal-backdrop">
+    <div class="modal-box app-dialog-box">
+      <div id="appDialogIcon" class="app-dialog-icon">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      </div>
+      <h3 id="appDialogTitle" class="app-dialog-title">Notice</h3>
+      <p id="appDialogMessage" class="app-dialog-msg"></p>
+      <input id="appDialogInput" class="app-dialog-input" type="text" style="display: none;" />
+      <div class="app-dialog-actions">
+        <button id="appDialogCancelBtn" type="button" class="btn btn-outline" style="display: none;">Cancel</button>
+        <button id="appDialogConfirmBtn" type="button" class="btn btn-primary">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       18. MODAL: ADD CUSTOM HABIT
+       =================================================== -->
+  <div id="addHabitModal" class="modal-backdrop">
+    <div class="modal-box" style="max-width: 420px;">
+      <div class="modal-header">
+        <div>
+          <h3 style="margin: 0;">Add Custom Habit</h3>
+          <span style="font-size: 0.72rem; color: var(--text-tertiary); font-weight: 500;">DAILY DISCIPLINE TARGET</span>
+        </div>
+        <button class="icon-btn" onclick="closeModal('addHabitModal')" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <form onsubmit="submitAddHabit(event)">
+        <div class="modal-body" style="padding: 16px;">
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label for="habitInputName" style="display: block; font-size: 0.73rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 5px;">Habit Name / Activity *</label>
+            <input type="text" id="habitInputName" placeholder="e.g. 15 Min Mobility &amp; Stretching" required style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(0,0,0,0.15); font-size: 0.88rem; outline: none;">
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+            <div class="form-group">
+              <label for="habitInputIcon" style="display: block; font-size: 0.73rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 5px;">Emoji / Icon</label>
+              <input type="text" id="habitInputIcon" placeholder="⚡" maxlength="4" value="⚡" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(0,0,0,0.15); font-size: 0.88rem; outline: none; text-align: center;">
+            </div>
+            <div class="form-group">
+              <label for="habitInputTarget" style="display: block; font-size: 0.73rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 5px;">Target Days / Month</label>
+              <input type="number" id="habitInputTarget" min="1" max="31" value="30" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(0,0,0,0.15); font-size: 0.88rem; outline: none;">
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom: 14px;">
+            <label for="habitInputCategory" style="display: block; font-size: 0.73rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 5px;">Category</label>
+            <select id="habitInputCategory" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(0,0,0,0.15); font-size: 0.88rem; outline: none; background: #fff;">
+              <option value="Discipline">Discipline &amp; Focus</option>
+              <option value="Fitness">Fitness &amp; Body</option>
+              <option value="Nutrition">Nutrition &amp; Water</option>
+              <option value="Mindset">Mindset &amp; Reading</option>
+              <option value="Productivity">Work &amp; Finance</option>
+              <option value="Recovery">Sleep &amp; Health</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-weight: 600; border-radius: 12px;">Add to Tracker</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Scripts with Cache Busting for Instant Updates -->
   <script>
     function openModal(id) {
       const el = document.getElementById(id);
       if (el) el.classList.add('open');
+      if (window.history && window.history.pushState && (!window.Android || !window.Android.isNativeAndroid || !window.Android.isNativeAndroid())) {
+        try { window.history.pushState({ modalId: id }, ''); } catch (e) {}
+      }
     }
     function closeModal(id) {
       const el = document.getElementById(id);
-      if (el) el.classList.remove('open');
+      if (el) {
+        el.classList.remove('open');
+        const body = el.querySelector('.modal-body');
+        if (body) body.scrollTop = 0;
+      }
     }
   </script>
-  <script src="./visual-guides.js?v=0.01"></script>
-  <script src="./app.js?v=0.01"></script>
+  <script src="./qr-offline.js?v=0.05"></script>
+  <script src="./visual-guides.js?v=0.05"></script>
+  <script src="./app.js?v=0.05"></script>
+  <script src="./pro-coach.js?v=0.05"></script>
+  <script src="./habits-tracker.js?v=0.05"></script>
+  <script src="./room-fitness.js?v=0.05"></script>
 </body>
 </html>

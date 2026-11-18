@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Subtle Matte Circular Depth Disc -->
+    <path
+        android:fillColor="#111111"
+        android:pathData="M54,18a36,36 0 1,0 0,72a36,36 0 1,0 0,-72z" />
+
+    <!-- Crisp Minimal White Precision Ring -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.6"
+        android:strokeAlpha="0.88"
+        android:pathData="M54,23a31,31 0 1,0 0,62a31,31 0 1,0 0,-62z" />
+
+    <!-- Dumbbell Center Grip Bar -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M42,51.2h24a2.8,2.8 0 0,1 0,5.6h-24a2.8,2.8 0 0,1 0,-5.6z" />
+
+    <!-- Left Primary Heavy Plate (Rounded Athletic Silhouette) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M37.5,40h3.5a2.2,2.2 0 0,1 2.2,2.2v23.6a2.2,2.2 0 0,1 -2.2,2.2h-3.5a2.2,2.2 0 0,1 -2.2,-2.2v-23.6a2.2,2.2 0 0,1 2.2,-2.2z" />
+
+    <!-- Right Primary Heavy Plate -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M67,40h3.5a2.2,2.2 0 0,1 2.2,2.2v23.6a2.2,2.2 0 0,1 -2.2,2.2h-3.5a2.2,2.2 0 0,1 -2.2,-2.2v-23.6a2.2,2.2 0 0,1 2.2,-2.2z" />
+
+    <!-- Left Secondary Outer Plate -->
+    <path
+        android:fillColor="#E5E7EB"
+        android:pathData="M31.5,44h2.5a1.8,1.8 0 0,1 1.8,1.8v16.4a1.8,1.8 0 0,1 -1.8,1.8h-2.5a1.8,1.8 0 0,1 -1.8,-1.8v-16.4a1.8,1.8 0 0,1 1.8,-1.8z" />
+
+    <!-- Right Secondary Outer Plate -->
+    <path
+        android:fillColor="#E5E7EB"
+        android:pathData="M74,44h2.5a1.8,1.8 0 0,1 1.8,1.8v16.4a1.8,1.8 0 0,1 -1.8,1.8h-2.5a1.8,1.8 0 0,1 -1.8,-1.8v-16.4a1.8,1.8 0 0,1 1.8,-1.8z" />
+
+    <!-- End Collars -->
+    <path
+        android:fillColor="#D1D5DB"
+        android:pathData="M27.5,51.6h2.2v4.8h-2.2a1.4,1.4 0 0,1 -1.4,-1.4v-2a1.4,1.4 0 0,1 1.4,-1.4z" />
+    <path
+        android:fillColor="#D1D5DB"
+        android:pathData="M78.3,51.6h2.2a1.4,1.4 0 0,1 1.4,1.4v2a1.4,1.4 0 0,1 -1.4,1.4h-2.2v-4.8z" />
+</vector>

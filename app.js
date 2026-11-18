@@ -1,24 +1,24 @@
 /**
- * Gym Plan - Ultra-Premium Luxury Monochrome Edition (v0.04)
+ * Gym Plan - Ultra-Premium Luxury Monochrome Edition (v0.05)
  * Powered by CodeByTushu
  * 7 - 12 - 15 Reverse Pyramid Rep Scheme
  * 100% Offline with LocalStorage, IndexedDB & Service Worker
  */
 
-// Default 7-Day Athletic Workout Plan (Virat Kohli Protocol)
+// Default 7-Day Athletic Workout Plan
 const DEFAULT_PLAN = {
   monday: {
     name: "Monday",
     title: "Chest & Athletic Core",
     focus: "Push Strength & Core Stability",
-    description: "Athletic chest & solid core. Har exercise ke alag-alag muscles aur proper Hinglish form tips neeche diye gaye hain.",
+    description: "Athletic chest development and core stability. Each exercise targets a distinct pectoral angle with precise biomechanical cues.",
     color: "#111111",
     exercises: [
       {
         id: "m1",
         name: "Incline Dumbbell Bench Press",
-        target: "[1/5] Upper Chest (Upar Ka Seena) & Clavicle Shape",
-        notes: "Bench ko 30°-45° incline karein. Dumbbells ko slow neeche layein aur upar le jaakar upper chest ko tight squeeze karein. Upar dumbbells takrayein nahi.",
+        target: "[1/5] Upper Chest & Clavicular Shape",
+        notes: "Set the bench to 30-45 degrees. Lower dumbbells smoothly under control and press up to squeeze the upper chest without clanking weights.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 25, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 20, reps: 12, done: false },
@@ -28,8 +28,8 @@ const DEFAULT_PLAN = {
       {
         id: "m2",
         name: "Flat Barbell Bench Press",
-        target: "[2/5] Mid Chest (Chhati Ka Main Base & Raw Pushing Power)",
-        notes: "Shoulders ko bench par peeche lock karein, pair zameen par jamayein. Barbell ko chest par touch karke explosive push karein. Bounce bilkul mat karein.",
+        target: "[2/5] Mid Chest & Raw Pushing Power",
+        notes: "Retract shoulder blades into the bench and plant both feet firmly. Lower the bar under control to touch your chest, then drive powerfully without bouncing.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 60, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 50, reps: 12, done: false },
@@ -39,8 +39,8 @@ const DEFAULT_PLAN = {
       {
         id: "m3",
         name: "Weighted / Bodyweight Dips",
-        target: "[3/5] Lower Chest Cut (Neeche Ka V-Shape Cut & Triceps)",
-        notes: "Bars par pakad banayein aur body ko 20°-30° aage lean karein (aage jhukna zaroori hai taaki load lower chest ke cut par aaye; seedhe rehne se load sirf triceps par aayega).",
+        target: "[3/5] Lower Chest Cut & Triceps",
+        notes: "Grip the parallel bars and lean your torso forward 20-30 degrees so tension shifts cleanly onto the lower chest rather than only the triceps.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 10, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 0, reps: 12, done: false },
@@ -50,8 +50,8 @@ const DEFAULT_PLAN = {
       {
         id: "m4",
         name: "Cable Chest Flyes (High to Low)",
-        target: "[4/5] Inner Chest Line (Beech Ki Lakir & Deep Separation)",
-        notes: "Cables ko aage laate waqt dono haath center me milayein aur 2 second tight squeeze hold karein. Beech ki deep line banegi. Elbows me halka sa bend rakhein.",
+        target: "[4/5] Inner Chest Separation & Control",
+        notes: "Bring both handles together at center with a soft bend in your elbows and hold a 2-second peak squeeze on every repetition.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 25, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 20, reps: 12, done: false },
@@ -61,8 +61,8 @@ const DEFAULT_PLAN = {
       {
         id: "m5",
         name: "Hanging Leg / Knee Raises",
-        target: "[5/5] Lower 6-Pack Abs & Core (Pet Ka Nichla Hissa & Belly Fat Cut)",
-        notes: "Pull-up bar par latak kar bina swing kiye ghutno ya legs ko chest ki taraf curl karein. Hips ko upar roll karein taaki lower six-pack poora squeeze ho sake.",
+        target: "[5/5] Lower Abdominals & Core Armor",
+        notes: "Hang steadily without swinging and curl your knees or legs toward your chest while rolling your hips upward for full lower-ab contraction.",
         sets: [
           { setNum: 1, type: "Strict", targetReps: 12, weight: 0, reps: 12, done: false },
           { setNum: 2, type: "Strict", targetReps: 12, weight: 0, reps: 12, done: false },
@@ -75,14 +75,14 @@ const DEFAULT_PLAN = {
     name: "Tuesday",
     title: "Back & Posterior Chain",
     focus: "V-Taper, Posture & Pulling Power",
-    description: "Athletic posture aur chaudi peeth (V-Taper). Har exercise ka target aur Hinglish technique neeche check karein.",
+    description: "Build athletic posture and complete upper-to-lower back thickness with strict pulling mechanics.",
     color: "#3b82f6",
     exercises: [
       {
         id: "t1",
         name: "Deadlift (Conventional or Trap Bar)",
-        target: "[1/5] Full Back & Raw Strength (Puri Peeth Ki Power)",
-        notes: "Spine neutral rakhein (kamar bilkul round na karein). Heels se zameen ko push karein aur top par glutes squeeze karein.",
+        target: "[1/5] Full Posterior Chain & Raw Strength",
+        notes: "Keep your spine strictly neutral throughout the lift. Push the floor away through your heels and squeeze glutes at lockout.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 100, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 80, reps: 12, done: false },
@@ -92,8 +92,8 @@ const DEFAULT_PLAN = {
       {
         id: "t2",
         name: "Wide-Grip Lat Pulldowns / Pull-Ups",
-        target: "[2/5] Upper Lats & V-Taper (Peeth Ki Chaudai)",
-        notes: "Bar ko shoulder se wide pakdein. Elbows ko peeche pocket ki taraf drive karein, chest high rakhein.",
+        target: "[2/5] Upper Lats & V-Taper Width",
+        notes: "Grip wider than shoulder width, keep chest lifted, and drive your elbows smoothly down toward your hips.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 65, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 50, reps: 12, done: false },
@@ -103,8 +103,8 @@ const DEFAULT_PLAN = {
       {
         id: "t3",
         name: "Bent-Over Barbell Rows",
-        target: "[3/5] Mid Back Thickness (Peeth Ki Motai & Posture)",
-        notes: "Hips ko 45° peeche push karein, bar ko naabhi (belly button) ki taraf pull karke back muscles ko nichodein.",
+        target: "[3/5] Mid-Back Thickness & Posture",
+        notes: "Hinge back 45 degrees at the hips and pull the barbell toward your lower torso to squeeze the mid-back muscles.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 60, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 50, reps: 12, done: false },
@@ -114,8 +114,8 @@ const DEFAULT_PLAN = {
       {
         id: "t4",
         name: "Single-Arm Dumbbell Row",
-        target: "[4/5] Lower Lat Isolation (Single Arm Deep Stretch)",
-        notes: "Neeche pura stretch karein, upar aate waqt elbow ko ceiling ki taraf kheenchein bina torso rotate kiye.",
+        target: "[4/5] Unilateral Lat Stretch & Isolation",
+        notes: "Achieve a full stretch at the bottom and pull your elbow upward toward the ceiling without rotating your torso.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 27.5, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 22.5, reps: 12, done: false },
@@ -125,8 +125,8 @@ const DEFAULT_PLAN = {
       {
         id: "t5",
         name: "Face Pulls (with Rope)",
-        target: "[5/5] Rear Delts & Posture Fix (Peeche Ke Kandhe)",
-        notes: "Rope ko aankhon ki taraf pull karein aur thumbs ko peeche rotate karein. Round shoulders ko theek karta hai.",
+        target: "[5/5] Rear Delts & Shoulder Posture",
+        notes: "Pull the rope smoothly toward eye level while rotating thumbs backward to strengthen rear delts and posture.",
         sets: [
           { setNum: 1, type: "Control", targetReps: 12, weight: 25, reps: 12, done: false },
           { setNum: 2, type: "Control", targetReps: 15, weight: 20, reps: 15, done: false },
@@ -139,14 +139,14 @@ const DEFAULT_PLAN = {
     name: "Wednesday",
     title: "Shoulders (Delts) & Core",
     focus: "3D Delts & Rotational Power",
-    description: "Athletic 3D round shoulders aur rock-hard core. Har angle ka muscle target aur Hinglish cues neeche hain.",
+    description: "Balanced shoulder development across all three deltoid heads paired with deep abdominal bracing.",
     color: "#f59e0b",
     exercises: [
       {
         id: "w1",
         name: "Standing Overhead Barbell / Dumbbell Press",
-        target: "[1/5] Front Delts & Push Power (Kandhe Ka Front Hissa)",
-        notes: "Glutes aur core ko tight lock karein. Bar ko seedha sar ke upar press karein bina kamar zyada bend kiye.",
+        target: "[1/5] Front Delts & Overhead Power",
+        notes: "Brace glutes and abs tightly. Press the weight directly overhead without over-arching your lower back.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 45, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 35, reps: 12, done: false },
@@ -156,8 +156,8 @@ const DEFAULT_PLAN = {
       {
         id: "w2",
         name: "Dumbbell Lateral Raises (Strict Form)",
-        target: "[2/5] Side Delts (3D Kandhe Ka Round Look & Width)",
-        notes: "Dumbbells ko body se thoda aage le jaate hue elbows se lift karein. Momentum ya jhatka bilkul na dein.",
+        target: "[2/5] Side Delts & Shoulder Width",
+        notes: "Raise dumbbells slightly ahead of your torso leading with your elbows, avoiding any hip swing or momentum.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 12.5, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 10, reps: 12, done: false },
@@ -167,8 +167,8 @@ const DEFAULT_PLAN = {
       {
         id: "w3",
         name: "Arnold Dumbbell Press",
-        target: "[3/5] Full Shoulder 360° Roundness & Rotator Cuff",
-        notes: "Palms ko chehre ki taraf se shuru karein aur upar press karte waqt bahar ki taraf rotate karein.",
+        target: "[3/5] 360-Degree Delts & Rotator Control",
+        notes: "Start with palms facing your chest and smoothly rotate outward 180 degrees as you press overhead.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 18, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 14, reps: 12, done: false },
@@ -178,8 +178,8 @@ const DEFAULT_PLAN = {
       {
         id: "w4",
         name: "Dumbbell / Barbell Shrugs",
-        target: "[4/5] Upper Traps & Neck Stability (Gardan Ka Muscle)",
-        notes: "Kandhon ko seedha kaanon ki taraf upar uthayein aur 2 second hold karein. Kandhe gol-gol na ghumayein.",
+        target: "[4/5] Upper Traps & Neck Stability",
+        notes: "Elevate shoulders straight up toward your ears and hold for 2 seconds at the top; avoid rolling shoulders.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 10, weight: 30, reps: 10, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 25, reps: 12, done: false },
@@ -189,8 +189,8 @@ const DEFAULT_PLAN = {
       {
         id: "w5",
         name: "Ab Wheel Rollouts / Cable Woodchoppers",
-        target: "[5/5] Deep Six-Pack Compression & Core Armor (Pet Ka Cut)",
-        notes: "Pet ko andar kheenchte hue roll karein jaise koi punch marne wala ho. Lower back ko arch na hone dein.",
+        target: "[5/5] Deep Core Compression & Stability",
+        notes: "Brace your core firmly before rolling forward and pull back using abdominal strength without arching your spine.",
         sets: [
           { setNum: 1, type: "Strict", targetReps: 10, weight: 0, reps: 10, done: false },
           { setNum: 2, type: "Strict", targetReps: 12, weight: 0, reps: 12, done: false },
@@ -203,14 +203,14 @@ const DEFAULT_PLAN = {
     name: "Thursday",
     title: "Arms & Grip Power",
     focus: "Biceps, Triceps & Forearms",
-    description: "Athletic arms for high torque & crushing grip strength. Har arm muscle ka alag role neeche samjhaya gaya hai.",
+    description: "Complete arm hypertrophy targeting biceps peak, triceps mass, and athletic forearm grip strength.",
     color: "#ec4899",
     exercises: [
       {
         id: "th1",
         name: "Barbell / EZ-Bar Bicep Curls",
-        target: "[1/5] Bicep Peak (Dole Ka Upar Ka Ubhaar)",
-        notes: "Elbows ko kamar ke sath chipka kar rakhein. Sirf forearms ko move karein, kamar mat hilayein.",
+        target: "[1/5] Bicep Peak & Controlled Flexion",
+        notes: "Pin elbows steadily beside your ribs and move only through the forearms without swinging your torso.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 35, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 27.5, reps: 12, done: false },
@@ -220,8 +220,8 @@ const DEFAULT_PLAN = {
       {
         id: "th2",
         name: "Close-Grip Bench Press or Skullcrushers",
-        target: "[2/5] Tricep Long Head (Triceps Ka Bada Muscle Base)",
-        notes: "Elbows ko andar rakhein. Barbell ko matha (forehead) tak control me layein aur tricep se lock karein.",
+        target: "[2/5] Triceps Long Head & Mass",
+        notes: "Keep elbows tucked shoulder-width apart, lower under control toward your forehead, and lock out cleanly via triceps.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 50, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 40, reps: 12, done: false },
@@ -231,8 +231,8 @@ const DEFAULT_PLAN = {
       {
         id: "th3",
         name: "Incline Dumbbell Hammer Curls",
-        target: "[3/5] Brachialis & Bicep Width (Dole Ki Motai)",
-        notes: "Thumbs ko upar rakhein (hammer grip). Bench par peeche let kar poora stretch aur squeeze lein.",
+        target: "[3/5] Brachialis & Forearm Thickness",
+        notes: "Maintain a neutral hammer grip with thumbs pointing up and achieve a full bottom stretch on an incline bench.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 16, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 12.5, reps: 12, done: false },
@@ -242,8 +242,8 @@ const DEFAULT_PLAN = {
       {
         id: "th4",
         name: "Triceps Cable Rope Pushdowns",
-        target: "[4/5] Tricep Outer Cut (Tricep Ki Horseshoe Shape)",
-        notes: "Neeche aate hi rope ke dono sirron ko bahar ki taraf failayein (spread wide) aur 1 second squeeze karein.",
+        target: "[4/5] Triceps Lateral Definition",
+        notes: "Push downward and spread both ends of the rope apart at lockout, holding peak contraction for 1 second.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 30, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 22.5, reps: 12, done: false },
@@ -253,8 +253,8 @@ const DEFAULT_PLAN = {
       {
         id: "th5",
         name: "Wrist Curls + Heavy Plate Hold",
-        target: "[5/5] Forearms & Crushing Grip Power (Kalaai Aur Panja)",
-        notes: "Heavy plates ya dumbbells ko ungliyon se pakad kar maximum time tak hold karein. Grip unbreakable banegi.",
+        target: "[5/5] Forearms & Crushing Grip Power",
+        notes: "Grip heavy plates or dumbbells firmly for timed holds followed by controlled wrist curls to build unbreakable grip.",
         sets: [
           { setNum: 1, type: "Hold", targetReps: 15, weight: 25, reps: 15, done: false },
           { setNum: 2, type: "Hold", targetReps: 15, weight: 20, reps: 15, done: false },
@@ -267,14 +267,14 @@ const DEFAULT_PLAN = {
     name: "Friday",
     title: "Athletic Functional & HIIT",
     focus: "Speed, Explosiveness & Stamina",
-    description: "Virat Kohli style athletic conditioning. High-intensity speed, fat shredding aur explosive core stamina.",
+    description: "High-intensity athletic conditioning focused on explosive hip power, agility, and cardiovascular endurance.",
     color: "#8b5cf6",
     exercises: [
       {
         id: "f1",
         name: "Kettlebell / Dumbbell Swings",
-        target: "[1/5] Hip Hinge Power & Glute Explosion (Tez Fat Burn)",
-        notes: "Hips ko peeche push karke aage poori taaqat se snap karein. Haathon se mat uthayein, hips ki power se swing karein.",
+        target: "[1/5] Hip Hinge Power & Conditioning",
+        notes: "Hinge back at the hips and snap forcefully forward; propel the bell with hip power rather than lifting with your arms.",
         sets: [
           { setNum: 1, type: "Heavy Power", targetReps: 15, weight: 24, reps: 15, done: false },
           { setNum: 2, type: "Heavy Power", targetReps: 15, weight: 24, reps: 15, done: false },
@@ -284,8 +284,8 @@ const DEFAULT_PLAN = {
       {
         id: "f2",
         name: "Box Jumps or Broad Jumps",
-        target: "[2/5] Fast-Twitch Leg Spring (Running & Jumping Speed)",
-        notes: "Panther ki tarah soft landing karein ghutno ko bend karke. Upar aakar seedhe khade ho jayein.",
+        target: "[2/5] Fast-Twitch Leg Spring & Agility",
+        notes: "Explode upward from a quarter squat and land softly with bent knees to absorb force cleanly.",
         sets: [
           { setNum: 1, type: "Explosive", targetReps: 8, weight: 0, reps: 8, done: false },
           { setNum: 2, type: "Explosive", targetReps: 8, weight: 0, reps: 8, done: false },
@@ -295,8 +295,8 @@ const DEFAULT_PLAN = {
       {
         id: "f3",
         name: "Battle Ropes / Medicine Ball Slams",
-        target: "[3/5] Upper Body Stamina & Core Grit (Heart Rate Booster)",
-        notes: "Full intensity ke sath ropes ko floor par slam karein. Har wave me poori body ki energy lagayein.",
+        target: "[3/5] Upper Body Stamina & Core Grit",
+        notes: "Maintain an athletic stance and drive crisp alternating waves or slams with steady breathing.",
         sets: [
           { setNum: 1, type: "Interval", targetReps: 30, weight: 8, reps: 30, done: false },
           { setNum: 2, type: "Interval", targetReps: 30, weight: 8, reps: 30, done: false },
@@ -306,8 +306,8 @@ const DEFAULT_PLAN = {
       {
         id: "f4",
         name: "Farmer's Walk / Dumbbell Carries",
-        target: "[4/5] Total Body Core Stability & Traps (Full Body Toughness)",
-        notes: "Seena taan kar (chest high) aur shoulders ko peeche lock karke 30-40 meter seedhi line me chalein.",
+        target: "[4/5] Total Body Core Stability & Traps",
+        notes: "Keep your chest proud and shoulders packed while walking 30-40 meters in a straight, braced line.",
         sets: [
           { setNum: 1, type: "Heavy Carry", targetReps: 1, weight: 30, reps: 1, done: false },
           { setNum: 2, type: "Heavy Carry", targetReps: 1, weight: 30, reps: 1, done: false },
@@ -317,8 +317,8 @@ const DEFAULT_PLAN = {
       {
         id: "f5",
         name: "HIIT Sprint Intervals / Treadmill",
-        target: "[5/5] Maximum Fat Shredding (Athletic VO2 Max Stamina)",
-        notes: "30 second full speed sprint, fir 45 second slow walk recovery. 6 se 8 rounds lagayein.",
+        target: "[5/5] VO2 Max & Metabolic Conditioning",
+        notes: "Perform 30-second high-effort sprints followed by 45-second controlled walking recovery for 6 to 8 rounds.",
         sets: [
           { setNum: 1, type: "HIIT", targetReps: 6, weight: 0, reps: 6, done: false }
         ]
@@ -329,14 +329,14 @@ const DEFAULT_PLAN = {
     name: "Saturday",
     title: "Legs & Lower Body Power",
     focus: "Quads, Hamstrings & Calves",
-    description: "Athletes are built from the ground up. Heavy squats + single-leg balance for powerful athletic legs.",
+    description: "Athletes are built from the ground up. Compound squats paired with unilateral balance and posterior leg power.",
     color: "#ef4444",
     exercises: [
       {
         id: "s1",
         name: "Barbell Back / Front Squats",
-        target: "[1/5] Quads & Raw Leg Drive (Thighs Ka Front Hissa)",
-        notes: "Ghutne toes ki line me rakhein. Parallel depth tak neeche jayein aur heels se floor ko push karein.",
+        target: "[1/5] Quads & Raw Leg Drive",
+        notes: "Keep knees tracking in line with toes, descend to parallel depth, and drive powerfully through heels.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 80, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 65, reps: 12, done: false },
@@ -346,8 +346,8 @@ const DEFAULT_PLAN = {
       {
         id: "s2",
         name: "Romanian Deadlifts (RDLs)",
-        target: "[2/5] Hamstrings & Glutes (Thighs Ka Peeche Ka Cut)",
-        notes: "Hips ko peeche deewar ki taraf dhakelein. Shins ke paas bar rakhein aur hamstrings me deep stretch mehsoos karein.",
+        target: "[2/5] Hamstrings & Glute Tie-In",
+        notes: "Push hips straight back while keeping the bar close to your legs until a deep hamstring stretch is felt.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 70, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 55, reps: 12, done: false },
@@ -357,8 +357,8 @@ const DEFAULT_PLAN = {
       {
         id: "s3",
         name: "Bulgarian Split Squats (Dumbbell)",
-        target: "[3/5] Single-Leg Balance & Glute Shape (Unilateral Power)",
-        notes: "Ek pair peeche bench par rakhein. Front knee ko stable rakhte hue 90° neeche jayein.",
+        target: "[3/5] Single-Leg Balance & Power",
+        notes: "Elevate your rear foot on a bench and descend vertically with a stable front knee to 90 degrees.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 16, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 12, reps: 12, done: false },
@@ -368,8 +368,8 @@ const DEFAULT_PLAN = {
       {
         id: "s4",
         name: "Leg Press or Hack Squat",
-        target: "[4/5] Quad Sweep & Muscle Hypertrophy (Legs Ka Size & Cut)",
-        notes: "Feet shoulder-width rakhein. Upar jaate waqt ghutno ko kabhi poora lock (hyperextend) na karein.",
+        target: "[4/5] Quad Sweep & Hypertrophy",
+        notes: "Place feet shoulder-width apart and press smoothly without snapping or locking out your knees at the top.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 7, weight: 150, reps: 7, done: false },
           { setNum: 2, type: "Moderate", targetReps: 12, weight: 120, reps: 12, done: false },
@@ -379,8 +379,8 @@ const DEFAULT_PLAN = {
       {
         id: "s5",
         name: "Standing / Seated Calf Raises",
-        target: "[5/5] Calves & Ankle Strength (Pindli Ka Strong Muscle)",
-        notes: "Neeche 2 second deep stretch karein, upar panjon par aakar 1 second tight pause karein.",
+        target: "[5/5] Calves & Ankle Resilience",
+        notes: "Pause for 2 seconds in the bottom stretch before driving up onto your toes for a 1-second peak squeeze.",
         sets: [
           { setNum: 1, type: "Heavy", targetReps: 12, weight: 60, reps: 12, done: false },
           { setNum: 2, type: "Moderate", targetReps: 15, weight: 45, reps: 15, done: false },
@@ -393,14 +393,14 @@ const DEFAULT_PLAN = {
     name: "Sunday",
     title: "Active Recovery & Mobility",
     focus: "Muscle Repair & Flexibility",
-    description: "Muscles rest karte waqt grow karte hain. Full body regeneration, flexibility aur CNS recovery.",
+    description: "Muscles rebuild during recovery. Prioritize tissue quality, joint mobility, and relaxed aerobic circulation.",
     color: "#06b6d4",
     exercises: [
       {
         id: "su1",
         name: "Full Body Foam Rolling & Myofascial",
-        target: "[1/4] Tissue Quality & Lactic Acid Flush (Muscle Tightness Relief)",
-        notes: "Quads, IT band, lats aur peeth par 60-60 second foam roller chalayein jahan dard ya tightness ho.",
+        target: "[1/4] Tissue Quality & Soreness Relief",
+        notes: "Roll slowly over quads, IT bands, lats, and upper back for 60 seconds per region to relieve tightness.",
         sets: [
           { setNum: 1, type: "Recovery", targetReps: 1, weight: 0, reps: 1, done: false }
         ]
@@ -408,8 +408,8 @@ const DEFAULT_PLAN = {
       {
         id: "su2",
         name: "Dynamic Hip Flow (World's Greatest Stretch)",
-        target: "[2/4] Hip Mobility & Lower Back Relief (Ghutne & Kamar Safe)",
-        notes: "Deep lunge me jayein, elbow ko floor ke paas layein aur chest ko aasman ki taraf twist karein.",
+        target: "[2/4] Hip Mobility & Lower Back Relief",
+        notes: "Step into a deep lunge, drop your elbow toward the floor, and rotate your chest smoothly toward the ceiling.",
         sets: [
           { setNum: 1, type: "Mobility", targetReps: 10, weight: 0, reps: 10, done: false },
           { setNum: 2, type: "Mobility", targetReps: 10, weight: 0, reps: 10, done: false }
@@ -418,8 +418,8 @@ const DEFAULT_PLAN = {
       {
         id: "su3",
         name: "Shoulder Dislocations & Band Pull-Aparts",
-        target: "[3/4] Overhead Shoulder Freedom & Rotator Cuff Health",
-        notes: "Resistance band ya towel pakad kar bina elbow bend kiye aage se peeche smoothly le jayein.",
+        target: "[3/4] Overhead Mobility & Rotator Health",
+        notes: "Hold a resistance band or light bar wide and sweep smoothly overhead without bending your elbows.",
         sets: [
           { setNum: 1, type: "Mobility", targetReps: 15, weight: 0, reps: 15, done: false },
           { setNum: 2, type: "Mobility", targetReps: 15, weight: 0, reps: 15, done: false }
@@ -428,8 +428,8 @@ const DEFAULT_PLAN = {
       {
         id: "su4",
         name: "45-Minute Outdoor Low-Intensity Walk",
-        target: "[4/4] Aerobic Base & Active CNS Recovery (Taazi Hawa Me Walk)",
-        notes: "Naak se saans lein, aaramdayak pace par 7,000 steps chalein. Fresh oxygen se body recover hoti hai.",
+        target: "[4/4] Aerobic Base & Active Recovery",
+        notes: "Walk at a comfortable, steady pace aiming for ~7,000 steps with relaxed nasal breathing.",
         sets: [
           { setNum: 1, type: "Cardio", targetReps: 45, weight: 0, reps: 45, done: false }
         ]
@@ -457,6 +457,7 @@ const STORAGE_USER_NAME = 'tushu_gym_user_name_v1';
 const STORAGE_PLAN_CONFIGURED = 'tushu_user_plan_configured_v1';
 const STORAGE_USER_PIN = 'tushu_gym_user_pin_v1';
 const STORAGE_LOGGED_OUT = 'tushu_gym_logged_out_v1';
+const STORAGE_RETENTION_POLICY = 'tushu_gym_retention_policy';
 
 async function hashPin(pin) {
   if (!pin || !String(pin).trim()) return '';
@@ -521,6 +522,139 @@ async function verifyUserPin(inputPin) {
     return true;
   }
   return false;
+}
+
+// ==============================================
+// Custom In-App Dialog Engine (Zero browser "file://" popups)
+// ==============================================
+function openInAppDialog(options) {
+  return new Promise((resolve) => {
+    const modal = document.getElementById('appDialogModal');
+    const iconEl = document.getElementById('appDialogIcon');
+    const titleEl = document.getElementById('appDialogTitle');
+    const msgEl = document.getElementById('appDialogMessage');
+    const inputEl = document.getElementById('appDialogInput');
+    const cancelBtn = document.getElementById('appDialogCancelBtn');
+    const confirmBtn = document.getElementById('appDialogConfirmBtn');
+
+    if (!modal || !titleEl || !msgEl || !confirmBtn) {
+      resolve(options.mode === 'confirm' ? false : (options.mode === 'prompt' ? null : undefined));
+      return;
+    }
+
+    const tone = options.tone || 'info';
+    if (iconEl) {
+      iconEl.className = 'app-dialog-icon' + (tone !== 'info' ? ` is-${tone}` : '');
+      if (tone === 'error') {
+        iconEl.innerHTML = `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`;
+      } else if (tone === 'success') {
+        iconEl.innerHTML = `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+      } else if (tone === 'warning') {
+        iconEl.innerHTML = `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`;
+      } else {
+        iconEl.innerHTML = `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>`;
+      }
+    }
+
+    titleEl.textContent = options.title || 'Notice';
+    msgEl.textContent = options.message || '';
+
+    if (options.mode === 'prompt' && inputEl) {
+      inputEl.style.display = 'block';
+      inputEl.type = options.inputType || 'password';
+      inputEl.placeholder = options.placeholder || 'Enter value';
+      inputEl.value = options.defaultValue || '';
+      setTimeout(() => inputEl.focus(), 120);
+    } else if (inputEl) {
+      inputEl.style.display = 'none';
+      inputEl.value = '';
+    }
+
+    if (cancelBtn) {
+      if (options.mode === 'confirm' || options.mode === 'prompt') {
+        cancelBtn.style.display = 'inline-flex';
+        cancelBtn.textContent = options.cancelText || 'Cancel';
+      } else {
+        cancelBtn.style.display = 'none';
+      }
+    }
+
+    confirmBtn.textContent = options.confirmText || 'OK';
+
+    const cleanup = (result) => {
+      modal.classList.remove('open');
+      confirmBtn.onclick = null;
+      if (cancelBtn) cancelBtn.onclick = null;
+      if (inputEl) inputEl.onkeydown = null;
+      resolve(result);
+    };
+
+    confirmBtn.onclick = () => {
+      if (options.mode === 'confirm') cleanup(true);
+      else if (options.mode === 'prompt') cleanup(inputEl ? inputEl.value : '');
+      else cleanup(true);
+    };
+
+    if (cancelBtn) {
+      cancelBtn.onclick = () => {
+        if (options.mode === 'confirm') cleanup(false);
+        else if (options.mode === 'prompt') cleanup(null);
+        else cleanup(false);
+      };
+    }
+
+    if (inputEl && options.mode === 'prompt') {
+      inputEl.onkeydown = (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          cleanup(inputEl.value);
+        }
+      };
+    }
+
+    modal.classList.add('open');
+  });
+}
+
+function showAppAlert(optionsOrMsg, title = 'Notice', tone = 'info') {
+  const opts = typeof optionsOrMsg === 'string'
+    ? { title, message: optionsOrMsg, tone, mode: 'alert' }
+    : { ...optionsOrMsg, mode: 'alert' };
+  return openInAppDialog(opts);
+}
+
+function showAppConfirm(optionsOrMsg, title = 'Confirm Action') {
+  const opts = typeof optionsOrMsg === 'string'
+    ? { title, message: optionsOrMsg, tone: 'warning', mode: 'confirm' }
+    : { ...optionsOrMsg, mode: 'confirm' };
+  return openInAppDialog(opts);
+}
+
+function showAppPrompt(optionsOrMsg, title = 'Security Verification', inputType = 'password') {
+  const opts = typeof optionsOrMsg === 'string'
+    ? { title, message: optionsOrMsg, inputType, tone: 'info', mode: 'prompt' }
+    : { ...optionsOrMsg, mode: 'prompt' };
+  return openInAppDialog(opts);
+}
+
+function showOnboardingPinError(msg) {
+  const field = document.getElementById('onboardingPinFieldWrap');
+  const errEl = document.getElementById('onboardingPinError');
+  if (field) field.classList.add('input-error');
+  if (errEl) {
+    errEl.textContent = msg;
+    errEl.classList.add('visible');
+  }
+}
+
+function clearOnboardingPinError() {
+  const field = document.getElementById('onboardingPinFieldWrap');
+  const errEl = document.getElementById('onboardingPinError');
+  if (field) field.classList.remove('input-error');
+  if (errEl) {
+    errEl.textContent = '';
+    errEl.classList.remove('visible');
+  }
 }
 
 function getTodayDateStr() {
@@ -693,7 +827,7 @@ function updateUserGreeting() {
   }
   const subgreetingEl = document.getElementById('headerSubgreeting');
   if (subgreetingEl) {
-    const dietStr = athleteRoadmap && athleteRoadmap.dietType ? athleteRoadmap.dietType.toUpperCase() : 'v0.04';
+    const dietStr = athleteRoadmap && athleteRoadmap.dietType ? athleteRoadmap.dietType.toUpperCase() : 'v0.05';
     subgreetingEl.innerText = `Ready to train • ${dietStr}`;
   }
 }
@@ -756,6 +890,7 @@ function playTimerBeep() {
 // App Initialization
 function initApp() {
   athleteRoadmap = loadRoadmap();
+  applyDataRetentionPolicy();
   updateUserGreeting();
   checkOnboarding();
   renderWeeklyBars();
@@ -766,6 +901,8 @@ function initApp() {
   renderRoadmapHero();
   renderActivityStats();
   renderRemindersHub();
+  if (typeof renderHabitsView === 'function') renderHabitsView();
+  if (typeof renderRoomFitnessHomeCard === 'function') renderRoomFitnessHomeCard();
   updateNotificationBadge();
   setupEventListeners();
   checkPwaInstall();
@@ -791,15 +928,17 @@ function checkOnboarding() {
 
   if (isLoggedOut) {
     screen.classList.remove('hidden');
-    screen.style.display = 'block';
+    screen.style.display = 'flex';
     setupAthleteLoginScreen();
   } else if (isDone === 'true') {
     screen.classList.add('hidden');
     screen.style.display = 'none';
   } else {
     screen.classList.remove('hidden');
-    screen.style.display = 'block';
+    screen.style.display = 'flex';
     resetOnboardingView();
+    const skipBtn = document.getElementById('btnOnboardingSkip');
+    if (skipBtn) skipBtn.style.display = 'inline-flex';
     const input = document.getElementById('onboardingUserNameInput');
     if (input) {
       const saved = localStorage.getItem(STORAGE_USER_NAME);
@@ -809,8 +948,14 @@ function checkOnboarding() {
   }
 }
 
-function handleUserLogout() {
-  const ok = confirm("Kya aap logout karna chahte hain? Aapka sara workout aur diet data device me 100% safe rahega aur aap kabhi bhi wapas login kar sakte hain.");
+async function handleUserLogout() {
+  const ok = await showAppConfirm({
+    title: 'Log Out',
+    message: 'Are you sure you want to log out? Your workout and nutrition data will remain safely stored on this device.',
+    confirmText: 'Log Out',
+    cancelText: 'Stay Logged In',
+    tone: 'warning'
+  });
   if (!ok) return;
 
   localStorage.setItem(STORAGE_LOGGED_OUT, 'true');
@@ -819,7 +964,7 @@ function handleUserLogout() {
   const screen = document.getElementById('viewOnboarding');
   if (screen) {
     screen.classList.remove('hidden');
-    screen.style.display = 'block';
+    screen.style.display = 'flex';
   }
   
   setupAthleteLoginScreen();
@@ -827,6 +972,7 @@ function handleUserLogout() {
 
 function setupAthleteLoginScreen() {
   resetOnboardingView();
+  clearOnboardingPinError();
   
   const savedName = getUserName();
   const savedPin = getUserPin();
@@ -839,6 +985,7 @@ function setupAthleteLoginScreen() {
   const pinHint = document.getElementById('onboardingPinHint');
   const btnText = document.getElementById('btnOnboardingContinueText');
   const switchBtn = document.getElementById('btnSwitchAthlete');
+  const skipBtn = document.getElementById('btnOnboardingSkip');
 
   if (nameInput) {
     nameInput.value = (savedName && savedName !== 'Athlete') ? savedName : '';
@@ -849,7 +996,9 @@ function setupAthleteLoginScreen() {
   }
 
   if (subEl) {
-    subEl.textContent = savedPin ? 'Apna dashboard access karne ke liye PIN enter karein.' : 'Apna dashboard access karne ke liye Log In karein (100% Free).';
+    subEl.textContent = savedPin
+      ? 'Please enter your security PIN to access your dashboard.'
+      : 'Enter your name to log in to your local fitness dashboard.';
   }
 
   if (pinLabel) {
@@ -858,11 +1007,13 @@ function setupAthleteLoginScreen() {
 
   if (pinInput) {
     pinInput.value = '';
-    pinInput.placeholder = savedPin ? 'Enter your PIN or password' : 'Set PIN or Password (optional)';
+    pinInput.placeholder = savedPin ? 'Enter your security PIN' : 'Set PIN or Password (optional)';
   }
 
   if (pinHint) {
-    pinHint.textContent = savedPin ? 'Protected by Security PIN' : 'Free offline login • Safe device storage';
+    pinHint.textContent = savedPin
+      ? 'Protected by offline security PIN'
+      : 'Free offline login • Safe on-device storage';
   }
 
   if (btnText) {
@@ -871,6 +1022,11 @@ function setupAthleteLoginScreen() {
 
   if (switchBtn) {
     switchBtn.style.display = 'block';
+  }
+
+  // Hide Skip button when account is protected by a security PIN so navigation stays unambiguous
+  if (skipBtn) {
+    skipBtn.style.display = savedPin ? 'none' : 'inline-flex';
   }
 
   setTimeout(() => {
@@ -883,6 +1039,7 @@ function setupAthleteLoginScreen() {
 }
 
 function switchAthleteLogin() {
+  clearOnboardingPinError();
   const nameInput = document.getElementById('onboardingUserNameInput');
   const pinInput = document.getElementById('onboardingUserPinInput');
   const titleEl = document.getElementById('onboardingHeroTitle');
@@ -891,6 +1048,7 @@ function switchAthleteLogin() {
   const pinHint = document.getElementById('onboardingPinHint');
   const btnText = document.getElementById('btnOnboardingContinueText');
   const switchBtn = document.getElementById('btnSwitchAthlete');
+  const skipBtn = document.getElementById('btnOnboardingSkip');
 
   if (nameInput) {
     nameInput.value = '';
@@ -900,9 +1058,10 @@ function switchAthleteLogin() {
   if (titleEl) titleEl.textContent = 'Athletic Performance Starts Here';
   if (subEl) subEl.textContent = 'Reverse pyramid 7-12-15 strength lifts, customized athlete nutrition & 100% offline precision tracking.';
   if (pinLabel) pinLabel.textContent = 'LOGIN PIN / PASSWORD (OPTIONAL • FREE)';
-  if (pinHint) pinHint.textContent = 'Free offline login • Apne data ko secure rakhein';
+  if (pinHint) pinHint.textContent = 'Free offline login • Keep your profile private and secure';
   if (btnText) btnText.textContent = 'Continue to Plan Setup';
   if (switchBtn) switchBtn.style.display = 'none';
+  if (skipBtn) skipBtn.style.display = 'inline-flex';
 
   localStorage.removeItem(STORAGE_LOGGED_OUT);
 }
@@ -946,6 +1105,7 @@ async function goToOnboardingStep2() {
 }
 
 async function handleOnboardingContinue() {
+  clearOnboardingPinError();
   const isLoggedOut = localStorage.getItem(STORAGE_LOGGED_OUT) === 'true';
   const nameInput = document.getElementById('onboardingUserNameInput');
   const pinInput = document.getElementById('onboardingUserPinInput');
@@ -955,9 +1115,18 @@ async function handleOnboardingContinue() {
   // If user is currently logged out
   if (isLoggedOut) {
     if (savedPin) {
+      if (!enteredPin) {
+        const msg = 'Please enter your security PIN to continue.';
+        showOnboardingPinError(msg);
+        await showAppAlert({ title: 'PIN Required', message: msg, tone: 'warning' });
+        if (pinInput) pinInput.focus();
+        return;
+      }
       const isMatch = await verifyUserPin(enteredPin);
       if (!isMatch) {
-        alert("Galat PIN / Password! Kripya apna sahi password dalein.");
+        const msg = 'Incorrect PIN. Please enter the correct PIN.';
+        showOnboardingPinError(msg);
+        await showAppAlert({ title: 'Authentication Failed', message: msg, tone: 'error' });
         if (pinInput) {
           pinInput.focus();
           pinInput.select();
@@ -965,13 +1134,11 @@ async function handleOnboardingContinue() {
         return;
       }
     } else {
-      // If no PIN was previously set, but user entered one now, save it
       if (enteredPin) {
         await saveUserPin(enteredPin);
       }
     }
 
-    // Name update if changed
     if (nameInput && nameInput.value.trim()) {
       saveUserName(nameInput.value.trim());
     }
@@ -1121,12 +1288,14 @@ function finishOnboardingSetup() {
   }
 }
 
-function skipOnboarding() {
+async function skipOnboarding() {
   const isLoggedOut = localStorage.getItem(STORAGE_LOGGED_OUT) === 'true';
   const savedPin = getUserPin();
 
   if (isLoggedOut && savedPin) {
-    alert("Security PIN set hai. Dashboard open karne ke liye kripya apna PIN dalein.");
+    const msg = 'Please enter your security PIN to continue.';
+    showOnboardingPinError(msg);
+    await showAppAlert({ title: 'PIN Required', message: msg, tone: 'warning' });
     const pinInput = document.getElementById('onboardingUserPinInput');
     if (pinInput) pinInput.focus();
     return;
@@ -1146,6 +1315,7 @@ function skipOnboarding() {
     screen.style.display = 'none';
   }
 
+  resetOnboardingView();
   updateUserGreeting();
   renderHomeStats();
   renderRoadmapHero();
@@ -1169,6 +1339,9 @@ function showOnboardingScreen() {
   if (screen) {
     resetOnboardingView();
     screen.classList.remove('hidden');
+    screen.style.display = 'flex';
+    const skipBtn = document.getElementById('btnOnboardingSkip');
+    if (skipBtn) skipBtn.style.display = 'inline-flex';
     const input = document.getElementById('onboardingUserNameInput');
     if (input) input.value = getUserName() === 'Athlete' ? '' : getUserName();
   }
@@ -1176,16 +1349,32 @@ function showOnboardingScreen() {
 
 async function resetForNewUser() {
   if (hasUserPin()) {
-    const entered = prompt("Security check: Device reset karne ke liye apna PIN / Password enter karein:");
-    if (!entered) return;
+    const entered = await showAppPrompt({
+      title: 'Security Verification',
+      message: 'Please enter your current PIN to reset all device data.',
+      placeholder: 'Enter current PIN',
+      confirmText: 'Verify',
+      tone: 'warning'
+    });
+    if (entered === null) return;
     const okPin = await verifyUserPin(entered);
     if (!okPin) {
-      alert("Galat PIN! App reset cancel kar diya gaya hai.");
+      await showAppAlert({
+        title: 'Reset Cancelled',
+        message: 'Incorrect PIN. Device reset has been cancelled.',
+        tone: 'error'
+      });
       return;
     }
   }
 
-  const ok = confirm("Kya aap device ka sara data clear karke naye sire se app start karna chahte hain?");
+  const ok = await showAppConfirm({
+    title: 'Clear Device Data',
+    message: 'Are you sure you want to permanently clear all local workout, nutrition, and profile records and start fresh?',
+    confirmText: 'Clear All Data',
+    cancelText: 'Cancel',
+    tone: 'error'
+  });
   if (!ok) return;
 
   localStorage.removeItem(STORAGE_ONBOARDED);
@@ -1206,11 +1395,14 @@ async function resetForNewUser() {
   if (pinEl) pinEl.value = '';
 
   resetOnboardingView();
+  clearOnboardingPinError();
 
   const screen = document.getElementById('viewOnboarding');
   if (screen) {
     screen.classList.remove('hidden');
-    screen.style.display = 'block';
+    screen.style.display = 'flex';
+    const skipBtn = document.getElementById('btnOnboardingSkip');
+    if (skipBtn) skipBtn.style.display = 'inline-flex';
   }
 
   updateUserGreeting();
@@ -1224,6 +1416,7 @@ async function resetForNewUser() {
 // ==============================================
 function openPersonalDashboard() {
   updatePersonalDashboardUI();
+  if (typeof renderOtaUpdateCard === 'function') renderOtaUpdateCard();
   openModal('personalDashboardModal');
 }
 
@@ -1231,6 +1424,8 @@ function updatePersonalDashboardUI() {
   const nameEl = document.getElementById('personalDashName');
   const roleEl = document.getElementById('personalDashRole');
   const secEl = document.getElementById('personalDashSecBadge');
+  const proTitleEl = document.getElementById('personalDashProTitle');
+  const proDescEl = document.getElementById('personalDashProDesc');
   const name = getUserName();
   if (nameEl) nameEl.textContent = name;
   if (roleEl) {
@@ -1240,28 +1435,75 @@ function updatePersonalDashboardUI() {
   if (secEl) {
     secEl.textContent = hasUserPin() ? "ID & PASSWORD PROTECTED (OFFLINE)" : "DIRECT LOCAL ACCESS (NO PIN SET)";
   }
+  if (typeof window.getProEntitlementStatus === 'function') {
+    const ent = window.getProEntitlementStatus();
+    if (proTitleEl && proDescEl) {
+      if (ent && ent.unlocked) {
+        proTitleEl.textContent = 'Gym Plan Pro • Lifetime Verified';
+        proDescEl.textContent = `Active Lifetime Membership (TXN: ${ent.transactionId || 'Verified'}). Tap to open Pro Coach.`;
+      } else if (ent && ent.status === 'PENDING_VERIFICATION') {
+        proTitleEl.textContent = 'Gym Plan Pro • Pending Verification';
+        proDescEl.textContent = 'Transaction submitted. Tap to complete verification and activate Lifetime Pro.';
+      } else {
+        proTitleEl.textContent = 'Gym Plan Pro (₹499 Lifetime)';
+        proDescEl.textContent = 'Unlock personalized diet, water & workout coaching for a one-time ₹499 fee.';
+      }
+    }
+  }
+
+  const retDescEl = document.getElementById('personalDashRetentionDesc');
+  if (retDescEl) {
+    const policy = getRetentionPolicy();
+    retDescEl.textContent = policy === 'keep_6_months'
+      ? 'Auto-Delete > 6 Months (Active) • PRs & profile safe'
+      : (policy === 'keep_1_year' ? 'Auto-Delete > 1 Year (Active) • PRs & profile safe' : 'Keep forever (Recommended) • 6-Month auto-cleanup available');
+  }
 }
 
 async function promptChangeUserPin() {
   if (hasUserPin()) {
-    const current = prompt("Security check: Pehle apna CURRENT (purana) PIN / Password dalein:");
+    const current = await showAppPrompt({
+      title: 'Verify Current PIN',
+      message: 'Please enter your current security PIN to continue.',
+      placeholder: 'Current PIN / Password',
+      confirmText: 'Continue',
+      tone: 'info'
+    });
     if (current === null) return;
     const ok = await verifyUserPin(current);
     if (!ok) {
-      alert("Galat current PIN! Password change cancel kar diya gaya.");
+      await showAppAlert({
+        title: 'Verification Failed',
+        message: 'Incorrect current PIN. Password update has been cancelled.',
+        tone: 'error'
+      });
       return;
     }
   }
 
-  const newPin = prompt("Naya PIN ya Password dalein (Khali chhodne par PIN remove ho jayega):");
+  const newPin = await showAppPrompt({
+    title: 'Set New PIN / Password',
+    message: 'Enter a new security PIN or password (leave blank to disable PIN lock).',
+    placeholder: 'New PIN or Password',
+    confirmText: 'Save PIN',
+    tone: 'info'
+  });
   if (newPin === null) return;
   
   if (newPin.trim()) {
     await saveUserPin(newPin.trim());
-    alert("Naya PIN / Password successfully set ho gaya hai! (SHA-256 Encrypted & Offline Safe)");
+    await showAppAlert({
+      title: 'Security PIN Updated',
+      message: 'Your new PIN has been encrypted (SHA-256) and saved securely on this device.',
+      tone: 'success'
+    });
   } else {
     await saveUserPin('');
-    alert("PIN / Password remove kar diya gaya hai. Free direct login active hai.");
+    await showAppAlert({
+      title: 'Security PIN Removed',
+      message: 'PIN protection has been removed. Direct profile login is now active.',
+      tone: 'info'
+    });
   }
   updatePersonalDashboardUI();
 }
@@ -1279,7 +1521,9 @@ function switchView(viewName) {
     home: document.getElementById('viewHome'),
     workouts: document.getElementById('viewWorkouts'),
     activity: document.getElementById('viewActivity'),
-    nutrition: document.getElementById('viewNutrition')
+    habits: document.getElementById('viewHabits'),
+    nutrition: document.getElementById('viewNutrition'),
+    'room-fitness': document.getElementById('viewRoomFitness')
   };
 
   Object.keys(views).forEach(k => {
@@ -1297,6 +1541,7 @@ function switchView(viewName) {
     home: document.getElementById('tabHome'),
     workouts: document.getElementById('tabWorkouts'),
     activity: document.getElementById('tabActivity'),
+    habits: document.getElementById('tabHabits'),
     nutrition: document.getElementById('tabNutrition'),
     timer: document.getElementById('tabTimer')
   };
@@ -1320,9 +1565,17 @@ function switchView(viewName) {
     renderWorkoutView();
   } else if (viewName === 'activity') {
     renderActivityStats();
+  } else if (viewName === 'habits') {
+    if (typeof renderHabitsView === 'function') {
+      renderHabitsView();
+    }
   } else if (viewName === 'nutrition') {
     renderMeals();
     renderRoadmapHero();
+  } else if (viewName === 'room-fitness') {
+    if (typeof renderRoomFitnessView === 'function') {
+      renderRoomFitnessView();
+    }
   }
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1374,6 +1627,9 @@ function renderHomeStats() {
   if (statFocus) statFocus.innerText = dayData.focus.split('&')[0].trim();
   if (statVolume) statVolume.innerText = `${Math.round(totalVolume).toLocaleString()} kg`;
   if (statSets) statSets.innerText = `${doneSets} / ${totalSets}`;
+  if (typeof renderRoomFitnessHomeCard === 'function') {
+    renderRoomFitnessHomeCard();
+  }
 }
 
 // Weekly Activity Bar Chart (Mon-Sun)
@@ -1430,25 +1686,86 @@ function selectDayFromBar(dayKey) {
 // ----------------------------------------------------
 // WORKOUTS PLANNER LOGIC (Screen 3 & 4 Reference)
 // ----------------------------------------------------
+let dayPillHoldTimer = null;
+let dayPillHoldTriggered = false;
+
+function onDayPillTouchStart(dayKey) {
+  dayPillHoldTriggered = false;
+  dayPillHoldTimer = setTimeout(() => {
+    dayPillHoldTriggered = true;
+    openSwitchDayModal(dayKey);
+  }, 450);
+}
+
+function onDayPillTouchEnd() {
+  if (dayPillHoldTimer) {
+    clearTimeout(dayPillHoldTimer);
+    dayPillHoldTimer = null;
+  }
+}
+
+function handleDayPillClick(dayKey) {
+  if (dayPillHoldTriggered) {
+    dayPillHoldTriggered = false;
+    return;
+  }
+  if (currentDay === dayKey) {
+    openSwitchDayModal(dayKey);
+  } else {
+    selectWorkoutDay(dayKey);
+  }
+}
+
+function getDayPillLabel(dayKey) {
+  const dayAbbrs = {
+    monday: 'Mon',
+    tuesday: 'Tue',
+    wednesday: 'Wed',
+    thursday: 'Thu',
+    friday: 'Fri',
+    saturday: 'Sat',
+    sunday: 'Sun'
+  };
+  const abbr = dayAbbrs[dayKey] || dayKey.slice(0, 3);
+  const data = workoutPlan[dayKey];
+  if (!data) return abbr;
+
+  if (data.status === 'rest') return `${abbr}: Rest`;
+  if (data.status === 'off') return `${abbr}: Off`;
+  if (data.status === 'absent') return `${abbr}: Absent`;
+
+  const fullText = ((data.title || '') + ' ' + (data.focus || '')).toLowerCase();
+  let short = 'Train';
+  if (fullText.includes('chest')) short = 'Chest';
+  else if (fullText.includes('back')) short = 'Back';
+  else if (fullText.includes('shoulder')) short = 'Shoulders';
+  else if (fullText.includes('arm')) short = 'Arms';
+  else if (fullText.includes('leg')) short = 'Legs';
+  else if (fullText.includes('hiit') || fullText.includes('core')) short = 'HIIT';
+  else if (fullText.includes('recovery') || fullText.includes('mobility')) short = 'Recovery';
+  else if (data.title) short = data.title.split(' ')[0];
+
+  return `${abbr}: ${short}`;
+}
+
 function renderWorkoutDayPills() {
   const container = document.getElementById('workoutDayPills');
   if (!container) return;
 
-  const days = [
-    { key: 'monday', label: 'Mon: Chest' },
-    { key: 'tuesday', label: 'Tue: Back' },
-    { key: 'wednesday', label: 'Wed: Shoulders' },
-    { key: 'thursday', label: 'Thu: Arms' },
-    { key: 'friday', label: 'Fri: HIIT' },
-    { key: 'saturday', label: 'Sat: Legs' },
-    { key: 'sunday', label: 'Sun: Recovery' }
-  ];
+  const dayKeys = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
-  container.innerHTML = days.map(d => {
-    const isActive = d.key === currentDay;
+  container.innerHTML = dayKeys.map(k => {
+    const isActive = k === currentDay;
+    const label = getDayPillLabel(k);
     return `
-      <button class="filter-pill ${isActive ? 'active' : ''}" onclick="selectWorkoutDay('${d.key}')">
-        ${d.label}
+      <button class="filter-pill ${isActive ? 'active' : ''}"
+        onclick="handleDayPillClick('${k}')"
+        ontouchstart="onDayPillTouchStart('${k}')"
+        ontouchend="onDayPillTouchEnd()"
+        ontouchcancel="onDayPillTouchEnd()"
+        oncontextmenu="event.preventDefault(); openSwitchDayModal('${k}')"
+        title="Tap to view • Hold or tap again to switch or mark rest/off">
+        ${label}
       </button>
     `;
   }).join('');
@@ -1460,6 +1777,174 @@ function selectWorkoutDay(dayKey) {
   renderWorkoutView();
 }
 
+function openSwitchDayModal(dayKey) {
+  const targetDay = dayKey || currentDay;
+  const dayNames = {
+    monday: 'Monday',
+    tuesday: 'Tuesday',
+    wednesday: 'Wednesday',
+    thursday: 'Thursday',
+    friday: 'Friday',
+    saturday: 'Saturday',
+    sunday: 'Sunday'
+  };
+
+  const hiddenInput = document.getElementById('switchTargetDayKey');
+  if (hiddenInput) hiddenInput.value = targetDay;
+
+  const titleEl = document.getElementById('switchDayModalTitle');
+  if (titleEl) titleEl.innerText = `Manage ${dayNames[targetDay] || targetDay}`;
+
+  const data = workoutPlan[targetDay] || {};
+  const status = data.status || 'active';
+
+  const radios = document.getElementsByName('dayStatusRadio');
+  radios.forEach(r => {
+    r.checked = (r.value === status);
+  });
+  onDayStatusRadioChange(status);
+
+  const focusSelect = document.getElementById('switchMuscleFocusSelect');
+  if (focusSelect) {
+    const f = (data.focus || data.title || '').toLowerCase();
+    if (f.includes('chest')) focusSelect.value = 'chest';
+    else if (f.includes('back')) focusSelect.value = 'back';
+    else if (f.includes('shoulder')) focusSelect.value = 'shoulders';
+    else if (f.includes('arm')) focusSelect.value = 'arms';
+    else if (f.includes('leg')) focusSelect.value = 'legs';
+    else if (f.includes('hiit') || f.includes('core')) focusSelect.value = 'hiit';
+    else if (f.includes('recovery')) focusSelect.value = 'recovery';
+  }
+
+  const swapSelect = document.getElementById('swapTargetDaySelect');
+  if (swapSelect) {
+    const allDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+    const other = allDays.find(d => d !== targetDay) || 'tuesday';
+    swapSelect.value = other;
+  }
+
+  openModal('switchWorkoutDayModal');
+}
+
+function onDayStatusRadioChange(status) {
+  const focusSec = document.getElementById('switchFocusSection');
+  if (focusSec) {
+    focusSec.style.display = (status === 'active') ? 'block' : 'none';
+  }
+}
+
+function setDayStatus(dayKey, status) {
+  if (!workoutPlan[dayKey]) return;
+  workoutPlan[dayKey].status = status;
+  savePlan();
+  renderWorkoutDayPills();
+  renderWorkoutView();
+}
+
+function submitSwitchWorkoutDay(e) {
+  if (e) e.preventDefault();
+  const targetDay = document.getElementById('switchTargetDayKey').value || currentDay;
+  if (!workoutPlan[targetDay]) return;
+
+  const radios = document.getElementsByName('dayStatusRadio');
+  let selectedStatus = 'active';
+  for (let i = 0; i < radios.length; i++) {
+    if (radios[i].checked) {
+      selectedStatus = radios[i].value;
+      break;
+    }
+  }
+
+  workoutPlan[targetDay].status = selectedStatus;
+
+  if (selectedStatus === 'active') {
+    const focusSelect = document.getElementById('switchMuscleFocusSelect');
+    const selectedFocus = focusSelect ? focusSelect.value : 'chest';
+
+    const focusTemplates = {
+      chest: {
+        title: 'Chest & Athletic Core',
+        focus: 'Push Strength & Core Stability',
+        sourceDay: 'monday'
+      },
+      back: {
+        title: 'Back & Biceps Hypertrophy',
+        focus: 'Pull Hypertrophy & Traps',
+        sourceDay: 'tuesday'
+      },
+      shoulders: {
+        title: 'Shoulders & Traps',
+        focus: 'Boulder Delts & Upper Traps',
+        sourceDay: 'wednesday'
+      },
+      arms: {
+        title: 'Arms & Core Supersets',
+        focus: 'Biceps & Triceps Mass',
+        sourceDay: 'thursday'
+      },
+      hiit: {
+        title: 'HIIT & Core Conditioning',
+        focus: 'Metabolic Conditioning & Core',
+        sourceDay: 'friday'
+      },
+      legs: {
+        title: 'Legs & Explosive Glutes',
+        focus: 'Lower Body Strength & Quads',
+        sourceDay: 'saturday'
+      },
+      recovery: {
+        title: 'Active Recovery & Mobility',
+        focus: 'Mobility & Foam Rolling',
+        sourceDay: 'sunday'
+      }
+    };
+
+    const tmpl = focusTemplates[selectedFocus];
+    if (tmpl) {
+      workoutPlan[targetDay].title = tmpl.title;
+      workoutPlan[targetDay].focus = tmpl.focus;
+      const srcExercises = DEFAULT_PLAN[tmpl.sourceDay] ? DEFAULT_PLAN[tmpl.sourceDay].exercises : [];
+      workoutPlan[targetDay].exercises = JSON.parse(JSON.stringify(srcExercises));
+    }
+  }
+
+  savePlan();
+  renderWorkoutDayPills();
+  renderWorkoutView();
+  closeModal('switchWorkoutDayModal');
+}
+
+function executeSwapDays() {
+  const dayA = document.getElementById('switchTargetDayKey').value || currentDay;
+  const dayB = document.getElementById('swapTargetDaySelect').value;
+
+  if (!dayA || !dayB || dayA === dayB) {
+    if (typeof showAppAlert === 'function') {
+      showAppAlert({ title: 'Select Different Day', message: 'Please select a different day to swap plans.', tone: 'info' });
+    }
+    return;
+  }
+
+  const planA = JSON.parse(JSON.stringify(workoutPlan[dayA]));
+  const planB = JSON.parse(JSON.stringify(workoutPlan[dayB]));
+
+  workoutPlan[dayA] = planB;
+  workoutPlan[dayB] = planA;
+
+  savePlan();
+  renderWorkoutDayPills();
+  renderWorkoutView();
+  closeModal('switchWorkoutDayModal');
+
+  if (typeof showAppAlert === 'function') {
+    showAppAlert({
+      title: 'Plans Swapped',
+      message: `Successfully swapped ${dayA.toUpperCase()} and ${dayB.toUpperCase()} workout routines!`,
+      tone: 'success'
+    });
+  }
+}
+
 function renderWorkoutView() {
   const dayData = workoutPlan[currentDay];
   if (!dayData) return;
@@ -1467,6 +1952,7 @@ function renderWorkoutView() {
   const titleEl = document.getElementById('workoutDayTitle');
   const focusEl = document.getElementById('workoutDayFocus');
   const todayBadge = document.getElementById('workoutTodayBadge');
+  const schemeBox = document.getElementById('workoutSchemeBox');
 
   if (titleEl) titleEl.innerText = dayData.title;
   if (focusEl) focusEl.innerText = dayData.focus;
@@ -1477,11 +1963,48 @@ function renderWorkoutView() {
   const listEl = document.getElementById('exerciseList');
   if (!listEl) return;
 
+  // Handle Rest / Off / Absent day views
+  if (dayData.status === 'rest' || dayData.status === 'off' || dayData.status === 'absent') {
+    if (schemeBox) schemeBox.style.display = 'none';
+
+    let icon = '🛌';
+    let title = 'Rest & Recovery Day';
+    let desc = 'Rest is where muscle growth and neural adaptation happen! Hydrate well with 3+ liters of water, maintain clean athlete nutrition, and let your muscles rebuild.';
+    let btnText = 'Resume Workout Routine';
+
+    if (dayData.status === 'off') {
+      icon = '⏸️';
+      title = 'Gym Off / Holiday';
+      desc = 'Gym is closed or scheduled day off. Enjoy your recovery and stay energized!';
+      btnText = 'Switch to Active Workout';
+    } else if (dayData.status === 'absent') {
+      icon = '❌';
+      title = 'Absent / Missed Session';
+      desc = 'Marked as absent today. Real champions look forward: stay disciplined with your nutrition and crush tomorrow\'s workout!';
+      btnText = 'Log Workout Anyway';
+    }
+
+    listEl.innerHTML = `
+      <div class="rest-day-card">
+        <div class="rest-day-icon">${icon}</div>
+        <h2 class="rest-day-title">${title}</h2>
+        <p class="rest-day-desc">${desc}</p>
+        <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+          <button type="button" class="btn btn-outline" onclick="openSwitchDayModal('${currentDay}')">Change Status</button>
+          <button type="button" class="btn btn-primary" onclick="setDayStatus('${currentDay}', 'active')">${btnText}</button>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  if (schemeBox) schemeBox.style.display = 'block';
+
   if (!dayData.exercises || dayData.exercises.length === 0) {
     listEl.innerHTML = `
       <div class="glass-card" style="text-align: center; padding: 30px 16px;">
-        <p style="color: var(--text-muted); margin-bottom: 12px;">Is din ke liye koi exercise nahi hai.</p>
-        <button class="btn btn-primary" onclick="openAddExerciseModal()">+ Exercise Add Karein</button>
+        <p style="color: var(--text-muted); margin-bottom: 12px;">No exercises scheduled for this day.</p>
+        <button class="btn btn-primary" onclick="openAddExerciseModal()">+ Add Exercise</button>
       </div>
     `;
     return;
@@ -1670,8 +2193,15 @@ function addSetToExercise(exId) {
   renderWorkoutView();
 }
 
-function deleteExerciseDirect(exId) {
-  if (!confirm("Kya aap is exercise ko delete karna chahte hain?")) return;
+async function deleteExerciseDirect(exId) {
+  const ok = await showAppConfirm({
+    title: 'Delete Exercise',
+    message: 'Are you sure you want to remove this exercise from today’s routine?',
+    confirmText: 'Delete',
+    cancelText: 'Cancel',
+    tone: 'warning'
+  });
+  if (!ok) return;
   workoutPlan[currentDay].exercises = workoutPlan[currentDay].exercises.filter(e => e.id !== exId);
   savePlan();
   renderWorkoutView();
@@ -1705,10 +2235,10 @@ function renderActivityStats() {
   let totalSets = 0;
   const prs = {};
 
-  // From plan
+  // From plan - Only record PRs from sets that the user has ACTUALLY completed (s.done === true)
   Object.keys(workoutPlan).forEach(dayKey => {
     const day = workoutPlan[dayKey];
-    if (day.exercises) {
+    if (day.exercises && day.status !== 'rest' && day.status !== 'off' && day.status !== 'absent') {
       day.exercises.forEach(ex => {
         let maxWeight = 0;
         ex.sets.forEach(s => {
@@ -1717,8 +2247,8 @@ function renderActivityStats() {
           if (s.done) {
             totalSets++;
             totalVolume += w * r;
+            if (w > maxWeight) maxWeight = w;
           }
-          if (w > maxWeight) maxWeight = w;
         });
         if (maxWeight > 0) {
           prs[ex.name] = Math.max(prs[ex.name] || 0, maxWeight);
@@ -1757,7 +2287,12 @@ function renderActivityStats() {
   if (prListEl) {
     const prEntries = Object.entries(prs).sort((a, b) => b[1] - a[1]).slice(0, 5);
     if (prEntries.length === 0) {
-      prListEl.innerHTML = `<p style="font-size: 0.8rem; color: var(--text-tertiary); text-align: center; padding: 10px;">Sets complete karne par aapke records yahan aayenge.</p>`;
+      prListEl.innerHTML = `
+        <div style="text-align: center; padding: 20px 10px;">
+          <p style="font-size: 0.84rem; font-weight: 500; color: var(--text-secondary); margin-bottom: 4px;">No Personal Records logged yet</p>
+          <span style="font-size: 0.74rem; color: var(--text-tertiary); line-height: 1.4; display: block;">Complete and tick your workout sets to record your personal bests here.</span>
+        </div>
+      `;
     } else {
       prListEl.innerHTML = prEntries.map(([name, weight]) => `
         <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 0.5px solid rgba(0, 0, 0, 0.05); font-size: 0.84rem;">
@@ -1787,6 +2322,16 @@ function getMealIconSvg(type) {
   return `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/></svg>`;
 }
 
+function formatCurrentTime() {
+  const d = new Date();
+  let h = d.getHours();
+  const m = String(d.getMinutes()).padStart(2, '0');
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  h = h % 12;
+  h = h ? h : 12;
+  return `${String(h).padStart(2, '0')}:${m} ${ampm}`;
+}
+
 // ----------------------------------------------------
 // NUTRITION & FOOD LOGIC (Clean Apple Health Style)
 // ----------------------------------------------------
@@ -1812,22 +2357,40 @@ function renderMeals() {
     barFillEl.style.width = `${pct}%`;
   }
 
-  container.innerHTML = nutritionMeals.map((meal, idx) => `
-    <div class="meal-item" onclick="toggleMealDone(${idx})">
-      <div class="meal-left">
-        <div class="meal-avatar-icon">
-          ${getMealIconSvg(meal.type)}
+  container.innerHTML = nutritionMeals.map((meal, idx) => {
+    const timingDisplay = meal.timing ? `${escapeHtml(meal.timing)} • ` : '';
+    let descText = meal.desc || '';
+    if (!descText && meal.calories) {
+      descText = `${timingDisplay}${meal.calories} kcal`;
+    } else if (meal.timing && !descText.includes(meal.timing)) {
+      descText = `${meal.timing} • ${descText}`;
+    }
+
+    return `
+      <div class="meal-item" id="meal-item-${idx}">
+        <div class="meal-left" onclick="openEditMealModal(${idx})" title="Tap to edit meal">
+          <div class="meal-avatar-icon">
+            ${getMealIconSvg(meal.type)}
+          </div>
+          <div class="meal-info">
+            <span class="meal-name">${escapeHtml(meal.name)}</span>
+            <span class="meal-desc">${escapeHtml(descText)}</span>
+          </div>
         </div>
-        <div class="meal-info">
-          <span class="meal-name">${escapeHtml(meal.name)}</span>
-          <span class="meal-desc">${escapeHtml(meal.desc || `${meal.calories || 400} kcal`)}</span>
+        <div class="meal-right-actions">
+          <button type="button" class="meal-icon-btn" onclick="event.stopPropagation(); openEditMealModal(${idx})" title="Edit meal" aria-label="Edit">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          </button>
+          <button type="button" class="meal-icon-btn delete" onclick="event.stopPropagation(); deleteMealDirect(${idx})" title="Delete meal" aria-label="Delete">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          </button>
+          <button type="button" class="check-btn ${meal.done ? 'checked' : ''}" onclick="event.stopPropagation(); toggleMealDone(${idx})" aria-label="Toggle meal">
+            ${meal.done ? '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
+          </button>
         </div>
       </div>
-      <button class="check-btn ${meal.done ? 'checked' : ''}" style="width: 28px; height: 28px;" aria-label="Toggle meal">
-        ${meal.done ? '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
-      </button>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 function toggleMealDone(idx) {
@@ -1838,14 +2401,20 @@ function toggleMealDone(idx) {
 }
 
 function openAddMealModal() {
-  document.getElementById('mealInputName').value = '';
-  document.getElementById('mealInputCalories').value = '';
+  const nameEl = document.getElementById('mealInputName');
+  const calEl = document.getElementById('mealInputCalories');
+  const timeEl = document.getElementById('mealInputTiming');
+  if (nameEl) nameEl.value = '';
+  if (calEl) calEl.value = '';
+  if (timeEl) timeEl.value = formatCurrentTime();
   openModal('addMealModal');
 }
 
 function submitAddMeal(e) {
   e.preventDefault();
   const name = document.getElementById('mealInputName').value.trim();
+  const timeInput = document.getElementById('mealInputTiming');
+  const timing = (timeInput && timeInput.value.trim()) ? timeInput.value.trim() : formatCurrentTime();
   const calories = parseInt(document.getElementById('mealInputCalories').value) || 400;
   const type = document.getElementById('mealInputType').value || 'Snacks';
 
@@ -1854,7 +2423,8 @@ function submitAddMeal(e) {
   nutritionMeals.push({
     id: 'm_' + Date.now(),
     name: name,
-    desc: `${calories} kcal • Custom Meal`,
+    timing: timing,
+    desc: `${timing} • ${calories} kcal • Custom Meal`,
     type: type,
     done: true,
     calories: calories
@@ -1863,6 +2433,89 @@ function submitAddMeal(e) {
   saveMeals();
   renderMeals();
   closeModal('addMealModal');
+}
+
+function openEditMealModal(idx) {
+  const meal = nutritionMeals[idx];
+  if (!meal) return;
+  document.getElementById('editMealIndex').value = idx;
+  document.getElementById('editMealName').value = meal.name || '';
+  document.getElementById('editMealTiming').value = meal.timing || '';
+  document.getElementById('editMealCalories').value = meal.calories || 400;
+  document.getElementById('editMealType').value = meal.type || 'Snacks';
+  document.getElementById('editMealDesc').value = meal.desc || '';
+  openModal('editMealModal');
+}
+
+function submitEditMeal(e) {
+  if (e) e.preventDefault();
+  const idx = parseInt(document.getElementById('editMealIndex').value, 10);
+  if (isNaN(idx) || !nutritionMeals[idx]) return;
+
+  const name = document.getElementById('editMealName').value.trim();
+  const timing = document.getElementById('editMealTiming').value.trim();
+  const calories = parseInt(document.getElementById('editMealCalories').value, 10) || 400;
+  const type = document.getElementById('editMealType').value || 'Snacks';
+  const customDesc = document.getElementById('editMealDesc').value.trim();
+
+  if (!name) return;
+
+  nutritionMeals[idx].name = name;
+  nutritionMeals[idx].timing = timing;
+  nutritionMeals[idx].calories = calories;
+  nutritionMeals[idx].type = type;
+
+  if (customDesc && !customDesc.startsWith(timing) && !customDesc.includes('kcal')) {
+    nutritionMeals[idx].desc = `${timing ? timing + ' • ' : ''}${calories} kcal • ${customDesc}`;
+  } else if (customDesc) {
+    nutritionMeals[idx].desc = customDesc;
+  } else {
+    nutritionMeals[idx].desc = `${timing ? timing + ' • ' : ''}${calories} kcal`;
+  }
+
+  saveMeals();
+  renderMeals();
+  closeModal('editMealModal');
+}
+
+async function deleteMealFromModal() {
+  const idx = parseInt(document.getElementById('editMealIndex').value, 10);
+  if (isNaN(idx) || !nutritionMeals[idx]) return;
+  const mealName = nutritionMeals[idx].name || 'this meal';
+
+  if (typeof showAppConfirm === 'function') {
+    const ok = await showAppConfirm({
+      title: 'Delete Meal',
+      message: `Are you sure you want to delete "${mealName}" from your diet plan?`,
+      confirmText: 'Delete',
+      tone: 'warning'
+    });
+    if (!ok) return;
+  }
+
+  nutritionMeals.splice(idx, 1);
+  saveMeals();
+  renderMeals();
+  closeModal('editMealModal');
+}
+
+async function deleteMealDirect(idx) {
+  if (!nutritionMeals[idx]) return;
+  const mealName = nutritionMeals[idx].name || 'this meal';
+
+  if (typeof showAppConfirm === 'function') {
+    const ok = await showAppConfirm({
+      title: 'Delete Meal',
+      message: `Are you sure you want to delete "${mealName}"?`,
+      confirmText: 'Delete',
+      tone: 'warning'
+    });
+    if (!ok) return;
+  }
+
+  nutritionMeals.splice(idx, 1);
+  saveMeals();
+  renderMeals();
 }
 
 // ----------------------------------------------------
@@ -2805,17 +3458,17 @@ function syncReminderWithAndroid(id, rem) {
         const hour = parseInt(hStr, 10) || 17;
         const min = parseInt(mStr, 10) || 30;
         let title = 'Gym Plan';
-        let msg = 'Target pending hai. Tap to complete!';
+        let msg = 'Daily target pending. Tap to open and complete.';
         if (id === 'workout') {
           const dayData = workoutPlan[getTodayDayKey()] || {};
           title = 'Training Call: ' + (dayData.title || 'Workout');
-          msg = 'Aaj ka session pending hai. 7-12-15 protocol shuru karein!';
+          msg = 'Today’s workout session is pending. Start your 7-12-15 protocol.';
         } else if (id === 'hydrate') {
           title = 'Hydration Alert';
-          msg = 'Hydration pending! 500ml water intake lo muscle pumps ke liye.';
+          msg = 'Hydration pending. Drink 500 ml of water to support recovery and performance.';
         } else if (id === 'fuel') {
           title = 'Post-Workout Fuel Alert';
-          msg = 'Fuel pending! 30g protein consume karke micro-tears repair karein.';
+          msg = 'Nutrition pending. Consume 30g high-quality protein to support muscle recovery.';
         }
         window.Android.scheduleReminder(id, hour, min, title, msg);
       }
@@ -2847,9 +3500,9 @@ function renderRemindersHub() {
       title: 'Daily Training Call',
       sub: `${todayWorkout.name || 'Today'}: ${todayWorkout.title || 'Workout Session'}`,
       iconSvg: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 5v14M18 5v14M2 9v6M22 9v6M6 12h12"/></svg>`,
-      pendingMsg: `Aapne aaj ka ${todayWorkout.title || 'workout'} abhi tak complete nahi kiya hai. Pehla set heavy 7 reps se start karein!`,
-      doneMsg: `Done! Aaj ka training session (${todayWorkout.title || 'Workout'}) complete ho chuka hai.`,
-      actionBtnText: 'Open Workout →',
+      pendingMsg: `Today's ${todayWorkout.title || 'workout'} session is still pending. Start your first heavy 7-rep set.`,
+      doneMsg: `Completed! Today's training session (${todayWorkout.title || 'Workout'}) is finished.`,
+      actionBtnText: 'Open Workout ->',
       onAction: "jumpToReminderView('workouts')"
     },
     {
@@ -2858,8 +3511,8 @@ function renderRemindersHub() {
       title: 'Hydration Protocol',
       sub: '3.5L Daily Goal • Fluid Balance',
       iconSvg: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>`,
-      pendingMsg: 'Hydration pending! Muscle pumps aur athletic power ke liye 500ml water intake lo.',
-      doneMsg: 'Target Reached! Aaj ka 3.5L water target achieve ho chuka hai.',
+      pendingMsg: 'Hydration pending. Log 500 ml of water to stay energized and hydrated.',
+      doneMsg: 'Target reached! Today’s 3.5L daily hydration goal is complete.',
       isWater: true
     },
     {
@@ -2868,9 +3521,9 @@ function renderRemindersHub() {
       title: 'Post-Workout Fuel',
       sub: '30g High Protein • Recovery Window',
       iconSvg: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>`,
-      pendingMsg: 'Fuel pending! Anabolic recovery window active hai. High protein fuel log karein.',
-      doneMsg: 'Done! Post-workout recovery fuel log ho chuka hai.',
-      actionBtnText: 'Open Nutrition →',
+      pendingMsg: 'Nutrition pending. Log your high-protein recovery meal to refuel.',
+      doneMsg: 'Completed! Post-workout recovery nutrition has been logged.',
+      actionBtnText: 'Open Nutrition ->',
       onAction: "jumpToReminderView('nutrition')"
     }
   ];
@@ -3041,8 +3694,15 @@ function openNotificationsModal() {
 }
 
 // Reset Workout For Current Day
-function resetTodayWorkout() {
-  if (!confirm("Kya aap aaj ke workout sets ko uncheck/reset karna chahte hain? Weights wahi save rahenge.")) {
+async function resetTodayWorkout() {
+  const ok = await showAppConfirm({
+    title: 'Reset Today’s Sets',
+    message: 'Uncheck all completed sets for today? Your logged weights will remain saved.',
+    confirmText: 'Reset Sets',
+    cancelText: 'Cancel',
+    tone: 'warning'
+  });
+  if (!ok) {
     return;
   }
   const dayData = workoutPlan[currentDay];
@@ -3094,12 +3754,14 @@ function submitAddExercise(event) {
 function exportWorkoutData() {
   const data = {
     app: "GymPlan",
-    version: "0.04",
+    version: "0.05",
     userName: getUserName(),
     plan: workoutPlan,
     history: workoutHistory,
     meals: nutritionMeals,
     roadmap: athleteRoadmap,
+    proState: typeof window.getProBackupSnapshot === 'function' ? window.getProBackupSnapshot() : null,
+    habits: typeof window.getHabitsBackupSnapshot === 'function' ? window.getHabitsBackupSnapshot() : null,
     exportedAt: new Date().toISOString()
   };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -3116,21 +3778,31 @@ async function importWorkoutData(event) {
   if (!file) return;
 
   if (hasUserPin()) {
-    const entered = prompt("Security check: Backup restore karne ke liye apna PIN / Password dalein:");
+    const entered = await showAppPrompt({
+      title: 'Security Verification',
+      message: 'Please enter your current security PIN to restore this backup.',
+      placeholder: 'Enter security PIN',
+      confirmText: 'Verify & Restore',
+      tone: 'info'
+    });
     if (!entered) {
       event.target.value = '';
       return;
     }
     const okPin = await verifyUserPin(entered);
     if (!okPin) {
-      alert("Galat PIN! Restore cancel kar diya gaya.");
+      await showAppAlert({
+        title: 'Restore Cancelled',
+        message: 'Incorrect PIN. Backup restoration has been cancelled.',
+        tone: 'error'
+      });
       event.target.value = '';
       return;
     }
   }
 
   const reader = new FileReader();
-  reader.onload = (e) => {
+  reader.onload = async (e) => {
     try {
       const data = JSON.parse(e.target.result);
       if (data && typeof data === 'object') {
@@ -3154,7 +3826,17 @@ async function importWorkoutData(event) {
           saveRoadmap();
           renderRoadmapHero();
         }
-        alert("Data successfully restore ho gaya.");
+        if (data.proState && typeof window.restoreProBackupSnapshot === 'function') {
+          await window.restoreProBackupSnapshot(data.proState);
+        }
+        if (data.habits && typeof window.restoreHabitsBackupSnapshot === 'function') {
+          window.restoreHabitsBackupSnapshot(data.habits);
+        }
+        await showAppAlert({
+          title: 'Backup Restored',
+          message: 'Your workout, nutrition, and profile records have been restored successfully.',
+          tone: 'success'
+        });
         updateUserGreeting();
         renderHomeStats();
         renderWorkoutView();
@@ -3163,10 +3845,134 @@ async function importWorkoutData(event) {
         closeModal('backupModal');
       }
     } catch (err) {
-      alert("Invalid backup file format.");
+      await showAppAlert({
+        title: 'Invalid File',
+        message: 'The selected file is not a valid Gym Plan JSON backup.',
+        tone: 'error'
+      });
     }
   };
   reader.readAsText(file);
+}
+
+// ==============================================
+// Data Retention & Storage Lifecycle Policy
+// ==============================================
+function getRetentionPolicy() {
+  try {
+    return localStorage.getItem(STORAGE_RETENTION_POLICY) || 'keep_forever';
+  } catch (e) {
+    return 'keep_forever';
+  }
+}
+
+function setRetentionPolicy(policy) {
+  try {
+    localStorage.setItem(STORAGE_RETENTION_POLICY, policy);
+  } catch (e) {}
+}
+
+function applyDataRetentionPolicy(forceDays) {
+  const policy = forceDays ? (forceDays === 180 ? 'keep_6_months' : 'keep_1_year') : getRetentionPolicy();
+  if (policy === 'keep_forever' && !forceDays) return { workoutPruned: 0, mealsPruned: 0, habitsPruned: 0 };
+
+  const days = forceDays || (policy === 'keep_6_months' ? 180 : 365);
+  const cutoffTime = Date.now() - (days * 86400000);
+
+  let workoutPruned = 0;
+  if (Array.isArray(workoutHistory)) {
+    const origCount = workoutHistory.length;
+    workoutHistory = workoutHistory.filter(item => {
+      if (!item || !item.date) return true;
+      const itemTime = new Date(item.date).getTime();
+      return isNaN(itemTime) || itemTime >= cutoffTime;
+    });
+    workoutPruned = origCount - workoutHistory.length;
+    if (workoutPruned > 0) saveHistory();
+  }
+
+  let mealsPruned = 0;
+  if (Array.isArray(nutritionMeals)) {
+    const origMeals = nutritionMeals.length;
+    nutritionMeals = nutritionMeals.filter(m => {
+      if (!m || !m.date) return true;
+      const mTime = new Date(m.date).getTime();
+      return isNaN(mTime) || mTime >= cutoffTime;
+    });
+    mealsPruned = origMeals - nutritionMeals.length;
+    if (mealsPruned > 0) saveMeals();
+  }
+
+  let habitsPruned = 0;
+  if (typeof window.pruneHabitsLogsOlderThan === 'function') {
+    habitsPruned = window.pruneHabitsLogsOlderThan(cutoffTime) || 0;
+  }
+
+  return { workoutPruned, mealsPruned, habitsPruned };
+}
+
+function openRetentionPolicyModal() {
+  const policy = getRetentionPolicy();
+  const radForever = document.getElementById('retentionOptionForever');
+  const rad6 = document.getElementById('retentionOption6Months');
+  const rad1 = document.getElementById('retentionOption1Year');
+
+  if (radForever) radForever.checked = (policy === 'keep_forever');
+  if (rad6) rad6.checked = (policy === 'keep_6_months');
+  if (rad1) rad1.checked = (policy === 'keep_1_year');
+
+  openModal('retentionPolicyModal');
+}
+
+function saveRetentionPolicyFromModal() {
+  const rad6 = document.getElementById('retentionOption6Months');
+  const rad1 = document.getElementById('retentionOption1Year');
+  let chosen = 'keep_forever';
+  if (rad6 && rad6.checked) chosen = 'keep_6_months';
+  else if (rad1 && rad1.checked) chosen = 'keep_1_year';
+
+  setRetentionPolicy(chosen);
+  applyDataRetentionPolicy();
+  updatePersonalDashboardUI();
+  closeModal('retentionPolicyModal');
+
+  const label = chosen === 'keep_6_months'
+    ? 'Auto-delete older than 6 months is now active. Daily logs older than 180 days will be cleanly pruned while preserving your PRs and profile.'
+    : (chosen === 'keep_1_year' ? 'Auto-delete older than 1 year is now active.' : 'Keep Forever is active. All your past records are permanently preserved.');
+
+  showAppAlert({
+    title: 'Retention Policy Saved',
+    message: label,
+    tone: 'success'
+  });
+}
+
+async function triggerManualPrune6Months() {
+  const confirmed = await showAppConfirm({
+    title: 'Clean Logs Older Than 6 Months',
+    message: 'This will purge daily workout logs and habit marks older than 180 days. Your Personal Records (PRs), Profile, and Active Plan will NOT be affected. Proceed?',
+    confirmText: 'Clean Old Data',
+    tone: 'warning'
+  });
+
+  if (!confirmed) return;
+
+  const result = applyDataRetentionPolicy(180);
+  renderHomeStats();
+  renderWeeklyBars();
+  renderActivityStats();
+  renderMeals();
+  if (typeof renderHabitsView === 'function') renderHabitsView();
+  updatePersonalDashboardUI();
+
+  const total = result.workoutPruned + result.mealsPruned + result.habitsPruned;
+  showAppAlert({
+    title: 'Storage Cleaned',
+    message: total > 0
+      ? `Cleaned ${total} historical entries older than 6 months (${result.workoutPruned} workouts, ${result.habitsPruned} habit days, ${result.mealsPruned} meals). Your PRs and current plan remain untouched.`
+      : 'No logs older than 6 months were found. Your storage is already clean and optimized.',
+    tone: 'info'
+  });
 }
 
 // Event Listeners Setup
@@ -3193,6 +3999,83 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
 }
+
+// ==============================================
+// Multi-Tier Navigation & Back Button Controller
+// Prevents accidental app exit when modals/tabs are open
+// ==============================================
+window.handleBackPress = function () {
+  try {
+    // 1. Check if In-App Dialog is open
+    const appDialog = document.getElementById('appDialogModal');
+    if (appDialog && appDialog.classList.contains('open')) {
+      const cancelBtn = document.getElementById('appDialogCancelBtn');
+      if (cancelBtn && cancelBtn.style.display !== 'none') {
+        cancelBtn.click();
+      } else {
+        const confirmBtn = document.getElementById('appDialogConfirmBtn');
+        if (confirmBtn) confirmBtn.click();
+        else appDialog.classList.remove('open');
+      }
+      return 'handled';
+    }
+
+    // 2. Check for any open Modal (.modal-backdrop.open)
+    const openModals = Array.from(document.querySelectorAll('.modal-backdrop.open'));
+    if (openModals.length > 0) {
+      const topModal = openModals[openModals.length - 1];
+      if (typeof closeModal === 'function') {
+        closeModal(topModal.id);
+      } else {
+        topModal.classList.remove('open');
+      }
+      return 'handled';
+    }
+
+    // 3. Check if Side Navigation Drawer is open
+    const drawerBackdrop = document.getElementById('drawerBackdrop');
+    if (drawerBackdrop && drawerBackdrop.classList.contains('open')) {
+      if (typeof closeSideDrawer === 'function') {
+        closeSideDrawer();
+      } else {
+        drawerBackdrop.classList.remove('open');
+      }
+      return 'handled';
+    }
+
+    // 4. If in Habits view on subtab other than cards, return to cards first
+    if (typeof currentView !== 'undefined' && currentView === 'habits' && typeof window.getHabitsActiveSubTab === 'function') {
+      if (window.getHabitsActiveSubTab() !== 'cards') {
+        if (typeof window.switchHabitsSubTab === 'function') {
+          window.switchHabitsSubTab('cards');
+          return 'handled';
+        }
+      }
+    }
+
+    // 5. Check if user is on another tab/view (not 'home')
+    if (typeof currentView !== 'undefined' && currentView !== 'home') {
+      if (typeof switchView === 'function') {
+        switchView('home');
+      }
+      return 'handled';
+    }
+
+    // 6. Already on Home view with zero modals/drawers open
+    return 'root';
+  } catch (err) {
+    console.error('Error handling back press:', err);
+    return 'unhandled';
+  }
+};
+
+// Fallback popstate listener for Web/PWA browsers
+window.addEventListener('popstate', function () {
+  if (typeof Android !== 'undefined' && Android.isNativeAndroid && Android.isNativeAndroid()) {
+    return; // Handled natively by MainActivity
+  }
+  window.handleBackPress();
+});
 
 // Register Service Worker for 100% Offline Access
 if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {

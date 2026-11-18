@@ -2,3 +2,11 @@
 node_modules/
 Thumbs.db
 *.log
+scratch/
+*.keystore
+GymPlan.apk
+Build
+android/.gradle/
+android/app/build/
+android/local.properties
+android/.idea/

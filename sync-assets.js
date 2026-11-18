@@ -11,7 +11,7 @@ if (!fs.existsSync(assetsTarget)) {
 }
 
 // Copy web files
-const filesToCopy = ['index.html', 'style.css', 'visual-guides.js', 'app.js', 'manifest.json', 'sw.js'];
+const filesToCopy = ['index.html', 'style.css', 'qr-offline.js', 'visual-guides.js', 'app.js', 'pro-coach.js', 'habits-tracker.js', 'room-fitness.js', 'ota-updater.js', 'ota-manifest.json', 'manifest.json', 'sw.js'];
 filesToCopy.forEach(file => {
   const src = path.join(rootDir, file);
   const dest = path.join(assetsTarget, file);
@@ -61,10 +61,11 @@ mipmapDirs.forEach(dir => {
   if (!fs.existsSync(fullDir)) {
     fs.mkdirSync(fullDir, { recursive: true });
   }
-  // Copy 192 icon as ic_launcher.png
-  const srcIcon = path.join(iconsSrcDir, 'icon-192.png');
+  // Copy crisp circular icon as ic_launcher.png and ic_launcher_round.png
+  const srcIcon = path.join(iconsSrcDir, (dir === 'mipmap-xxhdpi' || dir === 'mipmap-xxxhdpi') ? 'icon-512.png' : 'icon-192.png');
   if (fs.existsSync(srcIcon)) {
     fs.copyFileSync(srcIcon, path.join(fullDir, 'ic_launcher.png'));
+    fs.copyFileSync(srcIcon, path.join(fullDir, 'ic_launcher_round.png'));
   }
 });
 

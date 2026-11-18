@@ -10,16 +10,35 @@ android {
         applicationId "com.athletic.gymtracker"
         minSdk 24
         targetSdk 34
-        versionCode 4
-        versionName "0.04"
+        versionCode 7
+        versionName "0.05"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        release {
+            storeFile file('codebytushu-release.keystore')
+            storePassword 'codebytushu2026'
+            keyAlias 'gymplan'
+            keyPassword 'codebytushu2026'
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
+
     buildTypes {
         release {
+            if (file('codebytushu-release.keystore').exists()) {
+                signingConfig signingConfigs.release
+            }
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            if (file('codebytushu-release.keystore').exists()) {
+                signingConfig signingConfigs.release
+            }
         }
     }
     compileOptions {
@@ -30,6 +49,28 @@ android {
     applicationVariants.all { variant ->
         variant.outputs.all {
             outputFileName = "GymPlan.apk"
+        }
+        variant.assembleProvider.configure { assembleTask ->
+            assembleTask.doLast {
+                def rootFolder = rootProject.projectDir.parentFile
+                def targetApk = new File(rootFolder, "GymPlan.apk")
+                def candidates = [
+                    file("${buildDir}/outputs/apk/${variant.dirName}/GymPlan.apk"),
+                    file("${projectDir}/${variant.dirName}/GymPlan.apk")
+                ]
+                for (File apkFile : candidates) {
+                    if (apkFile.exists()) {
+                        try {
+                            java.nio.file.Files.copy(
+                                apkFile.toPath(),
+                                targetApk.toPath(),
+                                java.nio.file.StandardCopyOption.REPLACE_EXISTING
+                            )
+                        } catch (Exception ignored) {}
+                        break
+                    }
+                }
+            }
         }
     }
 }

@@ -1,0 +1,25 @@
+{
+  "app": "My GYM Plan",
+  "repo": "Tushpendra-Kumar/my-gym-plan",
+  "branch": "main",
+  "version": "0.05.1",
+  "buildNumber": 8,
+  "nativeVersionCode": 7,
+  "releasedAt": "2026-11-18",
+  "notes": "Live OTA Auto-Updater + Dual-Angle Biomechanical Demos + 2-Tier Room Fitness + Circular Monochrome Theme",
+  "releaseUrl": "https://github.com/Tushpendra-Kumar/my-gym-plan/releases/latest",
+  "files": [
+    "index.html",
+    "style.css",
+    "app.js",
+    "room-fitness.js",
+    "visual-guides.js",
+    "habits-tracker.js",
+    "pro-coach.js",
+    "qr-offline.js",
+    "ota-updater.js",
+    "ota-manifest.json",
+    "manifest.json",
+    "sw.js"
+  ]
+}
