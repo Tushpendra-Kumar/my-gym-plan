@@ -1383,11 +1383,23 @@ async function resetForNewUser() {
   localStorage.removeItem(STORAGE_ROADMAP);
   localStorage.removeItem(STORAGE_USER_PIN);
   localStorage.removeItem(STORAGE_LOGGED_OUT);
+  localStorage.removeItem(STORAGE_HISTORY);
+  localStorage.removeItem(STORAGE_MEALS);
+  localStorage.removeItem('tushu_gym_habits_v1');
+  localStorage.removeItem('tushu_room_fitness_v1');
+  localStorage.removeItem('tushu_gym_pro_state_v1');
 
   workoutPlan = JSON.parse(JSON.stringify(DEFAULT_PLAN));
   savePlan();
+  workoutHistory = [];
+  saveHistory();
+  nutritionMeals = [];
+  saveMeals();
 
   athleteRoadmap = loadRoadmap();
+  if (typeof renderHabitsView === 'function') renderHabitsView();
+  if (typeof renderRoomFitnessHomeCard === 'function') renderRoomFitnessHomeCard();
+  if (typeof renderRoomFitnessView === 'function') renderRoomFitnessView();
   
   const inputEl = document.getElementById('onboardingUserNameInput');
   if (inputEl) inputEl.value = '';
@@ -3762,6 +3774,7 @@ function exportWorkoutData() {
     roadmap: athleteRoadmap,
     proState: typeof window.getProBackupSnapshot === 'function' ? window.getProBackupSnapshot() : null,
     habits: typeof window.getHabitsBackupSnapshot === 'function' ? window.getHabitsBackupSnapshot() : null,
+    roomFitness: typeof window.getRoomFitnessBackupSnapshot === 'function' ? window.getRoomFitnessBackupSnapshot() : null,
     exportedAt: new Date().toISOString()
   };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -3831,6 +3844,9 @@ async function importWorkoutData(event) {
         }
         if (data.habits && typeof window.restoreHabitsBackupSnapshot === 'function') {
           window.restoreHabitsBackupSnapshot(data.habits);
+        }
+        if (data.roomFitness && typeof window.restoreRoomFitnessBackupSnapshot === 'function') {
+          window.restoreRoomFitnessBackupSnapshot(data.roomFitness);
         }
         await showAppAlert({
           title: 'Backup Restored',
@@ -3903,12 +3919,19 @@ function applyDataRetentionPolicy(forceDays) {
     if (mealsPruned > 0) saveMeals();
   }
 
+  const cutoffIso = new Date(cutoffTime).toISOString().split('T')[0];
+
   let habitsPruned = 0;
   if (typeof window.pruneHabitsLogsOlderThan === 'function') {
-    habitsPruned = window.pruneHabitsLogsOlderThan(cutoffTime) || 0;
+    habitsPruned = window.pruneHabitsLogsOlderThan(cutoffIso) || 0;
   }
 
-  return { workoutPruned, mealsPruned, habitsPruned };
+  let roomPruned = 0;
+  if (typeof window.pruneRoomFitnessLogsOlderThan === 'function') {
+    roomPruned = window.pruneRoomFitnessLogsOlderThan(cutoffIso) || 0;
+  }
+
+  return { workoutPruned, mealsPruned, habitsPruned: habitsPruned + roomPruned };
 }
 
 function openRetentionPolicyModal() {

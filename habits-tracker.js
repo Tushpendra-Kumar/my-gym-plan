@@ -738,6 +738,19 @@
     return prunedCount;
   };
 
+  // Backup & Restore snapshot helpers
+  global.getHabitsBackupSnapshot = function () {
+    return loadHabitsState();
+  };
+
+  global.restoreHabitsBackupSnapshot = function (snapshot) {
+    if (!snapshot || typeof snapshot !== 'object') return;
+    if (!Array.isArray(snapshot.habits)) snapshot.habits = DEFAULT_HABITS.slice();
+    if (!snapshot.logs || typeof snapshot.logs !== 'object') snapshot.logs = {};
+    saveHabitsState(snapshot);
+    renderHabitsView();
+  };
+
   // Auto-render on initial script load if DOM is ready
   if (typeof document !== 'undefined') {
     if (document.readyState === 'loading') {

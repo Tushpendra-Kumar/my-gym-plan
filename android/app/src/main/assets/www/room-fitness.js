@@ -1272,6 +1272,38 @@
     return true;
   };
 
+  global.getRoomFitnessBackupSnapshot = function () {
+    return loadRoomState();
+  };
+
+  global.restoreRoomFitnessBackupSnapshot = function (snapshot) {
+    if (!snapshot || typeof snapshot !== 'object') return;
+    if (!snapshot.level) snapshot.level = 'beginner';
+    if (!snapshot.customReps || typeof snapshot.customReps !== 'object') snapshot.customReps = {};
+    if (!snapshot.customDetails || typeof snapshot.customDetails !== 'object') snapshot.customDetails = {};
+    if (!snapshot.logs || typeof snapshot.logs !== 'object') snapshot.logs = {};
+    saveRoomState(snapshot);
+    registerRoomExerciseGuides();
+    renderRoomFitnessView();
+    renderRoomFitnessHomeCard();
+  };
+
+  global.pruneRoomFitnessLogsOlderThan = function (cutoffDateIso) {
+    var state = loadRoomState();
+    if (!state.logs) return 0;
+    var prunedCount = 0;
+    Object.keys(state.logs).forEach(function (k) {
+      if (k < cutoffDateIso) {
+        delete state.logs[k];
+        prunedCount++;
+      }
+    });
+    if (prunedCount > 0) {
+      saveRoomState(state);
+    }
+    return prunedCount;
+  };
+
   global.toggleSetCompletion = toggleSetCompletion;
   global.toggleExerciseDoneDirect = toggleExerciseDoneDirect;
   global.adjustExerciseRep = adjustExerciseRep;
