@@ -61,14 +61,39 @@
         }
       } catch (e) {}
     }
+    // Update all version badge elements across the DOM
+    if (typeof document !== 'undefined') {
+      var badges = document.querySelectorAll('.app-version-badge');
+      for (var b = 0; b < badges.length; b++) {
+        badges[b].textContent = 'v' + otaUiState.currentVersion;
+      }
+    }
   }
 
   function renderOtaUpdateCard() {
+    refreshLocalBuildInfo();
+
     if (typeof document === 'undefined') return;
+
+    // Render Home screen top announcement banner if an update is waiting
+    var homeSlot = document.getElementById('homeOtaBannerSlot');
+    if (homeSlot) {
+      if (otaUiState.status === 'ota_available') {
+        homeSlot.innerHTML = '' +
+          '<div class="home-ota-notice-banner" style="background:#000000; color:#ffffff; padding:12px 16px; border-radius:14px; margin-bottom:14px; display:flex; align-items:center; justify-content:space-between; gap:10px; box-shadow:0 4px 14px rgba(0,0,0,0.12);">' +
+            '<div>' +
+              '<div style="font-size:0.84rem; font-weight:700;">✨ New Update (v' + safeEsc(otaUiState.remoteVersion) + ') Available!</div>' +
+              '<div style="font-size:0.72rem; opacity:0.8;">PhonePe Merchant UPI & instant payment unlock.</div>' +
+            '</div>' +
+            '<button type="button" class="btn btn-primary" style="background:#ffffff; color:#000000; font-size:0.75rem; font-weight:700; padding:7px 12px; border-radius:8px; flex-shrink:0;" onclick="installLiveOtaUpdate()">Install (2s)</button>' +
+          '</div>';
+      } else {
+        homeSlot.innerHTML = '';
+      }
+    }
+
     var container = document.getElementById('otaUpdatesCardContainer');
     if (!container) return;
-
-    refreshLocalBuildInfo();
 
     var isBusy = (otaUiState.status === 'checking' || otaUiState.status === 'downloading');
     var statusBlockHtml = '';
@@ -323,11 +348,19 @@
 
   global.renderOtaUpdateCard = renderOtaUpdateCard;
 
+  function checkOtaSilentlyOnStartup() {
+    renderOtaUpdateCard();
+    if (typeof navigator !== 'undefined' && navigator.onLine === false) return;
+    setTimeout(function () {
+      triggerOtaUpdateCheck();
+    }, 1200);
+  }
+
   if (typeof document !== 'undefined') {
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', renderOtaUpdateCard);
+      document.addEventListener('DOMContentLoaded', checkOtaSilentlyOnStartup);
     } else {
-      renderOtaUpdateCard();
+      checkOtaSilentlyOnStartup();
     }
   }
 })(typeof window !== 'undefined' ? window : this);
