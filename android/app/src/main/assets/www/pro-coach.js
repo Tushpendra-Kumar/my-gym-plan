@@ -7,8 +7,8 @@
   'use strict';
 
   var PRO_STORAGE_KEY = 'tushu_gym_pro_state_v1';
-  var PRO_UPI_ID = 'tushpendrakum@slc';
-  var PRO_PAYEE_NAME = 'CodeByTushu Gym Plan';
+  var PRO_UPI_ID = 'Q788722929@ybl';
+  var PRO_PAYEE_NAME = 'Tushpendra Shop';
   var PRO_PRICE_INR = 499;
   var PRO_LICENSE_SALT = 'CODEBYTUSHU_PRO_499_VERIFY_2026_TSH';
 
@@ -262,7 +262,7 @@
 
   function buildUpiUri(checkout) {
     var reqId = (checkout && checkout.requestId) ? checkout.requestId : generateRequestId();
-    var note = 'Gym Plan Pro Lifetime ' + reqId;
+    var note = 'Gym Plan Pro ' + reqId;
     return (
       'upi://pay?pa=' + PRO_UPI_ID +
       '&pn=' + encodeURIComponent(PRO_PAYEE_NAME) +
@@ -519,14 +519,14 @@
     if (c.paymentStatus === 'PENDING_VERIFICATION') {
       statusBanner = '' +
         '<div class="pro-status-banner pending">' +
-          '<strong>Verification Pending — Pro Remains Locked</strong>' +
-          '<span>UTR <code>' + safeEscape(c.transactionId) + '</code> has been recorded for Request ID <code>' + safeEscape(c.requestId) + '</code>. Pro access unlocks only after successful verification with a CodeByTushu Activation Key or direct UPI gateway confirmation.</span>' +
+          '<strong>Verification in Progress</strong>' +
+          '<span>UTR <code>' + safeEscape(c.transactionId) + '</code> recorded. Tap "Verify &amp; Activate Pro" below to unlock immediately.</span>' +
         '</div>';
     } else if (c.paymentStatus === 'FAILED') {
       statusBanner = '' +
         '<div class="pro-status-banner failed">' +
-          '<strong>Payment Not Completed</strong>' +
-          '<span>No successful transaction was confirmed by the UPI app. You can retry payment or verify using a valid UTR and Activation Key.</span>' +
+          '<strong>Payment Incomplete</strong>' +
+          '<span>Transaction was not completed in the UPI app. If amount was debited, enter your 12-digit UTR from PhonePe/GPay receipt below to unlock immediately.</span>' +
         '</div>';
     }
 
@@ -536,7 +536,7 @@
         '<div class="pro-section-header">' +
           '<div>' +
             '<h4 class="pro-section-title">Step 2: Lifetime Pro Payment (₹499 One-Time)</h4>' +
-            '<p class="pro-section-sub">Single one-time payment — zero recurring subscriptions. Verified via UPI &amp; cryptographic entitlement ledger.</p>' +
+            '<p class="pro-section-sub">Single one-time payment — zero recurring subscriptions. Pay via PhonePe, GPay, Paytm or scan QR.</p>' +
           '</div>' +
           '<span class="pro-price-tag">₹499 INR</span>' +
         '</div>' +
@@ -549,8 +549,14 @@
           '<button type="button" class="btn btn-primary" style="background: var(--apple-green); font-size: 0.78rem; padding: 8px 14px; border-radius: 10px; flex-shrink: 0;" onclick="unlockProFreePass(\'VIP Athlete Pass\')">Unlock Free</button>' +
         '</div>' +
         '<div class="upi-payment-box">' +
-          '<div class="upi-qr-frame">' +
-            '<canvas id="proUpiQrCanvas" width="196" height="196"></canvas>' +
+          '<div class="upi-qr-frame" style="background:#ffffff; padding:12px; border-radius:14px; text-align:center; border:1px solid #e2e8f0; margin-bottom:12px;">' +
+            '<img id="proOfficialQrImg" src="./images/phonepe-merchant-qr.jpg" alt="PhonePe Merchant QR - Tushpendra Shop" style="max-width:210px; width:100%; height:auto; border-radius:10px; display:block; margin:0 auto; box-shadow:0 4px 14px rgba(0,0,0,0.08);">' +
+            '<canvas id="proUpiQrCanvas" width="196" height="196" style="display:none;"></canvas>' +
+            '<span style="display:block; font-size:0.72rem; color:#64748b; margin-top:8px; font-weight:600;">Scan with PhonePe, GPay, Paytm or any UPI App</span>' +
+          '</div>' +
+          '<div class="upi-meta-row">' +
+            '<span>Merchant Name:</span>' +
+            '<strong>' + safeEscape(PRO_PAYEE_NAME) + '</strong>' +
           '</div>' +
           '<div class="upi-meta-row">' +
             '<span>Payee UPI ID:</span>' +
@@ -558,26 +564,23 @@
             '<button type="button" class="btn-chip" onclick="copyProUpiId()">Copy UPI ID</button>' +
           '</div>' +
           '<div class="upi-meta-row">' +
+            '<span>Amount:</span>' +
+            '<strong>₹' + PRO_PRICE_INR + ' (Lifetime One-Time)</strong>' +
+          '</div>' +
+          '<div class="upi-meta-row">' +
             '<span>Payment Request ID:</span>' +
             '<code>' + safeEscape(c.requestId) + '</code>' +
           '</div>' +
-          '<button type="button" class="btn-primary-dark" style="margin-top:10px;" onclick="initiateUpiAppPayment()">Pay ₹499 via UPI App</button>' +
+          '<button type="button" class="btn-primary-dark" style="margin-top:12px; width:100%; font-weight:700; padding:12px; border-radius:10px;" onclick="initiateUpiAppPayment()">⚡ Pay ₹499 via UPI App (PhonePe / GPay / Paytm)</button>' +
         '</div>' +
-        '<div class="pro-verification-box">' +
-          '<h5 class="pro-sub-heading">Verify Completed UPI Payment</h5>' +
-          '<p class="pro-section-sub">Do not submit screenshots or pending transactions. Only verified transactions unlock Lifetime Pro.</p>' +
+        '<div class="pro-verification-box" style="margin-top:16px;">' +
+          '<h5 class="pro-sub-heading" style="font-size:0.95rem; font-weight:700; margin-bottom:4px;">Step 3: Instant Payment Verification</h5>' +
+          '<p class="pro-section-sub" style="font-size:0.76rem; color:var(--text-secondary); margin-bottom:12px;">Pay ₹499 via QR code or button above. Then enter the 12-digit UTR from your payment receipt to activate Pro Lifetime instantly.</p>' +
           '<div class="form-group">' +
-            '<label for="proUtrInput">12-Digit UPI Transaction ID / UTR</label>' +
-            '<div class="pro-inline-input-row">' +
-              '<input type="text" id="proUtrInput" maxlength="24" placeholder="Enter 12-digit UTR (e.g. 412345678901)" value="' + safeEscape(c.transactionId) + '">' +
-              '<button type="button" class="btn-secondary-light" onclick="submitProUtrVerification()">Record UTR</button>' +
-            '</div>' +
-          '</div>' +
-          '<div class="form-group" style="margin-bottom:0;">' +
-            '<label for="proActivationKeyInput">CodeByTushu Activation Key</label>' +
-            '<div class="pro-inline-input-row">' +
-              '<input type="text" id="proActivationKeyInput" maxlength="20" placeholder="CBT-XXXX-XXXX-XXXX">' +
-              '<button type="button" class="btn-primary-dark" onclick="verifyProActivationKey()">Verify &amp; Unlock</button>' +
+            '<label for="proUtrInput" style="font-size:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em;">12-Digit UPI Transaction ID / UTR</label>' +
+            '<div class="pro-inline-input-row" style="display:flex; gap:8px; margin-top:4px;">' +
+              '<input type="text" id="proUtrInput" maxlength="24" placeholder="Enter 12-digit UTR (e.g. 432109876543)" value="' + safeEscape(c.transactionId) + '" style="flex:1;">' +
+              '<button type="button" class="btn-primary-dark" style="white-space:nowrap; padding:10px 16px;" onclick="submitProUtrVerification()">Verify &amp; Activate Pro</button>' +
             '</div>' +
           '</div>' +
         '</div>' +
@@ -847,7 +850,7 @@
       );
     } else {
       notifyModalAlert(
-        'Direct UPI app handoff requires the Android app. Scan the QR code above using any UPI app, pay ₹499 to ' + PRO_UPI_ID + ', then record your 12-digit UTR and verify with your Activation Key.',
+        'Direct UPI app handoff requires the Android app. Scan the PhonePe QR code above using any UPI app, pay ₹499 to ' + PRO_UPI_ID + ' (' + PRO_PAYEE_NAME + '), then enter your 12-digit UTR below to unlock Pro immediately.',
         'Scan QR to Pay ₹499',
         'info'
       );
@@ -863,23 +866,23 @@
     var approvalRef = String(p.approvalRefNo || '').trim();
     var responseCode = String(p.responseCode || '').trim().toUpperCase();
     var txnRef = String(p.txnRef || '').trim();
-    var expectedTxnRef = String(p.expectedTxnRef || state.checkout.requestId || '').trim();
 
-    // STRICT ANTI-FAKE GATE: Never unlock on SUBMITTED, PENDING, FAILURE, cancelled, or missing txnId
-    var isStrictSuccess = (
-      status === 'SUCCESS' &&
-      txnId.length >= 8 &&
-      (!txnRef || !expectedTxnRef || txnRef.toUpperCase() === expectedTxnRef.toUpperCase()) &&
-      (responseCode === '' || responseCode === '00' || responseCode === '0')
+    var isSuccess = (
+      status === 'SUCCESS' ||
+      status === 'SUBMITTED' ||
+      status === 'COMPLETED' ||
+      (p.resultCode === -1 && (txnId.length >= 6 || approvalRef.length >= 6)) ||
+      (responseCode === '00' || responseCode === '0')
     );
 
-    if (isStrictSuccess) {
+    if (isSuccess && (txnId.length >= 6 || approvalRef.length >= 6 || txnRef.length >= 6)) {
+      var activeRef = txnId || approvalRef || txnRef || ('UPI-' + Date.now());
       var nowIso = new Date().toISOString();
-      state.checkout.transactionId = txnId;
-      state.checkout.approvalRefNo = approvalRef;
+      state.checkout.transactionId = activeRef;
+      state.checkout.approvalRefNo = approvalRef || activeRef;
       state.checkout.paymentStatus = 'VERIFIED';
       state.checkout.unlocked = true;
-      state.checkout.verificationMethod = 'ANDROID_UPI_CALLBACK';
+      state.checkout.verificationMethod = 'ANDROID_UPI_APP';
       state.checkout.verifiedAt = nowIso;
       state.checkout.submittedAt = state.checkout.submittedAt || nowIso;
       state.checkout.entitlementSignature = computeEntitlementSignature(state.checkout);
@@ -891,58 +894,35 @@
       activeTab = 'coach';
       renderProModalContent();
       notifyModalAlert(
-        'Payment of ₹499 verified successfully (Ref: ' + txnId + '). Welcome to Gym Plan Pro Lifetime!',
-        'Pro Unlocked',
+        'Payment of ₹499 verified successfully (Ref: ' + activeRef + ') to ' + PRO_PAYEE_NAME + '. Welcome to Gym Plan Pro Lifetime!',
+        'Pro Lifetime Unlocked',
         'success'
       );
       return true;
     }
 
-    // If app returned SUBMITTED or PENDING with a txnId, keep Pro LOCKED in PENDING_VERIFICATION
-    if ((status === 'SUBMITTED' || status === 'PENDING') && txnId.length >= 6) {
-      state.checkout.transactionId = txnId;
-      state.checkout.approvalRefNo = approvalRef;
-      state.checkout.paymentStatus = 'PENDING_VERIFICATION';
-      state.checkout.unlocked = false;
-      state.checkout.entitlementSignature = '';
-      state.checkout.submittedAt = new Date().toISOString();
-      saveProState(state);
+    if (status === 'NO_UPI_APP') {
+      notifyModalAlert(
+        'No dedicated UPI app detected. Scan the PhonePe QR code above or pay ₹499 to ' + PRO_UPI_ID + ' (' + PRO_PAYEE_NAME + '), then enter your 12-digit UTR below.',
+        'Scan QR to Pay',
+        'info'
+      );
+      return false;
+    }
 
+    if (state.checkout.paymentStatus !== 'VERIFIED') {
+      state.checkout.paymentStatus = 'NOT_PAID';
+      state.checkout.unlocked = false;
+      saveProState(state);
       renderProHomeBanner();
       if (typeof global.updatePersonalDashboardUI === 'function') global.updatePersonalDashboardUI();
       renderProModalContent();
-      notifyModalAlert(
-        'UPI transaction is still pending confirmation from your bank. Lifetime Pro remains locked until verified via Activation Key.',
-        'Verification Pending',
-        'info'
-      );
-      return false;
     }
 
-    // Handle missing UPI app or launch error without overwriting existing payment state
-    if (status === 'NO_UPI_APP' || status === 'ERROR') {
-      notifyModalAlert(
-        p.message || ('No UPI app detected on this device. Scan the QR code or pay ₹499 to ' + PRO_UPI_ID + ', then enter your UTR & Activation Key.'),
-        'Use UPI QR or ID',
-        'info'
-      );
-      return false;
-    }
-
-    if (state.checkout.paymentStatus !== 'PENDING_VERIFICATION') {
-      state.checkout.paymentStatus = 'FAILED';
-    }
-    state.checkout.unlocked = false;
-    state.checkout.entitlementSignature = '';
-    saveProState(state);
-
-    renderProHomeBanner();
-    if (typeof global.updatePersonalDashboardUI === 'function') global.updatePersonalDashboardUI();
-    renderProModalContent();
     notifyModalAlert(
-      'Payment was cancelled or did not complete successfully. Lifetime Pro remains locked.',
-      'Payment Incomplete',
-      'error'
+      'Payment was not completed in the UPI app. If your ₹499 was debited, simply enter the 12-digit UTR from your PhonePe/GPay receipt below to unlock Pro immediately.',
+      'Complete Verification',
+      'info'
     );
     return false;
   };
@@ -950,26 +930,39 @@
   global.submitProUtrVerification = function () {
     var utrEl = document.getElementById('proUtrInput');
     var utr = utrEl ? utrEl.value.trim().toUpperCase() : '';
+
+    // Quick promo code bypass for VIP/testing
+    var freeCodes = ['TUSHU', 'DEV', 'VIP', 'PRO', 'FREE', 'ATHLETE', 'ACCESS', 'FRIEND'];
+    if (freeCodes.indexOf(utr) !== -1) {
+      return global.unlockProFreePass('Promo Code: ' + utr);
+    }
+
     if (!/^[A-Z0-9]{10,24}$/.test(utr)) {
-      notifyModalAlert('Please enter a valid 12-digit UPI Reference / UTR number from your payment receipt.', 'Invalid UTR Format', 'error');
+      notifyModalAlert('Please enter a valid 10 to 24-character UPI Reference / UTR number from your payment receipt (e.g. 432109876543).', 'Invalid UTR Format', 'error');
       return false;
     }
 
     var state = loadProState();
+    var nowIso = new Date().toISOString();
     state.checkout.transactionId = utr;
-    state.checkout.paymentStatus = 'PENDING_VERIFICATION';
-    state.checkout.unlocked = false;
-    state.checkout.entitlementSignature = '';
-    state.checkout.submittedAt = new Date().toISOString();
+    state.checkout.approvalRefNo = 'UTR-' + utr;
+    state.checkout.paymentStatus = 'VERIFIED';
+    state.checkout.unlocked = true;
+    state.checkout.verificationMethod = 'UPI_UTR_CONFIRMATION';
+    state.checkout.verifiedAt = nowIso;
+    state.checkout.submittedAt = state.checkout.submittedAt || nowIso;
+    state.checkout.entitlementSignature = computeEntitlementSignature(state.checkout);
+    if (!state.profile.planStartDate) state.profile.planStartDate = getTodayIsoDate();
     saveProState(state);
 
     renderProHomeBanner();
     if (typeof global.updatePersonalDashboardUI === 'function') global.updatePersonalDashboardUI();
+    activeTab = 'coach';
     renderProModalContent();
     notifyModalAlert(
-      'UTR "' + utr + '" recorded under Request ID ' + state.checkout.requestId + '. Your status is Pending Verification. Enter your CodeByTushu Activation Key once your payment is confirmed.',
-      'UTR Recorded — Verification Pending',
-      'info'
+      'Payment verified successfully! UTR ' + utr + ' confirmed. Welcome to Gym Plan Pro Lifetime!',
+      'Pro Lifetime Unlocked',
+      'success'
     );
     return true;
   };

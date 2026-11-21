@@ -89,8 +89,12 @@ public class MainActivity extends AppCompatActivity {
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     String rawResponse = "";
-                    if (result.getData() != null && result.getData().getStringExtra("response") != null) {
-                        rawResponse = result.getData().getStringExtra("response");
+                    if (result.getData() != null) {
+                        if (result.getData().getStringExtra("response") != null) {
+                            rawResponse = result.getData().getStringExtra("response");
+                        } else if (result.getData().getData() != null && result.getData().getData().getQuery() != null) {
+                            rawResponse = result.getData().getData().getQuery();
+                        }
                     }
                     deliverUpiResultToWeb(result.getResultCode(), rawResponse);
                 }
@@ -366,10 +370,10 @@ public class MainActivity extends AppCompatActivity {
             runOnUiThread(() -> {
                 try {
                     pendingUpiTxnRef = txnRef != null ? txnRef : "";
-                    String safeUpiId = upiId != null ? upiId.trim() : "";
-                    String safePayee = payeeName != null ? payeeName.trim() : "CodeByTushu Gym Plan";
-                    String safeNote = note != null ? note.trim() : "Gym Plan Pro Lifetime";
-                    String safeAmount = amount != null ? amount.trim() : "499.00";
+                    String safeUpiId = (upiId != null && !upiId.trim().isEmpty()) ? upiId.trim() : "Q788722929@ybl";
+                    String safePayee = (payeeName != null && !payeeName.trim().isEmpty()) ? payeeName.trim() : "Tushpendra Shop";
+                    String safeNote = (note != null && !note.trim().isEmpty()) ? note.trim() : "Gym Plan Pro Lifetime";
+                    String safeAmount = (amount != null && !amount.trim().isEmpty()) ? amount.trim() : "499.00";
 
                     String upiUriStr = "upi://pay"
                             + "?pa=" + Uri.encode(safeUpiId, "@")
@@ -383,7 +387,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent upiIntent = new Intent(Intent.ACTION_VIEW, uri);
                     if (!getPackageManager().queryIntentActivities(upiIntent, 0).isEmpty()
                             || upiIntent.resolveActivity(getPackageManager()) != null) {
-                        Intent chooser = Intent.createChooser(upiIntent, "Pay ₹499 via UPI App");
+                        Intent chooser = Intent.createChooser(upiIntent, "Pay ₹499 to Tushpendra Shop via UPI");
                         upiPaymentLauncher.launch(chooser);
                     } else {
                         JSONObject errPayload = new JSONObject();

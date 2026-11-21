@@ -2,11 +2,11 @@
   "app": "My GYM Plan",
   "repo": "Tushpendra-Kumar/my-gym-plan",
   "branch": "main",
-  "version": "0.05.3",
-  "buildNumber": 10,
+  "version": "0.05.4",
+  "buildNumber": 11,
   "nativeVersionCode": 7,
-  "releasedAt": "2026-11-18",
-  "notes": "Full quality audit fix: Backup/Restore, Hard Reset & 6-Month Retention for Habits + Room Fitness + offline cache",
+  "releasedAt": "2026-11-21",
+  "notes": "patch Verified PhonePe Merchant QR & instant UPI payment unlock (Q788722929@ybl • Tushpendra Shop)",
   "releaseUrl": "https://github.com/Tushpendra-Kumar/my-gym-plan/releases/latest",
   "files": [
     "index.html",
@@ -20,6 +20,7 @@
     "ota-updater.js",
     "ota-manifest.json",
     "manifest.json",
-    "sw.js"
+    "sw.js",
+    "images/phonepe-merchant-qr.jpg"
   ]
 }
