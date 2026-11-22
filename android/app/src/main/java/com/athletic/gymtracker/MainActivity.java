@@ -58,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String OTA_RAW_BASE = "https://raw.githubusercontent.com/Tushpendra-Kumar/my-gym-plan/main/";
     private static final String OTA_MANIFEST_URL = OTA_RAW_BASE + "ota-manifest.json";
     private static final String OTA_RELEASES_URL = "https://github.com/Tushpendra-Kumar/my-gym-plan/releases/latest";
-    private static final int BUNDLED_OTA_BUILD_NUMBER = 8;
-    private static final String BUNDLED_OTA_VERSION = "0.05.1";
+    private static final int BUNDLED_OTA_BUILD_NUMBER = 13;
+    private static final String BUNDLED_OTA_VERSION = "0.05.6";
     private static final String OTA_PREFS = "tushu_ota_state";
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -174,8 +174,13 @@ public class MainActivity extends AppCompatActivity {
         // Register Native JavaScript Bridge for Offline Reminders & Alarms
         webView.addJavascriptInterface(new WebAppInterface(this), "Android");
 
-        // Load 100% Offline Local Assets
-        webView.loadUrl("file:///android_asset/www/index.html");
+        // Load 100% Offline Local Assets (Prefer Live OTA bundle if active, fallback to bundled APK assets)
+        File otaIndex = new File(new File(getFilesDir(), "ota_www"), "index.html");
+        if (isOtaBundleActive() && otaIndex.exists()) {
+            webView.loadUrl(Uri.fromFile(otaIndex).toString());
+        } else {
+            webView.loadUrl("file:///android_asset/www/index.html");
+        }
 
         // Handle Back button - Multi-Tier Navigation (Modals -> Drawer -> Tabs -> Home -> Double-Back Exit)
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
@@ -583,7 +588,12 @@ public class MainActivity extends AppCompatActivity {
                         if (webView != null) {
                             webView.postDelayed(() -> {
                                 webView.clearCache(true);
-                                webView.loadUrl("file:///android_asset/www/index.html");
+                                File activeIndex = new File(new File(getFilesDir(), "ota_www"), "index.html");
+                                if (activeIndex.exists()) {
+                                    webView.loadUrl(Uri.fromFile(activeIndex).toString());
+                                } else {
+                                    webView.loadUrl("file:///android_asset/www/index.html");
+                                }
                             }, 1100);
                         }
                     });
