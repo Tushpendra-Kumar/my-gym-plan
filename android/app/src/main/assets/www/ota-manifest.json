@@ -6,7 +6,7 @@
   "buildNumber": 13,
   "nativeVersionCode": 8,
   "releasedAt": "2026-11-22",
-  "notes": "v0.05.6: PhonePe Verified Merchant (Q788722929@ybl • Tushpendra Shop) + instant lifetime unlock + direct internal storage OTA loading",
+  "notes": "v0.05.6: PhonePe Verified Merchant (Q788722929@ybl • CodeByTushu) + instant lifetime unlock + direct internal storage OTA loading",
   "releaseUrl": "https://github.com/Tushpendra-Kumar/my-gym-plan/releases/latest",
   "files": [
     "index.html",
@@ -21,6 +21,7 @@
     "ota-manifest.json",
     "manifest.json",
     "sw.js",
-    "images/phonepe-merchant-qr.jpg"
+    "images/phonepe-merchant-qr.jpg",
+    "images/phonepe-merchant-qr.png"
   ]
 }

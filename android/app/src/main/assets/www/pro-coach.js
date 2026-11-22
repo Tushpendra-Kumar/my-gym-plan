@@ -8,7 +8,7 @@
 
   var PRO_STORAGE_KEY = 'tushu_gym_pro_state_v1';
   var PRO_UPI_ID = 'Q788722929@ybl';
-  var PRO_PAYEE_NAME = 'Tushpendra Shop';
+  var PRO_PAYEE_NAME = 'CodeByTushu';
   var PRO_PRICE_INR = 499;
   var PRO_LICENSE_SALT = 'CODEBYTUSHU_PRO_499_VERIFY_2026_TSH';
 
@@ -550,7 +550,7 @@
         '</div>' +
         '<div class="upi-payment-box">' +
           '<div class="upi-qr-frame" style="background:#ffffff; padding:12px; border-radius:14px; text-align:center; border:1px solid #e2e8f0; margin-bottom:12px;">' +
-            '<img id="proOfficialQrImg" src="./images/phonepe-merchant-qr.jpg" alt="PhonePe Merchant QR - Tushpendra Shop" style="max-width:210px; width:100%; height:auto; border-radius:10px; display:block; margin:0 auto; box-shadow:0 4px 14px rgba(0,0,0,0.08);">' +
+            '<img id="proOfficialQrImg" src="./images/phonepe-merchant-qr.png" alt="PhonePe Merchant QR - CodeByTushu" style="max-width:210px; width:100%; height:auto; border-radius:10px; display:block; margin:0 auto; box-shadow:0 4px 14px rgba(0,0,0,0.08);">' +
             '<canvas id="proUpiQrCanvas" width="196" height="196" style="display:none;"></canvas>' +
             '<span style="display:block; font-size:0.72rem; color:#64748b; margin-top:8px; font-weight:600;">Scan with PhonePe, GPay, Paytm or any UPI App</span>' +
           '</div>' +

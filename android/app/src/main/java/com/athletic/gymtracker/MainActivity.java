@@ -376,7 +376,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     pendingUpiTxnRef = txnRef != null ? txnRef : "";
                     String safeUpiId = (upiId != null && !upiId.trim().isEmpty()) ? upiId.trim() : "Q788722929@ybl";
-                    String safePayee = (payeeName != null && !payeeName.trim().isEmpty()) ? payeeName.trim() : "Tushpendra Shop";
+                    String safePayee = (payeeName != null && !payeeName.trim().isEmpty()) ? payeeName.trim() : "CodeByTushu";
                     String safeNote = (note != null && !note.trim().isEmpty()) ? note.trim() : "Gym Plan Pro Lifetime";
                     String safeAmount = (amount != null && !amount.trim().isEmpty()) ? amount.trim() : "499.00";
 
@@ -392,7 +392,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent upiIntent = new Intent(Intent.ACTION_VIEW, uri);
                     if (!getPackageManager().queryIntentActivities(upiIntent, 0).isEmpty()
                             || upiIntent.resolveActivity(getPackageManager()) != null) {
-                        Intent chooser = Intent.createChooser(upiIntent, "Pay ₹499 to Tushpendra Shop via UPI");
+                        Intent chooser = Intent.createChooser(upiIntent, "Pay ₹499 to CodeByTushu via UPI");
                         upiPaymentLauncher.launch(chooser);
                     } else {
                         JSONObject errPayload = new JSONObject();
