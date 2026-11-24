@@ -754,6 +754,9 @@ function loadPlan() {
 function savePlan() {
   try {
     localStorage.setItem(STORAGE_PLAN, JSON.stringify(workoutPlan));
+    if (window.CloudSync && typeof window.CloudSync.triggerAutoSync === 'function') {
+      window.CloudSync.triggerAutoSync();
+    }
   } catch (e) {
     console.error("Error saving plan", e);
   }
@@ -772,6 +775,9 @@ function loadHistory() {
 function saveHistory() {
   try {
     localStorage.setItem(STORAGE_HISTORY, JSON.stringify(workoutHistory));
+    if (window.CloudSync && typeof window.CloudSync.triggerAutoSync === 'function') {
+      window.CloudSync.triggerAutoSync();
+    }
   } catch (e) {
     console.error("Error saving history", e);
   }
@@ -790,10 +796,36 @@ function loadMeals() {
 function saveMeals() {
   try {
     localStorage.setItem(STORAGE_MEALS, JSON.stringify(nutritionMeals));
+    if (window.CloudSync && typeof window.CloudSync.triggerAutoSync === 'function') {
+      window.CloudSync.triggerAutoSync();
+    }
   } catch (e) {
     console.error("Error saving meals", e);
   }
 }
+
+// Reload in-memory variables and views after cloud restoration
+window.reloadAppDataFromStorage = function () {
+  try {
+    workoutPlan = loadPlan();
+    workoutHistory = loadHistory();
+    nutritionMeals = loadMeals();
+    athleteRoadmap = loadRoadmap();
+    if (typeof updateUserGreeting === 'function') updateUserGreeting();
+    if (typeof renderHomeStats === 'function') renderHomeStats();
+    if (typeof renderWeeklyBars === 'function') renderWeeklyBars();
+    if (typeof renderWorkoutView === 'function') renderWorkoutView();
+    if (typeof renderActivityStats === 'function') renderActivityStats();
+    if (typeof renderMeals === 'function') renderMeals();
+    if (typeof renderRoadmapHero === 'function') renderRoadmapHero();
+    if (typeof updatePersonalDashboardUI === 'function') updatePersonalDashboardUI();
+    if (typeof window.renderProHomeBanner === 'function') window.renderProHomeBanner();
+    if (typeof window.renderHabitsTracker === 'function') window.renderHabitsTracker();
+    if (typeof window.renderRoomFitnessView === 'function') window.renderRoomFitnessView();
+  } catch (e) {
+    console.error('Error reloading app state from storage:', e);
+  }
+};
 
 function getUserName() {
   const saved = localStorage.getItem(STORAGE_USER_NAME);

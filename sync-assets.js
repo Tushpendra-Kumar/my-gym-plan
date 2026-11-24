@@ -11,7 +11,7 @@ if (!fs.existsSync(assetsTarget)) {
 }
 
 // Copy web files
-const filesToCopy = ['index.html', 'style.css', 'qr-offline.js', 'visual-guides.js', 'app.js', 'pro-coach.js', 'habits-tracker.js', 'room-fitness.js', 'ota-updater.js', 'ota-manifest.json', 'manifest.json', 'sw.js'];
+const filesToCopy = ['index.html', 'style.css', 'cloud-sync.js', 'qr-offline.js', 'visual-guides.js', 'app.js', 'pro-coach.js', 'habits-tracker.js', 'room-fitness.js', 'ota-updater.js', 'ota-manifest.json', 'manifest.json', 'sw.js'];
 filesToCopy.forEach(file => {
   const src = path.join(rootDir, file);
   const dest = path.join(assetsTarget, file);

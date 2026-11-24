@@ -225,6 +225,9 @@
       if (typeof localStorage !== 'undefined') {
         localStorage.setItem(PRO_STORAGE_KEY, JSON.stringify(state));
       }
+      if (typeof global !== 'undefined' && global.CloudSync && typeof global.CloudSync.triggerAutoSync === 'function') {
+        global.CloudSync.triggerAutoSync();
+      }
     } catch (e) {
       // Storage unavailable
     }
