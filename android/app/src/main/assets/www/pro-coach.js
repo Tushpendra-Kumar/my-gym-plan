@@ -549,18 +549,18 @@
           '<button type="button" class="btn btn-primary" style="background: var(--apple-green); font-size: 0.78rem; padding: 8px 14px; border-radius: 10px; flex-shrink: 0;" onclick="unlockProFreePass(\'VIP Athlete Pass\')">Unlock Free</button>' +
         '</div>' +
         '<div class="upi-payment-box">' +
-          '<div class="upi-qr-frame" style="background:#ffffff; padding:18px 16px; border-radius:18px; text-align:center; border:1px solid #e2e8f0; margin-bottom:14px; box-shadow:0 4px 16px rgba(0,0,0,0.04);">' +
-            '<div style="display:inline-flex; align-items:center; gap:6px; background:#f1f5f9; padding:5px 12px; border-radius:20px; margin-bottom:14px;">' +
+          '<div class="upi-qr-frame" style="background:#ffffff; padding:16px 14px; border-radius:18px; text-align:center; border:1px solid #e2e8f0; margin:0 auto 14px auto; max-width:260px; width:100%; box-sizing:border-box; display:flex !important; flex-direction:column !important; align-items:center !important; justify-content:center !important; box-shadow:0 4px 16px rgba(0,0,0,0.04);">' +
+            '<div style="display:inline-flex; align-items:center; justify-content:center; gap:6px; background:#f1f5f9; padding:5px 12px; border-radius:20px; margin-bottom:12px;">' +
               '<span style="width:7px; height:7px; background:#10b981; border-radius:50%; display:inline-block;"></span>' +
-              '<span style="font-size:0.72rem; font-weight:700; letter-spacing:0.04em; color:#0f172a; text-transform:uppercase;">CodeByTushu Official Checkout</span>' +
+              '<span style="font-size:0.70rem; font-weight:700; letter-spacing:0.04em; color:#0f172a; text-transform:uppercase;">CodeByTushu Official Checkout</span>' +
             '</div>' +
-            '<div style="display:flex; justify-content:center; align-items:center; margin:0 auto; max-width:210px;">' +
-              '<img id="proOfficialQrImg" src="./images/custom-upi-qr.png" alt="CodeByTushu Custom UPI QR" style="width:196px; height:196px; border-radius:12px; display:block; margin:0 auto; box-shadow:0 2px 8px rgba(0,0,0,0.06);">' +
-              '<canvas id="proUpiQrCanvas" width="196" height="196" style="display:none; border-radius:12px;"></canvas>' +
+            '<div style="display:flex; justify-content:center; align-items:center; width:100%; margin:0 auto;">' +
+              '<img id="proOfficialQrImg" src="./images/custom-upi-qr.png" alt="CodeByTushu Custom UPI QR" style="width:176px; height:176px; max-width:100%; border-radius:10px; display:block; margin:0 auto; box-shadow:0 2px 8px rgba(0,0,0,0.06);">' +
+              '<canvas id="proUpiQrCanvas" width="176" height="176" style="display:none; border-radius:10px;"></canvas>' +
             '</div>' +
-            '<div style="margin-top:12px;">' +
-              '<div style="font-size:0.92rem; font-weight:800; color:#0f172a;">₹' + PRO_PRICE_INR + ' • Lifetime Pro Access</div>' +
-              '<span style="display:block; font-size:0.72rem; color:#64748b; margin-top:3px; font-weight:500;">Scan with any UPI app to pay directly</span>' +
+            '<div style="margin-top:12px; text-align:center; width:100%;">' +
+              '<div style="font-size:0.90rem; font-weight:800; color:#0f172a;">₹' + PRO_PRICE_INR + ' • Lifetime Pro Access</div>' +
+              '<span style="display:block; font-size:0.70rem; color:#64748b; margin-top:3px; font-weight:500;">Scan with any UPI app to pay directly</span>' +
             '</div>' +
           '</div>' +
           '<div class="upi-meta-row">' +
