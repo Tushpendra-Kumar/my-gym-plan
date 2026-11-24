@@ -2,11 +2,11 @@
   "app": "My GYM Plan",
   "repo": "Tushpendra-Kumar/my-gym-plan",
   "branch": "main",
-  "version": "0.05.6",
-  "buildNumber": 13,
+  "version": "0.05.7",
+  "buildNumber": 14,
   "nativeVersionCode": 8,
-  "releasedAt": "2026-11-22",
-  "notes": "v0.05.6: PhonePe Verified Merchant (Q788722929@ybl • CodeByTushu) + instant lifetime unlock + direct internal storage OTA loading",
+  "releasedAt": "2026-11-24",
+  "notes": "v0.05.7: 100% brand-neutral custom CodeByTushu QR (zero third-party logos) + instant UPI payment unlock",
   "releaseUrl": "https://github.com/Tushpendra-Kumar/my-gym-plan/releases/latest",
   "files": [
     "index.html",
@@ -21,6 +21,8 @@
     "ota-manifest.json",
     "manifest.json",
     "sw.js",
+    "images/custom-upi-qr.png",
+    "images/custom-upi-qr.svg",
     "images/phonepe-merchant-qr.jpg",
     "images/phonepe-merchant-qr.png"
   ]

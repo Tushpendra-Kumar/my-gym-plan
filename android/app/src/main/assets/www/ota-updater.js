@@ -83,7 +83,7 @@
           '<div class="home-ota-notice-banner" style="background:#000000; color:#ffffff; padding:12px 16px; border-radius:14px; margin-bottom:14px; display:flex; align-items:center; justify-content:space-between; gap:10px; box-shadow:0 4px 14px rgba(0,0,0,0.12);">' +
             '<div>' +
               '<div style="font-size:0.84rem; font-weight:700;">✨ New Update (v' + safeEsc(otaUiState.remoteVersion) + ') Available!</div>' +
-              '<div style="font-size:0.72rem; opacity:0.8;">PhonePe Merchant UPI & instant payment unlock.</div>' +
+              '<div style="font-size:0.72rem; opacity:0.8;">Clean Custom CodeByTushu UPI QR &amp; instant payment unlock.</div>' +
             '</div>' +
             '<button type="button" class="btn btn-primary" style="background:#ffffff; color:#000000; font-size:0.75rem; font-weight:700; padding:7px 12px; border-radius:8px; flex-shrink:0;" onclick="installLiveOtaUpdate()">Install (2s)</button>' +
           '</div>';

@@ -526,7 +526,7 @@
       statusBanner = '' +
         '<div class="pro-status-banner failed">' +
           '<strong>Payment Incomplete</strong>' +
-          '<span>Transaction was not completed in the UPI app. If amount was debited, enter your 12-digit UTR from PhonePe/GPay receipt below to unlock immediately.</span>' +
+          '<span>Transaction was not completed in the UPI app. If amount was debited, enter your 12-digit UTR from your payment receipt below to unlock immediately.</span>' +
         '</div>';
     }
 
@@ -536,7 +536,7 @@
         '<div class="pro-section-header">' +
           '<div>' +
             '<h4 class="pro-section-title">Step 2: Lifetime Pro Payment (₹499 One-Time)</h4>' +
-            '<p class="pro-section-sub">Single one-time payment — zero recurring subscriptions. Pay via PhonePe, GPay, Paytm or scan QR.</p>' +
+            '<p class="pro-section-sub">Single one-time payment — zero recurring subscriptions. Pay via any UPI app or scan the QR code.</p>' +
           '</div>' +
           '<span class="pro-price-tag">₹499 INR</span>' +
         '</div>' +
@@ -549,13 +549,22 @@
           '<button type="button" class="btn btn-primary" style="background: var(--apple-green); font-size: 0.78rem; padding: 8px 14px; border-radius: 10px; flex-shrink: 0;" onclick="unlockProFreePass(\'VIP Athlete Pass\')">Unlock Free</button>' +
         '</div>' +
         '<div class="upi-payment-box">' +
-          '<div class="upi-qr-frame" style="background:#ffffff; padding:12px; border-radius:14px; text-align:center; border:1px solid #e2e8f0; margin-bottom:12px;">' +
-            '<img id="proOfficialQrImg" src="./images/phonepe-merchant-qr.png" alt="PhonePe Merchant QR - CodeByTushu" style="max-width:210px; width:100%; height:auto; border-radius:10px; display:block; margin:0 auto; box-shadow:0 4px 14px rgba(0,0,0,0.08);">' +
-            '<canvas id="proUpiQrCanvas" width="196" height="196" style="display:none;"></canvas>' +
-            '<span style="display:block; font-size:0.72rem; color:#64748b; margin-top:8px; font-weight:600;">Scan with PhonePe, GPay, Paytm or any UPI App</span>' +
+          '<div class="upi-qr-frame" style="background:#ffffff; padding:18px 16px; border-radius:18px; text-align:center; border:1px solid #e2e8f0; margin-bottom:14px; box-shadow:0 4px 16px rgba(0,0,0,0.04);">' +
+            '<div style="display:inline-flex; align-items:center; gap:6px; background:#f1f5f9; padding:5px 12px; border-radius:20px; margin-bottom:14px;">' +
+              '<span style="width:7px; height:7px; background:#10b981; border-radius:50%; display:inline-block;"></span>' +
+              '<span style="font-size:0.72rem; font-weight:700; letter-spacing:0.04em; color:#0f172a; text-transform:uppercase;">CodeByTushu Official Checkout</span>' +
+            '</div>' +
+            '<div style="display:flex; justify-content:center; align-items:center; margin:0 auto; max-width:210px;">' +
+              '<img id="proOfficialQrImg" src="./images/custom-upi-qr.png" alt="CodeByTushu Custom UPI QR" style="width:196px; height:196px; border-radius:12px; display:block; margin:0 auto; box-shadow:0 2px 8px rgba(0,0,0,0.06);">' +
+              '<canvas id="proUpiQrCanvas" width="196" height="196" style="display:none; border-radius:12px;"></canvas>' +
+            '</div>' +
+            '<div style="margin-top:12px;">' +
+              '<div style="font-size:0.92rem; font-weight:800; color:#0f172a;">₹' + PRO_PRICE_INR + ' • Lifetime Pro Access</div>' +
+              '<span style="display:block; font-size:0.72rem; color:#64748b; margin-top:3px; font-weight:500;">Scan with any UPI app to pay directly</span>' +
+            '</div>' +
           '</div>' +
           '<div class="upi-meta-row">' +
-            '<span>Merchant Name:</span>' +
+            '<span>Merchant / Payee:</span>' +
             '<strong>' + safeEscape(PRO_PAYEE_NAME) + '</strong>' +
           '</div>' +
           '<div class="upi-meta-row">' +
@@ -571,7 +580,7 @@
             '<span>Payment Request ID:</span>' +
             '<code>' + safeEscape(c.requestId) + '</code>' +
           '</div>' +
-          '<button type="button" class="btn-primary-dark" style="margin-top:12px; width:100%; font-weight:700; padding:12px; border-radius:10px;" onclick="initiateUpiAppPayment()">⚡ Pay ₹499 via UPI App (PhonePe / GPay / Paytm)</button>' +
+          '<button type="button" class="btn-primary-dark" style="margin-top:12px; width:100%; font-weight:700; padding:12px; border-radius:10px;" onclick="initiateUpiAppPayment()">⚡ Pay ₹499 via Installed UPI App</button>' +
         '</div>' +
         '<div class="pro-verification-box" style="margin-top:16px;">' +
           '<h5 class="pro-sub-heading" style="font-size:0.95rem; font-weight:700; margin-bottom:4px;">Step 3: Instant Payment Verification</h5>' +
@@ -850,7 +859,7 @@
       );
     } else {
       notifyModalAlert(
-        'Direct UPI app handoff requires the Android app. Scan the PhonePe QR code above using any UPI app, pay ₹499 to ' + PRO_UPI_ID + ' (' + PRO_PAYEE_NAME + '), then enter your 12-digit UTR below to unlock Pro immediately.',
+        'Direct UPI app handoff requires the Android app. Scan the QR code above using any UPI app, pay ₹499 to ' + PRO_UPI_ID + ' (' + PRO_PAYEE_NAME + '), then enter your 12-digit UTR below to unlock Pro immediately.',
         'Scan QR to Pay ₹499',
         'info'
       );
@@ -903,7 +912,7 @@
 
     if (status === 'NO_UPI_APP') {
       notifyModalAlert(
-        'No dedicated UPI app detected. Scan the PhonePe QR code above or pay ₹499 to ' + PRO_UPI_ID + ' (' + PRO_PAYEE_NAME + '), then enter your 12-digit UTR below.',
+        'No dedicated UPI app detected. Scan the QR code above or pay ₹499 to ' + PRO_UPI_ID + ' (' + PRO_PAYEE_NAME + '), then enter your 12-digit UTR below.',
         'Scan QR to Pay',
         'info'
       );
@@ -920,7 +929,7 @@
     }
 
     notifyModalAlert(
-      'Payment was not completed in the UPI app. If your ₹499 was debited, simply enter the 12-digit UTR from your PhonePe/GPay receipt below to unlock Pro immediately.',
+      'Payment was not completed in the UPI app. If your ₹499 was debited, simply enter the 12-digit UTR from your UPI payment receipt below to unlock Pro immediately.',
       'Complete Verification',
       'info'
     );
