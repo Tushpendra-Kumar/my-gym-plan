@@ -124,17 +124,27 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     if (request != null && request.getUrl() != null) {
                         String fullUrl = request.getUrl().toString();
-                        String prefix = "file:///android_asset/www/";
-                        if (fullUrl.startsWith(prefix) && isOtaBundleActive()) {
-                            String relPath = fullUrl.substring(prefix.length());
+                        String assetPrefix = "file:///android_asset/www/";
+                        File otaDir = new File(getFilesDir(), "ota_www");
+                        String otaPrefix = Uri.fromFile(otaDir).toString();
+                        if (!otaPrefix.endsWith("/")) otaPrefix += "/";
+
+                        String relPath = null;
+                        if (fullUrl.startsWith(assetPrefix)) {
+                            relPath = fullUrl.substring(assetPrefix.length());
+                        } else if (fullUrl.startsWith(otaPrefix)) {
+                            relPath = fullUrl.substring(otaPrefix.length());
+                        }
+
+                        if (relPath != null && !relPath.isEmpty() && !relPath.contains("..")) {
                             int qIdx = relPath.indexOf('?');
                             if (qIdx >= 0) relPath = relPath.substring(0, qIdx);
                             int hIdx = relPath.indexOf('#');
                             if (hIdx >= 0) relPath = relPath.substring(0, hIdx);
 
-                            // Reject path traversal
-                            if (!relPath.isEmpty() && !relPath.contains("..")) {
-                                File otaFile = new File(new File(getFilesDir(), "ota_www"), relPath);
+                            // 1. Try OTA updated file first
+                            if (isOtaBundleActive()) {
+                                File otaFile = new File(otaDir, relPath);
                                 if (otaFile.exists() && otaFile.isFile() && otaFile.length() > 0) {
                                     return new WebResourceResponse(
                                             guessMimeType(relPath),
@@ -143,6 +153,16 @@ public class MainActivity extends AppCompatActivity {
                                     );
                                 }
                             }
+
+                            // 2. Fallback to bundled asset so hero image, icons, etc. NEVER break
+                            try {
+                                InputStream is = getAssets().open("www/" + relPath);
+                                return new WebResourceResponse(
+                                        guessMimeType(relPath),
+                                        "UTF-8",
+                                        is
+                                );
+                            } catch (Exception ignored) {}
                         }
                     }
                 } catch (Exception ignored) {}
@@ -151,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (url != null && url.startsWith("file:///android_asset/")) {
+                if (url != null && (url.startsWith("file:///android_asset/") || url.startsWith("file:///"))) {
                     return false;
                 }
                 if (url != null && url.startsWith("mailto:")) {
