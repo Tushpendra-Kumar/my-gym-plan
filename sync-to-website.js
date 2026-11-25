@@ -92,7 +92,9 @@ if (fs.existsSync(websiteDir)) {
       updates: [
         { regex: /'version'\s*=>\s*'v[\d\.]+',/, repl: `'version' => '${versionStr}',` },
         { regex: /'file_size'\s*=>\s*'[0-9\.]+\s*MB',/, repl: `'file_size' => '${sizeMb}',` },
-        { regex: /'changelog'\s*=>\s*'v[\d\.]+:[^']+',/, repl: `'changelog' => '${versionStr}: ${rawNotes.replace(/'/g, "\\'")}',` }
+        { regex: /'changelog'\s*=>\s*'v[\d\.]+:[^']+',/, repl: `'changelog' => '${versionStr}: ${rawNotes.replace(/'/g, "\\'")}',` },
+        { regex: /<strong id="modalAppVersion"[^>]*>v[\d\.]+<\/strong>/, repl: `<strong id="modalAppVersion" style="color:#ddd;">${versionStr}</strong>` },
+        { regex: /<strong id="modalAppSize"[^>]*>[0-9\.]+\s*MB<\/strong>/, repl: `<strong id="modalAppSize" style="color:#ddd;">${sizeMb}</strong>` }
       ]
     },
     {
