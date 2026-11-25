@@ -24,19 +24,20 @@
 
   <!-- ===================================================
        1. WELCOME ONBOARDING SCREEN (Apple Fitness Style)
-       Step 1: Hero & Profile Sign-In
+       Step 1A: Welcome & Auth Chooser (Google / Offline)
+       Step 1B: Google Account Chooser
        Step 2: Food Category, Duration & Purpose Setup
        =================================================== -->
   <div id="viewOnboarding" class="onboarding-screen">
     <div class="onboarding-top-bar">
-      <div class="onboarding-brand">
-        <button id="btnOnboardingBack" class="icon-btn" onclick="prevOnboardingStep()" style="display: none; width: 28px; height: 28px; margin-right: 4px;" aria-label="Back">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      <div class="onboarding-brand" style="display: flex; align-items: center;">
+        <button id="btnOnboardingBack" class="icon-btn" onclick="prevOnboardingStep()" style="display: none; width: 28px; height: 28px; margin-right: 6px;" aria-label="Back">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
-        <span class="brand-accent-pill"></span>
-        <span class="brand-title" id="onboardingBrandTitle">Gym Plan</span>
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-primary); margin-right: 6px;"><path d="M6 5v14M18 5v14M3 8v8M21 8v8M6 12h12"/></svg>
+        <span class="brand-title" id="onboardingBrandTitle" style="font-weight: 700; font-size: 1.05rem;">Gym Plan</span>
       </div>
-      <button id="btnOnboardingSkip" class="btn-skip-pill" onclick="skipOnboarding()" aria-label="Skip to Dashboard">
+      <button id="btnOnboardingSkip" class="btn-skip-pill" onclick="handleContinueOfflineClick()" aria-label="Skip to Dashboard">
         <span>Skip</span>
         <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="9 18 15 12 9 6" />
@@ -45,66 +46,146 @@
     </div>
 
     <!-- ==============================================
-         STEP 1: WELCOME & SIGN-IN SCREEN
+         STEP 1A: WELCOME & AUTH CHOOSER SCREEN
          ============================================== -->
     <div id="onboardingStep1" class="onboarding-step-content active">
       
       <!-- Hero Artwork Frame -->
-      <div class="onboarding-hero-wrapper">
+      <div class="onboarding-hero-wrapper" style="max-width: 350px; margin: 4px auto 14px;">
         <div class="onboarding-hero-aura"></div>
-        <div class="onboarding-hero">
-          <img src="./images/hero-goku.jpg" alt="Athletic Training" class="onboarding-hero-img" onerror="if(!this.dataset.retried){this.dataset.retried='1';this.src='file:///android_asset/www/images/hero-goku.jpg';}">
-          <div class="onboarding-hero-overlay"></div>
+        <div class="onboarding-hero" style="height: 195px; border-radius: 24px;">
+          <img src="./images/hero-goku.jpg" alt="Gym Plan" class="onboarding-hero-img" style="object-position: center 30%;" onerror="if(!this.dataset.retried){this.dataset.retried='1';this.src='file:///android_asset/www/images/hero-goku.jpg';}">
+          <div class="onboarding-hero-overlay" style="height: 48px;"></div>
         </div>
       </div>
 
-      <div style="max-width: 360px; margin: 0 auto; width: 100%; text-align: center;">
-        <h1 id="onboardingHeroTitle" style="font-size: 1.55rem; font-weight: 600; line-height: 1.22; color: var(--text-primary); letter-spacing: -0.02em; margin-bottom: 6px;">
-          Athletic Performance Starts Here
+      <div style="max-width: 350px; margin: 0 auto; width: 100%; text-align: center;">
+        <h1 id="onboardingHeroTitle" style="font-size: 1.45rem; font-weight: 700; line-height: 1.25; color: var(--text-primary); letter-spacing: -0.02em; margin-bottom: 6px;">
+          Your Fitness Journey Starts Here
         </h1>
-        <p id="onboardingHeroSubtitle" style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 16px; font-weight: 400;">
-          Reverse pyramid 7-12-15 strength lifts, customized athlete nutrition &amp; 100% offline precision tracking.
+        <p id="onboardingHeroSubtitle" style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.45; margin-bottom: 18px; font-weight: 400;">
+          Create your gym plan, track workouts, and achieve your fitness goals — online or offline.
         </p>
 
-        <!-- Athlete Name Input Field -->
-        <div class="onboarding-input-wrap">
-          <label for="onboardingUserNameInput" class="onboarding-input-label">WHAT SHOULD WE CALL YOU?</label>
-          <div class="onboarding-name-field">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-tertiary); margin-left: 12px; flex-shrink: 0;">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-              <circle cx="12" cy="7" r="4"/>
-            </svg>
-            <input type="text" id="onboardingUserNameInput" placeholder="Enter your name (e.g. Alex, Jordan)" maxlength="24" autocomplete="name" onkeydown="if(event.key==='Enter') handleOnboardingContinue();">
+        <!-- Continue with Google Button -->
+        <button type="button" class="btn-google-sign-in" onclick="showGoogleAccountChooser()">
+          <svg viewBox="0 0 24 24" width="20" height="20">
+            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.66v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.15z"/>
+            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.27v3.15C3.25 21.31 7.31 24 12 24z"/>
+            <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.27C.46 8.2 0 10.04 0 12s.46 3.8 1.27 5.42l4.01-3.15z"/>
+            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.25 2.69 1.27 6.58l4.01 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+          </svg>
+          <span>Continue with Google</span>
+        </button>
+
+        <!-- Divider -->
+        <div style="display: flex; align-items: center; justify-content: center; margin: 12px 0; gap: 12px;">
+          <div style="flex: 1; height: 1px; background: #e2e8f0;"></div>
+          <span style="font-size: 0.76rem; color: #94a3b8; font-weight: 500;">or</span>
+          <div style="flex: 1; height: 1px; background: #e2e8f0;"></div>
+        </div>
+
+        <!-- Continue Offline Button -->
+        <button type="button" class="btn-continue-offline" onclick="handleContinueOfflineClick()">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          <span>Continue Offline (No Internet)</span>
+        </button>
+
+        <!-- Feature Badges Strip (Custom Workout Plans | Track Progress | Works Offline) -->
+        <div class="features-strip">
+          <div class="features-strip-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #64748b; flex-shrink: 0;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span style="font-size: 0.68rem; font-weight: 600; color: #334155; line-height: 1.2;">Custom<br>Workout Plans</span>
+          </div>
+          <div class="features-strip-divider"></div>
+          <div class="features-strip-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #64748b; flex-shrink: 0;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            <span style="font-size: 0.68rem; font-weight: 600; color: #334155; line-height: 1.2;">Track<br>Progress</span>
+          </div>
+          <div class="features-strip-divider"></div>
+          <div class="features-strip-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #64748b; flex-shrink: 0;"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/><path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/><path d="M10.71 5.05A16 16 0 0 1 22.58 9"/><path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+            <span style="font-size: 0.68rem; font-weight: 600; color: #334155; line-height: 1.2;">Works<br>Offline</span>
           </div>
         </div>
 
-        <!-- Security PIN / Password Field (Free & Offline) -->
-        <div class="onboarding-input-wrap" style="margin-top: -4px;">
-          <label id="onboardingPinLabel" for="onboardingUserPinInput" class="onboarding-input-label">LOGIN PIN / PASSWORD (OPTIONAL • FREE)</label>
-          <div class="onboarding-name-field" id="onboardingPinFieldWrap">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-tertiary); margin-left: 12px; flex-shrink: 0;">
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-            </svg>
-            <input type="password" id="onboardingUserPinInput" placeholder="Set PIN or Password (optional)" maxlength="20" autocomplete="current-password" oninput="clearOnboardingPinError()" onkeydown="if(event.key==='Enter') handleOnboardingContinue();">
-          </div>
-          <span id="onboardingPinError" class="inline-error-text"></span>
-          <span id="onboardingPinHint" style="display: block; font-size: 0.67rem; color: var(--text-tertiary); margin-top: 4px; padding-left: 4px; text-align: left;">Free offline login • Keep your profile private and secure</span>
+        <div style="text-align: center; margin-top: 14px;">
+          <span class="powered-by-tag" onclick="openCodeByTushuModal()" style="cursor: pointer;" title="CodeByTushu Studio">Powered by <strong>CodeByTushu</strong> • <span class="app-version-badge">v0.05.9</span></span>
         </div>
+      </div>
+    </div>
+
+    <!-- ==============================================
+         STEP 1B: GOOGLE ACCOUNT CHOOSER SCREEN
+         ============================================== -->
+    <div id="onboardingGoogleChooser" class="onboarding-step-content" style="display: none;">
+      
+      <!-- Hero Artwork Frame -->
+      <div class="onboarding-hero-wrapper" style="max-width: 350px; margin: 4px auto 14px;">
+        <div class="onboarding-hero-aura"></div>
+        <div class="onboarding-hero" style="height: 185px; border-radius: 24px;">
+          <img src="./images/hero-goku.jpg" alt="Gym Plan" class="onboarding-hero-img" style="object-position: center 30%;" onerror="if(!this.dataset.retried){this.dataset.retried='1';this.src='file:///android_asset/www/images/hero-goku.jpg';}">
+          <div class="onboarding-hero-overlay" style="height: 48px;"></div>
+        </div>
+      </div>
+
+      <div style="max-width: 350px; margin: 0 auto; width: 100%; text-align: center;">
         
-        <button id="btnOnboardingContinue" class="btn-get-started" onclick="handleOnboardingContinue()">
-          <span id="btnOnboardingContinueText">Continue to Plan Setup</span>
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </button>
+        <!-- Google Logo -->
+        <div style="display: flex; justify-content: center; margin-bottom: 6px;">
+          <svg viewBox="0 0 24 24" width="28" height="28">
+            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.66v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.15z"/>
+            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.27v3.15C3.25 21.31 7.31 24 12 24z"/>
+            <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.27C.46 8.2 0 10.04 0 12s.46 3.8 1.27 5.42l4.01-3.15z"/>
+            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.25 2.69 1.27 6.58l4.01 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+          </svg>
+        </div>
 
-        <button id="btnSwitchAthlete" type="button" onclick="switchAthleteLogin()" style="display: none; width: 100%; margin-top: 10px; background: transparent; border: none; color: var(--text-secondary); font-size: 0.78rem; text-decoration: underline; cursor: pointer; padding: 6px;">
-          Switch Athlete / Log In as Different User
-        </button>
+        <h2 style="font-size: 1.35rem; font-weight: 700; color: var(--text-primary); margin-bottom: 2px;">
+          Choose an account
+        </h2>
+        <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 14px;">
+          to continue to Gym Plan
+        </p>
 
-        <div style="text-align: center; margin-top: 10px;">
-          <a href="javascript:void(0)" onclick="if(window.CloudSync) CloudSync.openAuthModal();" style="font-size: 0.78rem; color: #0284c7; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
-            <span>☁️ Existing Account? Sign In &amp; Restore Data</span>
-          </a>
+        <!-- Accounts Card List -->
+        <div class="google-account-card" id="googleAccountListCard">
+          <div id="googleAccountsRenderSlot"></div>
+
+          <!-- Add Another Account Row -->
+          <div class="google-account-row" onclick="toggleAddAnotherAccountForm()">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div class="google-account-avatar" style="background: #f1f5f9; color: #475569;">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                  <circle cx="8.5" cy="7" r="4"/>
+                  <line x1="20" y1="8" x2="20" y2="14"/>
+                  <line x1="23" y1="11" x2="17" y2="11"/>
+                </svg>
+              </div>
+              <div>
+                <div style="font-size: 0.88rem; font-weight: 600; color: var(--text-primary);">Add another account</div>
+              </div>
+            </div>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #94a3b8;"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+        </div>
+
+        <!-- Inline Add Another Account Form (Expands if tapped) -->
+        <div id="addAnotherAccountFormWrap" style="display: none; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 14px; margin-top: 10px; text-align: left;">
+          <div style="font-size: 0.78rem; font-weight: 700; color: #334155; margin-bottom: 6px;">ENTER GOOGLE ACCOUNT</div>
+          <input type="text" id="inputCustomGoogleName" placeholder="Your Name (e.g. Alex)" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 10px; border: 1px solid #cbd5e1; font-size: 0.86rem; margin-bottom: 8px;">
+          <input type="email" id="inputCustomGoogleEmail" placeholder="your.name@gmail.com" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 10px; border: 1px solid #cbd5e1; font-size: 0.86rem; margin-bottom: 10px;">
+          <button type="button" class="btn btn-primary" onclick="submitCustomGoogleAccount()" style="width: 100%; padding: 10px; font-weight: 600; border-radius: 10px; background: #0f172a; color: #fff;">Connect This Account</button>
+        </div>
+
+        <!-- Terms & Privacy Disclaimer -->
+        <div style="font-size: 0.73rem; color: #64748b; line-height: 1.4; margin-top: 16px;">
+          By continuing, you agree to our <a href="javascript:void(0)" onclick="openTermsPrivacyModal('terms')" style="color: #0284c7; text-decoration: none; font-weight: 600;">Terms</a> &amp; <a href="javascript:void(0)" onclick="openTermsPrivacyModal('privacy')" style="color: #0284c7; text-decoration: none; font-weight: 600;">Privacy Policy</a>.
         </div>
 
         <div style="text-align: center; margin-top: 14px;">
@@ -1969,6 +2050,91 @@
         </button>
       </div>
       <div id="cloudAuthModalBody" class="modal-body" style="padding: 16px 18px; max-height: 80vh; overflow-y: auto;">
+      </div>
+    </div>
+  </div>
+
+  <!-- ==============================================
+       OFFLINE MODE WARNING MODAL
+       Alerts user that data stays on this device only
+       ============================================== -->
+  <div id="offlineWarningModal" class="modal-backdrop">
+    <div class="modal-box" style="max-width: 400px; text-align: center; padding: 24px 20px;">
+      <div style="width: 52px; height: 52px; border-radius: 50%; background: #fffbeb; color: #d97706; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; border: 1.5px solid #fde68a;">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+      </div>
+      <h3 style="font-size: 1.15rem; font-weight: 700; color: #0f172a; margin-bottom: 8px;">Offline Mode Notice</h3>
+      <p style="font-size: 0.82rem; color: #64748b; line-height: 1.5; margin-bottom: 16px;">
+        Aapka workout aur fitness data <strong>sirf is phone ki memory mein save hoga</strong>. Agar aapne app delete ki ya phone badla, toh cloud backup ke bina data recover nahi hoga.
+      </p>
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 10px 12px; font-size: 0.74rem; color: #475569; margin-bottom: 18px; text-align: left;">
+        💡 <strong>Recommended:</strong> Google se sign in karein taaki aapka 10+ din ka gym record hamesha safe rahe.
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <button type="button" class="btn-google-sign-in" onclick="closeModal('offlineWarningModal'); showGoogleAccountChooser();" style="border-color: #0f172a; background: #0f172a; color: #ffffff;">
+          <svg viewBox="0 0 24 24" width="18" height="18">
+            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.66v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.15z"/>
+            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.27v3.15C3.25 21.31 7.31 24 12 24z"/>
+            <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.27C.46 8.2 0 10.04 0 12s.46 3.8 1.27 5.42l4.01-3.15z"/>
+            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.25 2.69 1.27 6.58l4.01 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+          </svg>
+          <span style="color: #ffffff;">Sign In with Google (Recommended)</span>
+        </button>
+        <button type="button" class="btn btn-secondary" onclick="confirmProceedOffline()" style="width: 100%; padding: 11px; font-weight: 600; border-radius: 20px; background: #f1f5f9; color: #475569;">
+          Continue Offline (I Understand)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==============================================
+       TERMS OF SERVICE & PRIVACY POLICY MODAL
+       ============================================== -->
+  <div id="termsPrivacyModal" class="modal-backdrop">
+    <div class="modal-box" style="max-width: 480px; max-height: 85vh; display: flex; flex-direction: column;">
+      <div class="modal-header">
+        <div>
+          <h3 id="termsModalHeaderTitle" style="font-size: 1.05rem; font-weight: 700; color: #0f172a; margin: 0;">Terms &amp; Privacy Policy</h3>
+          <span style="font-size: 0.68rem; color: var(--text-tertiary); font-weight: 600; text-transform: uppercase;">CodeByTushu • Gym Plan Platform</span>
+        </div>
+        <button class="icon-btn" onclick="closeModal('termsPrivacyModal')" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body" style="padding: 16px 20px; overflow-y: auto; font-size: 0.82rem; color: #334155; line-height: 1.55;">
+        <div style="display: flex; gap: 8px; margin-bottom: 14px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+          <button type="button" id="tabBtnTerms" onclick="switchTermsTab('terms')" style="background: none; border: none; font-size: 0.84rem; font-weight: 700; color: #0f172a; border-bottom: 2px solid #0f172a; padding: 4px 8px; cursor: pointer;">Terms of Service</button>
+          <button type="button" id="tabBtnPrivacy" onclick="switchTermsTab('privacy')" style="background: none; border: none; font-size: 0.84rem; font-weight: 600; color: #64748b; padding: 4px 8px; cursor: pointer;">Privacy Policy</button>
+        </div>
+
+        <div id="termsTabContent">
+          <h4 style="font-size: 0.92rem; font-weight: 700; color: #0f172a; margin-bottom: 6px;">1. Athletic Use &amp; Service Scope</h4>
+          <p style="margin-bottom: 10px;">Gym Plan is designed as an offline-first athletic workout tracker, reverse pyramid training log, and nutrition planner. By using Gym Plan, you agree to follow the training guidelines responsibly.</p>
+          
+          <h4 style="font-size: 0.92rem; font-weight: 700; color: #0f172a; margin-bottom: 6px;">2. Health &amp; Exercise Disclaimer</h4>
+          <p style="margin-bottom: 10px;">Exercises, set calculations, and dietary suggestions are provided for general conditioning and fitness reference. Users are encouraged to perform adequate warmups and consult a healthcare professional before undertaking rigorous weight training.</p>
+
+          <h4 style="font-size: 0.92rem; font-weight: 700; color: #0f172a; margin-bottom: 6px;">3. Data Ownership &amp; Backups</h4>
+          <p style="margin-bottom: 10px;">Your workout history belongs exclusively to you. You are free to export all logs at any time as JSON or synchronize your account to Google Firebase Cloud for permanent multi-device access.</p>
+        </div>
+
+        <div id="privacyTabContent" style="display: none;">
+          <h4 style="font-size: 0.92rem; font-weight: 700; color: #0f172a; margin-bottom: 6px;">1. Local-First Privacy</h4>
+          <p style="margin-bottom: 10px;">Gym Plan stores your workout logs, weight milestones, calisthenics records, and dietary preferences directly on your device. We do not sell, rent, or track your personal fitness logs for advertising.</p>
+
+          <h4 style="font-size: 0.92rem; font-weight: 700; color: #0f172a; margin-bottom: 6px;">2. Google Cloud Sync</h4>
+          <p style="margin-bottom: 10px;">When you opt to sign in with your Google account, your profile and workout database are encrypted and backed up to Google Firebase Firestore under your private account ID, ensuring you never lose your progress.</p>
+
+          <h4 style="font-size: 0.92rem; font-weight: 700; color: #0f172a; margin-bottom: 6px;">3. User Right to Erasure</h4>
+          <p style="margin-bottom: 10px;">You can perform a complete hard reset or delete your local and cloud records at any time directly through the Personal Dashboard.</p>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding: 12px 18px; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end;">
+        <button type="button" class="btn btn-primary" onclick="closeModal('termsPrivacyModal')" style="padding: 9px 20px; font-weight: 600; border-radius: 10px; background: #0f172a; color: #fff;">Understood</button>
       </div>
     </div>
   </div>

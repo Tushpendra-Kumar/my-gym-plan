@@ -1100,17 +1100,204 @@ function switchAthleteLogin() {
 
 function resetOnboardingView() {
   const step1 = document.getElementById('onboardingStep1');
+  const googleChooser = document.getElementById('onboardingGoogleChooser');
   const step2 = document.getElementById('onboardingStep2');
   const btnBack = document.getElementById('btnOnboardingBack');
+  const btnSkip = document.getElementById('btnOnboardingSkip');
   if (step1) step1.style.display = 'block';
+  if (googleChooser) {
+    googleChooser.style.display = 'none';
+    googleChooser.dataset.active = 'false';
+  }
   if (step2) step2.style.display = 'none';
   if (btnBack) btnBack.style.display = 'none';
+  if (btnSkip) btnSkip.style.display = 'inline-flex';
+}
+
+function showGoogleAccountChooser() {
+  const step1 = document.getElementById('onboardingStep1');
+  const googleChooser = document.getElementById('onboardingGoogleChooser');
+  const btnBack = document.getElementById('btnOnboardingBack');
+  const btnSkip = document.getElementById('btnOnboardingSkip');
+  const screen = document.getElementById('viewOnboarding');
+
+  if (step1) step1.style.display = 'none';
+  if (googleChooser) {
+    googleChooser.style.display = 'block';
+    googleChooser.dataset.active = 'true';
+  }
+  if (btnBack) btnBack.style.display = 'inline-flex';
+  if (btnSkip) btnSkip.style.display = 'none';
+  renderGoogleAccountsList();
+  if (screen) screen.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderGoogleAccountsList() {
+  const slot = document.getElementById('googleAccountsRenderSlot');
+  if (!slot) return;
+  const accounts = (window.CloudSync && typeof window.CloudSync.getGoogleAccounts === 'function')
+    ? window.CloudSync.getGoogleAccounts()
+    : [
+        { name: 'Tushpendra Kumar', email: 'tushpendra.kumar@gmail.com', avatarColor: '#7c3aed', initial: 'T' },
+        { name: 'Tushu Dev', email: 'tushu.dev.work@gmail.com', avatarColor: '#0f172a', initial: 'TD' }
+      ];
+
+  let html = '';
+  accounts.forEach((acc) => {
+    const color = acc.avatarColor || '#7c3aed';
+    const init = acc.initial || (acc.name ? acc.name.charAt(0).toUpperCase() : 'G');
+    const safeName = acc.name.replace(/'/g, "\\'");
+    html += `
+      <div class="google-account-row" onclick="selectGoogleAccount('${acc.email}', '${safeName}', '${color}')">
+        <div style="display: flex; align-items: center; gap: 12px; overflow: hidden;">
+          <div class="google-account-avatar" style="background: ${color};">
+            ${init}
+          </div>
+          <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            <div style="font-size: 0.90rem; font-weight: 700; color: var(--text-primary);">${acc.name}</div>
+            <div style="font-size: 0.74rem; color: #64748b;">${acc.email}</div>
+          </div>
+        </div>
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #94a3b8; flex-shrink: 0;"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+    `;
+  });
+  slot.innerHTML = html;
+}
+
+function toggleAddAnotherAccountForm() {
+  const wrap = document.getElementById('addAnotherAccountFormWrap');
+  if (!wrap) return;
+  wrap.style.display = (wrap.style.display === 'none' || !wrap.style.display) ? 'block' : 'none';
+  if (wrap.style.display === 'block') {
+    const input = document.getElementById('inputCustomGoogleName');
+    if (input) input.focus();
+  }
+}
+
+async function submitCustomGoogleAccount() {
+  const nameEl = document.getElementById('inputCustomGoogleName');
+  const emailEl = document.getElementById('inputCustomGoogleEmail');
+  const name = nameEl ? nameEl.value.trim() : '';
+  const email = emailEl ? emailEl.value.trim() : '';
+
+  if (!email || !email.includes('@')) {
+    await showAppAlert({ title: 'Invalid Email', message: 'Please enter a valid Google email address.', tone: 'warning' });
+    if (emailEl) emailEl.focus();
+    return;
+  }
+
+  const cleanName = name || email.split('@')[0];
+  if (window.CloudSync && typeof window.CloudSync.addGoogleAccount === 'function') {
+    window.CloudSync.addGoogleAccount(cleanName, email);
+  }
+  selectGoogleAccount(email, cleanName, '#0284c7');
+}
+
+async function selectGoogleAccount(email, name, color) {
+  saveUserName(name);
+
+  if (window.CloudSync && typeof window.CloudSync.signInWithGoogleAccount === 'function') {
+    window.CloudSync.signInWithGoogleAccount({ email: email, name: name, avatarColor: color });
+  }
+
+  localStorage.removeItem(STORAGE_LOGGED_OUT);
+  localStorage.setItem(STORAGE_ONBOARDED, 'true');
+
+  if (typeof showAppToast === 'function') {
+    showAppToast(`☁️ Connected as ${name}! Aapka data cloud par hamesha safe rahega.`);
+  }
+
+  // If workout plan was already configured previously, go straight to Home
+  if (localStorage.getItem(STORAGE_PLAN_CONFIGURED) === 'true') {
+    const screen = document.getElementById('viewOnboarding');
+    if (screen) {
+      screen.classList.add('hidden');
+      screen.style.display = 'none';
+    }
+    updateUserGreeting();
+    renderHomeStats();
+    renderRoadmapHero();
+    switchView('home');
+    return;
+  }
+
+  // Otherwise, proceed to Step 2 (Plan Setup)
+  goToOnboardingStep2();
+}
+
+function handleContinueOfflineClick() {
+  openModal('offlineWarningModal');
+}
+
+function confirmProceedOffline() {
+  closeModal('offlineWarningModal');
+  if (typeof showAppToast === 'function') {
+    showAppToast('⚡ Offline Mode Active. Data device par save rahega.');
+  }
+
+  const isLoggedOut = localStorage.getItem(STORAGE_LOGGED_OUT) === 'true';
+  if (isLoggedOut || localStorage.getItem(STORAGE_PLAN_CONFIGURED) === 'true') {
+    localStorage.removeItem(STORAGE_LOGGED_OUT);
+    localStorage.setItem(STORAGE_ONBOARDED, 'true');
+    const screen = document.getElementById('viewOnboarding');
+    if (screen) {
+      screen.classList.add('hidden');
+      screen.style.display = 'none';
+    }
+    updateUserGreeting();
+    renderHomeStats();
+    renderRoadmapHero();
+    switchView('home');
+  } else {
+    goToOnboardingStep2();
+  }
+}
+
+function openTermsPrivacyModal(tab) {
+  openModal('termsPrivacyModal');
+  switchTermsTab(tab || 'terms');
+}
+
+function switchTermsTab(tab) {
+  const termsContent = document.getElementById('termsTabContent');
+  const privacyContent = document.getElementById('privacyTabContent');
+  const btnTerms = document.getElementById('tabBtnTerms');
+  const btnPrivacy = document.getElementById('tabBtnPrivacy');
+
+  if (tab === 'privacy') {
+    if (termsContent) termsContent.style.display = 'none';
+    if (privacyContent) privacyContent.style.display = 'block';
+    if (btnTerms) {
+      btnTerms.style.color = '#64748b';
+      btnTerms.style.borderBottom = 'none';
+      btnTerms.style.fontWeight = '600';
+    }
+    if (btnPrivacy) {
+      btnPrivacy.style.color = '#0f172a';
+      btnPrivacy.style.borderBottom = '2px solid #0f172a';
+      btnPrivacy.style.fontWeight = '700';
+    }
+  } else {
+    if (termsContent) termsContent.style.display = 'block';
+    if (privacyContent) privacyContent.style.display = 'none';
+    if (btnTerms) {
+      btnTerms.style.color = '#0f172a';
+      btnTerms.style.borderBottom = '2px solid #0f172a';
+      btnTerms.style.fontWeight = '700';
+    }
+    if (btnPrivacy) {
+      btnPrivacy.style.color = '#64748b';
+      btnPrivacy.style.borderBottom = 'none';
+      btnPrivacy.style.fontWeight = '600';
+    }
+  }
 }
 
 async function goToOnboardingStep2() {
   const inputEl = document.getElementById('onboardingUserNameInput');
   let name = (inputEl && inputEl.value.trim()) ? inputEl.value.trim() : '';
-  if (!name) name = 'Athlete';
+  if (!name) name = getUserName() || 'Athlete';
 
   saveUserName(name);
 
@@ -1123,16 +1310,20 @@ async function goToOnboardingStep2() {
   if (welcomeNameEl) welcomeNameEl.textContent = name;
 
   const step1 = document.getElementById('onboardingStep1');
+  const googleChooser = document.getElementById('onboardingGoogleChooser');
   const step2 = document.getElementById('onboardingStep2');
   const btnBack = document.getElementById('btnOnboardingBack');
+  const btnSkip = document.getElementById('btnOnboardingSkip');
   const screen = document.getElementById('viewOnboarding');
 
   if (step1) step1.style.display = 'none';
+  if (googleChooser) googleChooser.style.display = 'none';
   if (step2) {
     step2.style.display = 'block';
     step2.classList.add('onboarding-step-content');
   }
   if (btnBack) btnBack.style.display = 'inline-flex';
+  if (btnSkip) btnSkip.style.display = 'none';
   if (screen) screen.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -1205,13 +1396,30 @@ async function handleOnboardingContinue() {
 
 function prevOnboardingStep() {
   const step1 = document.getElementById('onboardingStep1');
+  const googleChooser = document.getElementById('onboardingGoogleChooser');
   const step2 = document.getElementById('onboardingStep2');
   const btnBack = document.getElementById('btnOnboardingBack');
+  const btnSkip = document.getElementById('btnOnboardingSkip');
   const screen = document.getElementById('viewOnboarding');
 
-  if (step2) step2.style.display = 'none';
-  if (step1) step1.style.display = 'block';
-  if (btnBack) btnBack.style.display = 'none';
+  if (step2 && step2.style.display === 'block') {
+    step2.style.display = 'none';
+    if (googleChooser && googleChooser.dataset.active === 'true') {
+      googleChooser.style.display = 'block';
+      if (btnBack) btnBack.style.display = 'inline-flex';
+      if (btnSkip) btnSkip.style.display = 'none';
+    } else {
+      if (step1) step1.style.display = 'block';
+      if (btnBack) btnBack.style.display = 'none';
+      if (btnSkip) btnSkip.style.display = 'inline-flex';
+    }
+  } else if (googleChooser && googleChooser.style.display === 'block') {
+    googleChooser.style.display = 'none';
+    googleChooser.dataset.active = 'false';
+    if (step1) step1.style.display = 'block';
+    if (btnBack) btnBack.style.display = 'none';
+    if (btnSkip) btnSkip.style.display = 'inline-flex';
+  }
   if (screen) screen.scrollTo({ top: 0, behavior: 'smooth' });
 }
 

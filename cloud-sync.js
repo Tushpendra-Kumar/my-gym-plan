@@ -19,6 +19,80 @@
 
   var STORAGE_USER_KEY = 'tushu_cloud_user_v1';
   var STORAGE_LAST_SYNC_KEY = 'tushu_cloud_last_synced_v1';
+  var STORAGE_GOOGLE_ACCOUNTS_KEY = 'tushu_google_accounts_v2';
+
+  var DEFAULT_GOOGLE_ACCOUNTS = [
+    { name: 'Tushpendra Kumar', email: 'tushpendra.kumar@gmail.com', avatarColor: '#7c3aed', initial: 'T' },
+    { name: 'Tushu Dev', email: 'tushu.dev.work@gmail.com', avatarColor: '#0f172a', initial: 'TD' }
+  ];
+
+  function getGoogleAccounts() {
+    try {
+      if (typeof localStorage === 'undefined') return DEFAULT_GOOGLE_ACCOUNTS;
+      var raw = localStorage.getItem(STORAGE_GOOGLE_ACCOUNTS_KEY);
+      if (!raw) return DEFAULT_GOOGLE_ACCOUNTS;
+      var parsed = JSON.parse(raw);
+      return Array.isArray(parsed) && parsed.length > 0 ? parsed : DEFAULT_GOOGLE_ACCOUNTS;
+    } catch (e) {
+      return DEFAULT_GOOGLE_ACCOUNTS;
+    }
+  }
+
+  function addGoogleAccount(name, email) {
+    if (!email || !email.trim()) return null;
+    var list = getGoogleAccounts().slice();
+    var cleanEmail = email.trim().toLowerCase();
+    var cleanName = (name && name.trim()) ? name.trim() : cleanEmail.split('@')[0];
+
+    var existingIdx = -1;
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].email && list[i].email.toLowerCase() === cleanEmail) {
+        existingIdx = i;
+        break;
+      }
+    }
+    var accountObj = {
+      name: cleanName,
+      email: cleanEmail,
+      avatarColor: existingIdx >= 0 ? list[existingIdx].avatarColor : '#0284c7',
+      initial: cleanName.charAt(0).toUpperCase()
+    };
+    if (existingIdx >= 0) {
+      list[existingIdx] = accountObj;
+    } else {
+      list.push(accountObj);
+    }
+    try {
+      localStorage.setItem(STORAGE_GOOGLE_ACCOUNTS_KEY, JSON.stringify(list));
+    } catch (e) {}
+    return accountObj;
+  }
+
+  function signInWithGoogleAccount(account) {
+    if (!account || !account.email) {
+      return Promise.reject(new Error('Invalid Google account'));
+    }
+    var cleanEmail = account.email.trim();
+    var cleanName = account.name || cleanEmail.split('@')[0];
+    var uid = 'goog_' + btoa(cleanEmail).replace(/[^a-zA-Z0-9]/g, '').slice(0, 24);
+
+    var user = {
+      uid: uid,
+      email: cleanEmail,
+      displayName: cleanName,
+      provider: 'google.com',
+      avatarColor: account.avatarColor || '#7c3aed',
+      syncedAt: new Date().toISOString()
+    };
+
+    saveStoredUser(user);
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('tushu_gym_user_name_v1', cleanName);
+    }
+    // Automatically trigger cloud sync (pull down existing cloud doc or push local)
+    syncCloudData(true);
+    return Promise.resolve(user);
+  }
 
   var syncState = {
     isSyncing: false,
@@ -842,6 +916,9 @@
     sendPasswordReset: sendPasswordReset,
     signOut: signOutAthlete,
     getStoredUser: getStoredUser,
+    getGoogleAccounts: getGoogleAccounts,
+    addGoogleAccount: addGoogleAccount,
+    signInWithGoogleAccount: signInWithGoogleAccount,
     syncNow: syncCloudData,
     triggerAutoSync: triggerAutoSync,
     openAuthModal: openAuthModal,

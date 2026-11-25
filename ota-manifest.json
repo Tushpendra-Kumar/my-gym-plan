@@ -3,10 +3,10 @@
   "repo": "Tushpendra-Kumar/my-gym-plan",
   "branch": "main",
   "version": "0.05.9",
-  "buildNumber": 17,
+  "buildNumber": 18,
   "nativeVersionCode": 8,
-  "releasedAt": "2026-11-24",
-  "notes": "v0.05.9: Google Firebase Cloud Sync & Athlete Account for multi-device backup and data restoration + hero asset fallback",
+  "releasedAt": "2026-11-25",
+  "notes": "v0.05.9: Google Sign-in theme with Google account chooser, Continue Offline warning modal & Terms and Privacy Policy",
   "releaseUrl": "https://github.com/Tushpendra-Kumar/my-gym-plan/releases/latest",
   "files": [
     "index.html",
