@@ -754,6 +754,9 @@ function loadPlan() {
 function savePlan() {
   try {
     localStorage.setItem(STORAGE_PLAN, JSON.stringify(workoutPlan));
+    if (window.CloudSync && typeof window.CloudSync.triggerAutoSync === 'function') {
+      window.CloudSync.triggerAutoSync();
+    }
   } catch (e) {
     console.error("Error saving plan", e);
   }
@@ -772,6 +775,9 @@ function loadHistory() {
 function saveHistory() {
   try {
     localStorage.setItem(STORAGE_HISTORY, JSON.stringify(workoutHistory));
+    if (window.CloudSync && typeof window.CloudSync.triggerAutoSync === 'function') {
+      window.CloudSync.triggerAutoSync();
+    }
   } catch (e) {
     console.error("Error saving history", e);
   }
@@ -790,10 +796,36 @@ function loadMeals() {
 function saveMeals() {
   try {
     localStorage.setItem(STORAGE_MEALS, JSON.stringify(nutritionMeals));
+    if (window.CloudSync && typeof window.CloudSync.triggerAutoSync === 'function') {
+      window.CloudSync.triggerAutoSync();
+    }
   } catch (e) {
     console.error("Error saving meals", e);
   }
 }
+
+// Reload in-memory variables and views after cloud restoration
+window.reloadAppDataFromStorage = function () {
+  try {
+    workoutPlan = loadPlan();
+    workoutHistory = loadHistory();
+    nutritionMeals = loadMeals();
+    athleteRoadmap = loadRoadmap();
+    if (typeof updateUserGreeting === 'function') updateUserGreeting();
+    if (typeof renderHomeStats === 'function') renderHomeStats();
+    if (typeof renderWeeklyBars === 'function') renderWeeklyBars();
+    if (typeof renderWorkoutView === 'function') renderWorkoutView();
+    if (typeof renderActivityStats === 'function') renderActivityStats();
+    if (typeof renderMeals === 'function') renderMeals();
+    if (typeof renderRoadmapHero === 'function') renderRoadmapHero();
+    if (typeof updatePersonalDashboardUI === 'function') updatePersonalDashboardUI();
+    if (typeof window.renderProHomeBanner === 'function') window.renderProHomeBanner();
+    if (typeof window.renderHabitsTracker === 'function') window.renderHabitsTracker();
+    if (typeof window.renderRoomFitnessView === 'function') window.renderRoomFitnessView();
+  } catch (e) {
+    console.error('Error reloading app state from storage:', e);
+  }
+};
 
 function getUserName() {
   const saved = localStorage.getItem(STORAGE_USER_NAME);
@@ -992,13 +1024,11 @@ function setupAthleteLoginScreen() {
   }
 
   if (titleEl) {
-    titleEl.textContent = (savedName && savedName !== 'Athlete') ? `Welcome Back, ${savedName}!` : 'Athlete Login';
+    titleEl.textContent = 'Your Fitness Journey Starts Here';
   }
 
   if (subEl) {
-    subEl.textContent = savedPin
-      ? 'Please enter your security PIN to access your dashboard.'
-      : 'Enter your name to log in to your local fitness dashboard.';
+    subEl.textContent = 'Create your gym plan, track workouts, and achieve your fitness goals — online or offline.';
   }
 
   if (pinLabel) {
@@ -1068,17 +1098,254 @@ function switchAthleteLogin() {
 
 function resetOnboardingView() {
   const step1 = document.getElementById('onboardingStep1');
+  const googleChooser = document.getElementById('onboardingGoogleChooser');
   const step2 = document.getElementById('onboardingStep2');
   const btnBack = document.getElementById('btnOnboardingBack');
+  const btnSkip = document.getElementById('btnOnboardingSkip');
   if (step1) step1.style.display = 'block';
+  if (googleChooser) {
+    googleChooser.style.display = 'none';
+    googleChooser.dataset.active = 'false';
+  }
   if (step2) step2.style.display = 'none';
   if (btnBack) btnBack.style.display = 'none';
+  if (btnSkip) btnSkip.style.display = 'inline-flex';
+}
+
+function showGoogleAccountChooser() {
+  const step1 = document.getElementById('onboardingStep1');
+  const googleChooser = document.getElementById('onboardingGoogleChooser');
+  const btnBack = document.getElementById('btnOnboardingBack');
+  const btnSkip = document.getElementById('btnOnboardingSkip');
+  const screen = document.getElementById('viewOnboarding');
+
+  if (step1) step1.style.display = 'none';
+  if (googleChooser) {
+    googleChooser.style.display = 'block';
+    googleChooser.dataset.active = 'true';
+  }
+  if (btnBack) btnBack.style.display = 'inline-flex';
+  if (btnSkip) btnSkip.style.display = 'none';
+  renderGoogleAccountsList();
+  if (screen) screen.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderGoogleAccountsList() {
+  const slot = document.getElementById('googleAccountsRenderSlot');
+  const addRow = document.getElementById('googleAccountAddRow');
+  const formWrap = document.getElementById('addAnotherAccountFormWrap');
+  if (!slot) return;
+
+  const accounts = (window.CloudSync && typeof window.CloudSync.getGoogleAccounts === 'function')
+    ? window.CloudSync.getGoogleAccounts()
+    : [];
+
+  if (!accounts || accounts.length === 0) {
+    if (addRow) addRow.style.display = 'none';
+    if (formWrap) formWrap.style.display = 'none';
+    slot.innerHTML = `
+      <div style="padding: 16px 16px 14px; text-align: left;">
+        <div style="font-size: 0.74rem; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px;">
+          Google Account Sign-In
+        </div>
+        <div style="position: relative; margin-bottom: 10px;">
+          <input 
+            type="email" 
+            id="inputCustomGoogleEmail" 
+            name="email" 
+            autocomplete="email" 
+            autocapitalize="off" 
+            spellcheck="false" 
+            placeholder="Enter your Google email (e.g. name@gmail.com)" 
+            style="width: 100%; box-sizing: border-box; padding: 12px 14px; border: 1.5px solid #cbd5e1; border-radius: 12px; font-size: 0.90rem; outline: none; transition: border-color 0.2s ease;">
+        </div>
+        <div style="position: relative; margin-bottom: 12px;">
+          <input 
+            type="text" 
+            id="inputCustomGoogleName" 
+            name="name" 
+            autocomplete="name" 
+            placeholder="Athlete Name (Optional)" 
+            style="width: 100%; box-sizing: border-box; padding: 12px 14px; border: 1.5px solid #cbd5e1; border-radius: 12px; font-size: 0.90rem; outline: none; transition: border-color 0.2s ease;">
+        </div>
+        <button type="button" class="btn-google-sign-in" onclick="submitCustomGoogleAccount(false)" style="background: #0f172a; color: #ffffff; border-color: #0f172a; border-radius: 12px; padding: 12px; font-weight: 600; width: 100%; justify-content: center;">
+          <svg viewBox="0 0 24 24" width="18" height="18">
+            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.66v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.15z"/>
+            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.27v3.15C3.25 21.31 7.31 24 12 24z"/>
+            <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.27C.46 8.2 0 10.04 0 12s.46 3.8 1.27 5.42l4.01-3.15z"/>
+            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.25 2.69 1.27 6.58l4.01 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+          </svg>
+          <span style="color: #ffffff;">Sign In &amp; Sync Data</span>
+        </button>
+      </div>
+    `;
+    setTimeout(() => {
+      const emailInput = document.getElementById('inputCustomGoogleEmail');
+      if (emailInput) emailInput.focus();
+    }, 200);
+    return;
+  }
+
+  // Device has saved accounts from previous sessions on this phone
+  if (addRow) addRow.style.display = 'flex';
+  if (formWrap) formWrap.style.display = 'none';
+
+  let html = '';
+  accounts.forEach((acc) => {
+    const color = acc.avatarColor || '#0284c7';
+    const init = acc.initial || (acc.name ? acc.name.charAt(0).toUpperCase() : 'G');
+    const safeName = (acc.name || '').replace(/'/g, "\\'");
+    html += `
+      <div class="google-account-row" onclick="selectGoogleAccount('${acc.email}', '${safeName}', '${color}')">
+        <div style="display: flex; align-items: center; gap: 12px; overflow: hidden;">
+          <div class="google-account-avatar" style="background: ${color};">
+            ${init}
+          </div>
+          <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            <div style="font-size: 0.90rem; font-weight: 700; color: var(--text-primary);">${acc.name}</div>
+            <div style="font-size: 0.74rem; color: #64748b;">${acc.email}</div>
+          </div>
+        </div>
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #94a3b8; flex-shrink: 0;"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+    `;
+  });
+  slot.innerHTML = html;
+}
+
+function toggleAddAnotherAccountForm() {
+  const wrap = document.getElementById('addAnotherAccountFormWrap');
+  if (!wrap) return;
+  wrap.style.display = (wrap.style.display === 'none' || !wrap.style.display) ? 'block' : 'none';
+  if (wrap.style.display === 'block') {
+    const input = document.getElementById('inputCustomGoogleEmailInline');
+    if (input) input.focus();
+  }
+}
+
+async function submitCustomGoogleAccount(isInline) {
+  const nameEl = document.getElementById(isInline ? 'inputCustomGoogleNameInline' : 'inputCustomGoogleName');
+  const emailEl = document.getElementById(isInline ? 'inputCustomGoogleEmailInline' : 'inputCustomGoogleEmail');
+  const name = nameEl ? nameEl.value.trim() : '';
+  const email = emailEl ? emailEl.value.trim() : '';
+
+  if (!email || !email.includes('@')) {
+    await showAppAlert({ title: 'Invalid Email', message: 'Please enter a valid Google email address.', tone: 'warning' });
+    if (emailEl) emailEl.focus();
+    return;
+  }
+
+  const cleanName = name || email.split('@')[0];
+  if (window.CloudSync && typeof window.CloudSync.addGoogleAccount === 'function') {
+    window.CloudSync.addGoogleAccount(cleanName, email);
+  }
+  selectGoogleAccount(email, cleanName, '#0284c7');
+}
+
+async function selectGoogleAccount(email, name, color) {
+  saveUserName(name);
+
+  if (window.CloudSync && typeof window.CloudSync.signInWithGoogleAccount === 'function') {
+    window.CloudSync.signInWithGoogleAccount({ email: email, name: name, avatarColor: color });
+  }
+
+  localStorage.removeItem(STORAGE_LOGGED_OUT);
+  localStorage.setItem(STORAGE_ONBOARDED, 'true');
+
+  if (typeof showAppToast === 'function') {
+    showAppToast(`☁️ Connected as ${name}! Aapka data cloud par hamesha safe rahega.`);
+  }
+
+  // If workout plan was already configured previously, go straight to Home
+  if (localStorage.getItem(STORAGE_PLAN_CONFIGURED) === 'true') {
+    const screen = document.getElementById('viewOnboarding');
+    if (screen) {
+      screen.classList.add('hidden');
+      screen.style.display = 'none';
+    }
+    updateUserGreeting();
+    renderHomeStats();
+    renderRoadmapHero();
+    switchView('home');
+    return;
+  }
+
+  // Otherwise, proceed to Step 2 (Plan Setup)
+  goToOnboardingStep2();
+}
+
+function handleContinueOfflineClick() {
+  openModal('offlineWarningModal');
+}
+
+function confirmProceedOffline() {
+  closeModal('offlineWarningModal');
+  if (typeof showAppToast === 'function') {
+    showAppToast('⚡ Offline Mode Active. Data device par save rahega.');
+  }
+
+  const isLoggedOut = localStorage.getItem(STORAGE_LOGGED_OUT) === 'true';
+  if (isLoggedOut || localStorage.getItem(STORAGE_PLAN_CONFIGURED) === 'true') {
+    localStorage.removeItem(STORAGE_LOGGED_OUT);
+    localStorage.setItem(STORAGE_ONBOARDED, 'true');
+    const screen = document.getElementById('viewOnboarding');
+    if (screen) {
+      screen.classList.add('hidden');
+      screen.style.display = 'none';
+    }
+    updateUserGreeting();
+    renderHomeStats();
+    renderRoadmapHero();
+    switchView('home');
+  } else {
+    goToOnboardingStep2();
+  }
+}
+
+function openTermsPrivacyModal(tab) {
+  openModal('termsPrivacyModal');
+  switchTermsTab(tab || 'terms');
+}
+
+function switchTermsTab(tab) {
+  const termsContent = document.getElementById('termsTabContent');
+  const privacyContent = document.getElementById('privacyTabContent');
+  const btnTerms = document.getElementById('tabBtnTerms');
+  const btnPrivacy = document.getElementById('tabBtnPrivacy');
+
+  if (tab === 'privacy') {
+    if (termsContent) termsContent.style.display = 'none';
+    if (privacyContent) privacyContent.style.display = 'block';
+    if (btnTerms) {
+      btnTerms.style.color = '#64748b';
+      btnTerms.style.borderBottom = 'none';
+      btnTerms.style.fontWeight = '600';
+    }
+    if (btnPrivacy) {
+      btnPrivacy.style.color = '#0f172a';
+      btnPrivacy.style.borderBottom = '2px solid #0f172a';
+      btnPrivacy.style.fontWeight = '700';
+    }
+  } else {
+    if (termsContent) termsContent.style.display = 'block';
+    if (privacyContent) privacyContent.style.display = 'none';
+    if (btnTerms) {
+      btnTerms.style.color = '#0f172a';
+      btnTerms.style.borderBottom = '2px solid #0f172a';
+      btnTerms.style.fontWeight = '700';
+    }
+    if (btnPrivacy) {
+      btnPrivacy.style.color = '#64748b';
+      btnPrivacy.style.borderBottom = 'none';
+      btnPrivacy.style.fontWeight = '600';
+    }
+  }
 }
 
 async function goToOnboardingStep2() {
   const inputEl = document.getElementById('onboardingUserNameInput');
   let name = (inputEl && inputEl.value.trim()) ? inputEl.value.trim() : '';
-  if (!name) name = 'Athlete';
+  if (!name) name = getUserName() || 'Athlete';
 
   saveUserName(name);
 
@@ -1091,16 +1358,20 @@ async function goToOnboardingStep2() {
   if (welcomeNameEl) welcomeNameEl.textContent = name;
 
   const step1 = document.getElementById('onboardingStep1');
+  const googleChooser = document.getElementById('onboardingGoogleChooser');
   const step2 = document.getElementById('onboardingStep2');
   const btnBack = document.getElementById('btnOnboardingBack');
+  const btnSkip = document.getElementById('btnOnboardingSkip');
   const screen = document.getElementById('viewOnboarding');
 
   if (step1) step1.style.display = 'none';
+  if (googleChooser) googleChooser.style.display = 'none';
   if (step2) {
     step2.style.display = 'block';
     step2.classList.add('onboarding-step-content');
   }
   if (btnBack) btnBack.style.display = 'inline-flex';
+  if (btnSkip) btnSkip.style.display = 'none';
   if (screen) screen.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -1173,13 +1444,30 @@ async function handleOnboardingContinue() {
 
 function prevOnboardingStep() {
   const step1 = document.getElementById('onboardingStep1');
+  const googleChooser = document.getElementById('onboardingGoogleChooser');
   const step2 = document.getElementById('onboardingStep2');
   const btnBack = document.getElementById('btnOnboardingBack');
+  const btnSkip = document.getElementById('btnOnboardingSkip');
   const screen = document.getElementById('viewOnboarding');
 
-  if (step2) step2.style.display = 'none';
-  if (step1) step1.style.display = 'block';
-  if (btnBack) btnBack.style.display = 'none';
+  if (step2 && step2.style.display === 'block') {
+    step2.style.display = 'none';
+    if (googleChooser && googleChooser.dataset.active === 'true') {
+      googleChooser.style.display = 'block';
+      if (btnBack) btnBack.style.display = 'inline-flex';
+      if (btnSkip) btnSkip.style.display = 'none';
+    } else {
+      if (step1) step1.style.display = 'block';
+      if (btnBack) btnBack.style.display = 'none';
+      if (btnSkip) btnSkip.style.display = 'inline-flex';
+    }
+  } else if (googleChooser && googleChooser.style.display === 'block') {
+    googleChooser.style.display = 'none';
+    googleChooser.dataset.active = 'false';
+    if (step1) step1.style.display = 'block';
+    if (btnBack) btnBack.style.display = 'none';
+    if (btnSkip) btnSkip.style.display = 'inline-flex';
+  }
   if (screen) screen.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -1383,11 +1671,23 @@ async function resetForNewUser() {
   localStorage.removeItem(STORAGE_ROADMAP);
   localStorage.removeItem(STORAGE_USER_PIN);
   localStorage.removeItem(STORAGE_LOGGED_OUT);
+  localStorage.removeItem(STORAGE_HISTORY);
+  localStorage.removeItem(STORAGE_MEALS);
+  localStorage.removeItem('tushu_gym_habits_v1');
+  localStorage.removeItem('tushu_room_fitness_v1');
+  localStorage.removeItem('tushu_gym_pro_state_v1');
 
   workoutPlan = JSON.parse(JSON.stringify(DEFAULT_PLAN));
   savePlan();
+  workoutHistory = [];
+  saveHistory();
+  nutritionMeals = [];
+  saveMeals();
 
   athleteRoadmap = loadRoadmap();
+  if (typeof renderHabitsView === 'function') renderHabitsView();
+  if (typeof renderRoomFitnessHomeCard === 'function') renderRoomFitnessHomeCard();
+  if (typeof renderRoomFitnessView === 'function') renderRoomFitnessView();
   
   const inputEl = document.getElementById('onboardingUserNameInput');
   if (inputEl) inputEl.value = '';
@@ -3762,6 +4062,7 @@ function exportWorkoutData() {
     roadmap: athleteRoadmap,
     proState: typeof window.getProBackupSnapshot === 'function' ? window.getProBackupSnapshot() : null,
     habits: typeof window.getHabitsBackupSnapshot === 'function' ? window.getHabitsBackupSnapshot() : null,
+    roomFitness: typeof window.getRoomFitnessBackupSnapshot === 'function' ? window.getRoomFitnessBackupSnapshot() : null,
     exportedAt: new Date().toISOString()
   };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -3831,6 +4132,9 @@ async function importWorkoutData(event) {
         }
         if (data.habits && typeof window.restoreHabitsBackupSnapshot === 'function') {
           window.restoreHabitsBackupSnapshot(data.habits);
+        }
+        if (data.roomFitness && typeof window.restoreRoomFitnessBackupSnapshot === 'function') {
+          window.restoreRoomFitnessBackupSnapshot(data.roomFitness);
         }
         await showAppAlert({
           title: 'Backup Restored',
@@ -3903,12 +4207,19 @@ function applyDataRetentionPolicy(forceDays) {
     if (mealsPruned > 0) saveMeals();
   }
 
+  const cutoffIso = new Date(cutoffTime).toISOString().split('T')[0];
+
   let habitsPruned = 0;
   if (typeof window.pruneHabitsLogsOlderThan === 'function') {
-    habitsPruned = window.pruneHabitsLogsOlderThan(cutoffTime) || 0;
+    habitsPruned = window.pruneHabitsLogsOlderThan(cutoffIso) || 0;
   }
 
-  return { workoutPruned, mealsPruned, habitsPruned };
+  let roomPruned = 0;
+  if (typeof window.pruneRoomFitnessLogsOlderThan === 'function') {
+    roomPruned = window.pruneRoomFitnessLogsOlderThan(cutoffIso) || 0;
+  }
+
+  return { workoutPruned, mealsPruned, habitsPruned: habitsPruned + roomPruned };
 }
 
 function openRetentionPolicyModal() {

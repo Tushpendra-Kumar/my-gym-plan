@@ -5,8 +5,8 @@ Thumbs.db
 scratch/
 *.keystore
 CodeByTushu-License-Generator.html
-GymPlan.apk
-Build
+# GymPlan.apk is tracked for direct website downloads
+# Build
 android/.gradle/
 android/app/build/
 android/local.properties
