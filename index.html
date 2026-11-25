@@ -157,7 +157,7 @@
           <div id="googleAccountsRenderSlot"></div>
 
           <!-- Add Another Account Row -->
-          <div class="google-account-row" onclick="toggleAddAnotherAccountForm()">
+          <div class="google-account-row" id="googleAccountAddRow" onclick="toggleAddAnotherAccountForm()" style="display: none;">
             <div style="display: flex; align-items: center; gap: 12px;">
               <div class="google-account-avatar" style="background: #f1f5f9; color: #475569;">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -168,19 +168,19 @@
                 </svg>
               </div>
               <div>
-                <div style="font-size: 0.88rem; font-weight: 600; color: var(--text-primary);">Add another account</div>
+                <div style="font-size: 0.88rem; font-weight: 600; color: var(--text-primary);">Use another Google account</div>
               </div>
             </div>
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #94a3b8;"><polyline points="9 18 15 12 9 6"/></svg>
           </div>
         </div>
 
-        <!-- Inline Add Another Account Form (Expands if tapped) -->
+        <!-- Inline Add Another Account Form (Expands if tapped when accounts exist) -->
         <div id="addAnotherAccountFormWrap" style="display: none; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 14px; margin-top: 10px; text-align: left;">
-          <div style="font-size: 0.78rem; font-weight: 700; color: #334155; margin-bottom: 6px;">ENTER GOOGLE ACCOUNT</div>
-          <input type="text" id="inputCustomGoogleName" placeholder="Your Name (e.g. Alex)" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 10px; border: 1px solid #cbd5e1; font-size: 0.86rem; margin-bottom: 8px;">
-          <input type="email" id="inputCustomGoogleEmail" placeholder="your.name@gmail.com" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 10px; border: 1px solid #cbd5e1; font-size: 0.86rem; margin-bottom: 10px;">
-          <button type="button" class="btn btn-primary" onclick="submitCustomGoogleAccount()" style="width: 100%; padding: 10px; font-weight: 600; border-radius: 10px; background: #0f172a; color: #fff;">Connect This Account</button>
+          <div style="font-size: 0.74rem; font-weight: 700; color: #334155; margin-bottom: 6px; text-transform: uppercase;">Enter Google Account</div>
+          <input type="email" id="inputCustomGoogleEmailInline" name="email" autocomplete="email" placeholder="your.name@gmail.com" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 10px; border: 1px solid #cbd5e1; font-size: 0.86rem; margin-bottom: 8px;">
+          <input type="text" id="inputCustomGoogleNameInline" name="name" autocomplete="name" placeholder="Your Name (Optional)" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 10px; border: 1px solid #cbd5e1; font-size: 0.86rem; margin-bottom: 10px;">
+          <button type="button" class="btn btn-primary" onclick="submitCustomGoogleAccount(true)" style="width: 100%; padding: 10px; font-weight: 600; border-radius: 10px; background: #0f172a; color: #fff;">Connect This Account</button>
         </div>
 
         <!-- Terms & Privacy Disclaimer -->

@@ -21,20 +21,18 @@
   var STORAGE_LAST_SYNC_KEY = 'tushu_cloud_last_synced_v1';
   var STORAGE_GOOGLE_ACCOUNTS_KEY = 'tushu_google_accounts_v2';
 
-  var DEFAULT_GOOGLE_ACCOUNTS = [
-    { name: 'Tushpendra Kumar', email: 'tushpendra.kumar@gmail.com', avatarColor: '#7c3aed', initial: 'T' },
-    { name: 'Tushu Dev', email: 'tushu.dev.work@gmail.com', avatarColor: '#0f172a', initial: 'TD' }
-  ];
+  // No hardcoded emails — accounts are populated dynamically per user device
+  var DEFAULT_GOOGLE_ACCOUNTS = [];
 
   function getGoogleAccounts() {
     try {
-      if (typeof localStorage === 'undefined') return DEFAULT_GOOGLE_ACCOUNTS;
+      if (typeof localStorage === 'undefined') return [];
       var raw = localStorage.getItem(STORAGE_GOOGLE_ACCOUNTS_KEY);
-      if (!raw) return DEFAULT_GOOGLE_ACCOUNTS;
+      if (!raw) return [];
       var parsed = JSON.parse(raw);
-      return Array.isArray(parsed) && parsed.length > 0 ? parsed : DEFAULT_GOOGLE_ACCOUNTS;
+      return Array.isArray(parsed) ? parsed : [];
     } catch (e) {
-      return DEFAULT_GOOGLE_ACCOUNTS;
+      return [];
     }
   }
 

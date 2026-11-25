@@ -1024,13 +1024,11 @@ function setupAthleteLoginScreen() {
   }
 
   if (titleEl) {
-    titleEl.textContent = (savedName && savedName !== 'Athlete') ? `Welcome Back, ${savedName}!` : 'Athlete Login';
+    titleEl.textContent = 'Your Fitness Journey Starts Here';
   }
 
   if (subEl) {
-    subEl.textContent = savedPin
-      ? 'Please enter your security PIN to access your dashboard.'
-      : 'Enter your name to log in to your local fitness dashboard.';
+    subEl.textContent = 'Create your gym plan, track workouts, and achieve your fitness goals — online or offline.';
   }
 
   if (pinLabel) {
@@ -1134,19 +1132,69 @@ function showGoogleAccountChooser() {
 
 function renderGoogleAccountsList() {
   const slot = document.getElementById('googleAccountsRenderSlot');
+  const addRow = document.getElementById('googleAccountAddRow');
+  const formWrap = document.getElementById('addAnotherAccountFormWrap');
   if (!slot) return;
+
   const accounts = (window.CloudSync && typeof window.CloudSync.getGoogleAccounts === 'function')
     ? window.CloudSync.getGoogleAccounts()
-    : [
-        { name: 'Tushpendra Kumar', email: 'tushpendra.kumar@gmail.com', avatarColor: '#7c3aed', initial: 'T' },
-        { name: 'Tushu Dev', email: 'tushu.dev.work@gmail.com', avatarColor: '#0f172a', initial: 'TD' }
-      ];
+    : [];
+
+  if (!accounts || accounts.length === 0) {
+    if (addRow) addRow.style.display = 'none';
+    if (formWrap) formWrap.style.display = 'none';
+    slot.innerHTML = `
+      <div style="padding: 16px 16px 14px; text-align: left;">
+        <div style="font-size: 0.74rem; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px;">
+          Google Account Sign-In
+        </div>
+        <div style="position: relative; margin-bottom: 10px;">
+          <input 
+            type="email" 
+            id="inputCustomGoogleEmail" 
+            name="email" 
+            autocomplete="email" 
+            autocapitalize="off" 
+            spellcheck="false" 
+            placeholder="Enter your Google email (e.g. name@gmail.com)" 
+            style="width: 100%; box-sizing: border-box; padding: 12px 14px; border: 1.5px solid #cbd5e1; border-radius: 12px; font-size: 0.90rem; outline: none; transition: border-color 0.2s ease;">
+        </div>
+        <div style="position: relative; margin-bottom: 12px;">
+          <input 
+            type="text" 
+            id="inputCustomGoogleName" 
+            name="name" 
+            autocomplete="name" 
+            placeholder="Athlete Name (Optional)" 
+            style="width: 100%; box-sizing: border-box; padding: 12px 14px; border: 1.5px solid #cbd5e1; border-radius: 12px; font-size: 0.90rem; outline: none; transition: border-color 0.2s ease;">
+        </div>
+        <button type="button" class="btn-google-sign-in" onclick="submitCustomGoogleAccount(false)" style="background: #0f172a; color: #ffffff; border-color: #0f172a; border-radius: 12px; padding: 12px; font-weight: 600; width: 100%; justify-content: center;">
+          <svg viewBox="0 0 24 24" width="18" height="18">
+            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.66v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.15z"/>
+            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.27v3.15C3.25 21.31 7.31 24 12 24z"/>
+            <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.27C.46 8.2 0 10.04 0 12s.46 3.8 1.27 5.42l4.01-3.15z"/>
+            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.25 2.69 1.27 6.58l4.01 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+          </svg>
+          <span style="color: #ffffff;">Sign In &amp; Sync Data</span>
+        </button>
+      </div>
+    `;
+    setTimeout(() => {
+      const emailInput = document.getElementById('inputCustomGoogleEmail');
+      if (emailInput) emailInput.focus();
+    }, 200);
+    return;
+  }
+
+  // Device has saved accounts from previous sessions on this phone
+  if (addRow) addRow.style.display = 'flex';
+  if (formWrap) formWrap.style.display = 'none';
 
   let html = '';
   accounts.forEach((acc) => {
-    const color = acc.avatarColor || '#7c3aed';
+    const color = acc.avatarColor || '#0284c7';
     const init = acc.initial || (acc.name ? acc.name.charAt(0).toUpperCase() : 'G');
-    const safeName = acc.name.replace(/'/g, "\\'");
+    const safeName = (acc.name || '').replace(/'/g, "\\'");
     html += `
       <div class="google-account-row" onclick="selectGoogleAccount('${acc.email}', '${safeName}', '${color}')">
         <div style="display: flex; align-items: center; gap: 12px; overflow: hidden;">
@@ -1170,14 +1218,14 @@ function toggleAddAnotherAccountForm() {
   if (!wrap) return;
   wrap.style.display = (wrap.style.display === 'none' || !wrap.style.display) ? 'block' : 'none';
   if (wrap.style.display === 'block') {
-    const input = document.getElementById('inputCustomGoogleName');
+    const input = document.getElementById('inputCustomGoogleEmailInline');
     if (input) input.focus();
   }
 }
 
-async function submitCustomGoogleAccount() {
-  const nameEl = document.getElementById('inputCustomGoogleName');
-  const emailEl = document.getElementById('inputCustomGoogleEmail');
+async function submitCustomGoogleAccount(isInline) {
+  const nameEl = document.getElementById(isInline ? 'inputCustomGoogleNameInline' : 'inputCustomGoogleName');
+  const emailEl = document.getElementById(isInline ? 'inputCustomGoogleEmailInline' : 'inputCustomGoogleEmail');
   const name = nameEl ? nameEl.value.trim() : '';
   const email = emailEl ? emailEl.value.trim() : '';
 

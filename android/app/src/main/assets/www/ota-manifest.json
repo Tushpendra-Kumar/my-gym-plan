@@ -3,10 +3,10 @@
   "repo": "Tushpendra-Kumar/my-gym-plan",
   "branch": "main",
   "version": "0.05.9",
-  "buildNumber": 18,
+  "buildNumber": 19,
   "nativeVersionCode": 8,
   "releasedAt": "2026-11-25",
-  "notes": "v0.05.9: Google Sign-in theme with Google account chooser, Continue Offline warning modal & Terms and Privacy Policy",
+  "notes": "v0.05.9: Fixed top spacing above hero, removed hardcoded emails, dynamic Google account autofill and device-specific sync",
   "releaseUrl": "https://github.com/Tushpendra-Kumar/my-gym-plan/releases/latest",
   "files": [
     "index.html",

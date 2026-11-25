@@ -1845,10 +1845,13 @@ body {
   z-index: 500;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 30px 24px;
+  justify-content: flex-start;
+  gap: 4px;
+  padding: 12px 20px 24px;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   transition: opacity 0.3s ease;
+  box-sizing: border-box;
 }
 
 .onboarding-screen.hidden {
@@ -1862,7 +1865,9 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 4px 6px 10px;
+  padding: 2px 4px 6px;
+  margin-bottom: 2px;
+  flex-shrink: 0;
 }
 
 .onboarding-brand {
@@ -1932,8 +1937,8 @@ body {
 .onboarding-hero-wrapper {
   position: relative;
   width: 100%;
-  max-width: 330px;
-  margin: 10px auto;
+  max-width: 350px;
+  margin: 2px auto 8px;
   display: flex;
   align-items: center;
   justify-content: center;
