@@ -66,3 +66,20 @@ jobs:
           files: |
             android/app/build/outputs/apk/debug/GymPlan.apk
             ota-manifest.json
+
+      - name: Auto-Sync to CodeByTushu Website
+        if: success()
+        run: |
+          APK_PATH="android/app/build/outputs/apk/debug/GymPlan.apk"
+          if [ -f "$APK_PATH" ]; then
+            SIZE_BYTES=$(stat -c%s "$APK_PATH")
+            SIZE_MB=$(echo "scale=1; $SIZE_BYTES / 1048576" | bc 2>/dev/null || node -e "console.log(($SIZE_BYTES/1048576).toFixed(1))")MB
+          else
+            SIZE_MB="5.8 MB"
+          fi
+
+          curl -s -X POST https://codebytushu.com/api/apps/sync-github.php \
+            -H "Content-Type: application/json" \
+            -H "X-Sync-Token: cbt_gym_sync_2026_a98f12" \
+            -d "{\"slug\":\"irontracker-gym\",\"version\":\"v${{ steps.meta.outputs.version }}\",\"file_size\":\"$SIZE_MB\",\"min_android\":\"Android 8.0+\",\"status_badge\":\"⚡ 100% Offline & Online Sync • ☁️ Cloud Backup • 🛡️ Zero Ads & Ironclad Privacy\",\"changelog\":\"${{ steps.meta.outputs.notes }}\"}"
+
