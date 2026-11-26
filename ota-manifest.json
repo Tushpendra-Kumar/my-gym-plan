@@ -5,7 +5,12 @@
   "version": "0.05.9",
   "buildNumber": 19,
   "nativeVersionCode": 11,
-  "releasedAt": "2026-11-25",
+  "fileSize": "5.8 MB",
+  "minAndroid": "Android 8.0+",
+  "isOfflineReady": true,
+  "statusBadge": "100% Offline Ready • Zero Cloud • Privacy First",
+  "downloadUrl": "https://raw.githubusercontent.com/Tushpendra-Kumar/my-gym-plan/main/GymPlan.apk",
+  "releasedAt": "2026-11-26",
   "notes": "v0.05.9: Fixed top spacing above hero, removed hardcoded emails, dynamic Google account autofill and device-specific sync",
   "releaseUrl": "https://github.com/Tushpendra-Kumar/my-gym-plan/releases/latest",
   "files": [
