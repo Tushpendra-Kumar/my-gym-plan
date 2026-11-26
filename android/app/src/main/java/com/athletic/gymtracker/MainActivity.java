@@ -58,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String OTA_RAW_BASE = "https://raw.githubusercontent.com/Tushpendra-Kumar/my-gym-plan/main/";
     private static final String OTA_MANIFEST_URL = OTA_RAW_BASE + "ota-manifest.json";
     private static final String OTA_RELEASES_URL = "https://github.com/Tushpendra-Kumar/my-gym-plan/releases/latest";
-    private static final int BUNDLED_OTA_BUILD_NUMBER = 15;
-    private static final String BUNDLED_OTA_VERSION = "0.05.8";
+    private static final int BUNDLED_OTA_BUILD_NUMBER = 19;
+    private static final String BUNDLED_OTA_VERSION = "0.05.9";
     private static final String OTA_PREFS = "tushu_ota_state";
 
     @SuppressLint("SetJavaScriptEnabled")
