@@ -4,7 +4,7 @@
   "branch": "main",
   "version": "0.05.9",
   "buildNumber": 19,
-  "nativeVersionCode": 8,
+  "nativeVersionCode": 11,
   "releasedAt": "2026-11-25",
   "notes": "v0.05.9: Fixed top spacing above hero, removed hardcoded emails, dynamic Google account autofill and device-specific sync",
   "releaseUrl": "https://github.com/Tushpendra-Kumar/my-gym-plan/releases/latest",
